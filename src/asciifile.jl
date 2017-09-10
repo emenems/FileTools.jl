@@ -1,5 +1,5 @@
 """
-	loadtsf(filein)
+	loadascii(filein)
 Load arc asii formated files (DEMs)
 
 **Input**
@@ -11,10 +11,10 @@ Load arc asii formated files (DEMs)
 
 **Example**
 ```
-dem = ascii2mat("../test/input/ascii2mat_data.asc");
+dem = loadascii("../test/input/ascii2mat_data.asc");
 ```
 """
-function ascii2mat(filein::AbstractString)
+function loadascii(filein::AbstractString)
 	# Declare variables
 	ncols = 1;nrows = 1;xll = 0;yll = 0;resol = 1;nodata = 9999;
 	# Read header (fixed number of header lines)
@@ -53,4 +53,54 @@ function ascii2mat(filein::AbstractString)
 	# Set NoData values to NaN
 	height[height.==nodata] = NaN;
 	return Dict(:x => x,:y => y, :height => height);
+end
+
+"""
+	writeascii(dem,filout;flag;decimal)
+Write arc asii formated files (DEMs)
+
+**Input**
+* dem: Dictionary containing: x,y (coordinate vectors) and height (matrix)
+* fileout: full name of the output file
+* flag: replace NaNs with flag (default = "9999")
+* decimal: output precision (default 4 => 4 decimal places). Will be applied only to height. Maximum precision is %.10g!
+
+**Example**
+```
+dem = Dict(:x => collect(1:1:10.),:y => collect(10:1:20.),
+       	   :height => ones(10,11));
+writeascii(dem,"../test/output/ascii2mat_data.asc");
+```
+"""
+function writeascii(dem::Dict{Symbol,Any},fileout::String;
+							 flag::String="9999",decimal::Int=4)
+	# Set to output precision
+	h = round.(dem[:height].*10^decimal)./10^decimal;
+	# Flipt upside down to get required format (y downards)
+	h = flipdim(h,1);
+	# get output size
+	nrows,ncols = size(h);
+	cellsize = abs(dem[:x][1]-dem[:x][2]);
+	# compute lower left corner
+	xll = minimum(dem[:x])-cellsize/2;
+	yll = minimum(dem[:y])-cellsize/2;
+	# write
+	open(fileout,"w") do fid
+		# write header
+		@printf(fid,"ncols %i\nnrows %i\n",ncols,nrows);
+	    @printf(fid,"xllcorner %.10g\nyllcorner %.10g\n",xll,yll);
+	    @printf(fid,"cellsize %.10g\n",cellsize);
+	    @printf(fid,"nodata_value %s\n",flag);
+		# write data/grid
+		for x = 1:nrows
+			for y = 1:ncols
+				if isnan(h[x,y])
+					@printf(fid,"%s ",flag);
+				else
+					@printf(fid,"%.10g ",h[x,y]);
+				end
+			end
+			@printf(fid,"\n");
+		end
+	end
 end

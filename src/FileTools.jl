@@ -2,9 +2,9 @@ module FileTools
 
 using DataFrames
 
-include("loadtsf.jl")
-include("ascii2mat.jl")
+include("tsffile.jl")
+include("asciifile.jl")
 
-export loadtsf, ascii2mat
+export loadtsf, writetsf, loadascii, writeascii
 
 end #module

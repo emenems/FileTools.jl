@@ -2,7 +2,9 @@ using FileTools
 using Base.Test, DataFrames
 
 # List of test files. Run the test from FileTools.jl folder
-tests = ["tsffile_test.jl","asciifile_test.jl"];
+tests = ["tsffile_test.jl",
+		 "asciifile_test.jl",
+		 "campbell_test.jl"];
 # Run all tests in the list
 for i in tests
 	include(i)

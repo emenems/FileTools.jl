@@ -63,8 +63,8 @@ function loadtsf(filein::String)
 	    end
 	end # close reading line by line
 	# Correct/get channel names and units
-	channels = correct_channels(channels);
-	units = correct_channels(units);
+	channels = correct_channels(channels,":");
+	units = correct_channels(units,":");
 	# Read all data (will be sorted afterwards)
 	dataall = readdlm(filein,skipstart=count_header,header=false);
 	# Convert time to datetime
@@ -197,13 +197,13 @@ end
 	correct_channels(in_string)
 Auxiliary function to get channel names/units from input vector of strings
 """
-function correct_channels(in_text::Vector{String})
+function correct_channels(in_text::Vector{String},sp::String)
 	out = Vector{String}(0);
 	for i in in_text
 		# Use only last string = name of the channel
-		temp = split(i,":");
+		temp = split(i,sp);
 		# remove empty spaces and other symbols
-		push!(out,replace(temp[end],r" |\r",""))
+		push!(out,replace(temp[end],r" |\r|\"",""))
 	end
 	return out;
 end

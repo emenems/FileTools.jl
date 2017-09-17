@@ -8,6 +8,7 @@ This repository contains functions for reading files in following formats:
 * `loadcampbell`: read data in Campbell Scientific logger format
 * `loaddygraphs`: read data in [Dygraphs](http://dygraphs.com/tutorial.html) csv format
 * `writedygraphs`: write DataFrame to [Dygraphs](http://dygraphs.com/tutorial.html) csv format
+* `loadeop`: (down)load EOP [C04](http://hpiers.obspm.fr/iers/eop/eopc04/eopc04_IAU2000.62-now) parameters
 
 ## Usage
 * Check the function help for instructions and example usage

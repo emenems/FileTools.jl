@@ -4,17 +4,19 @@ Load tsf file and store it in DataFrame
 
 **Input**
 * filein: full name of the input file
+* unitsonly: switch to output either data or units only (by default false=>data only).
 
 **Output**
 * dataframe containing columns + timevector in DateTime format
-* data units
+* data units: if input `unitsonly` paramterer set to `true`
 
 **Example**
 ```
-data,units = loadtsf("../test/input/tsf_data.tsf");
+data = loadtsf("../test/input/tsf_data.tsf");
+units = loadtsf("../test/input/tsf_data.tsf",unitsonly=true);
 ```
 """
-function loadtsf(filein::String)
+function loadtsf(filein::String;unitsonly::Bool=false)
 	# Set default/intial values
 	undetval = 9999.999;
 	countinfo::Int64 = 0; # count data lines
@@ -65,18 +67,22 @@ function loadtsf(filein::String)
 	# Correct/get channel names and units
 	channels = correct_channels(channels,":");
 	units = correct_channels(units,":");
-	# Read all data (will be sorted afterwards)
-	dataall = readdlm(filein,skipstart=count_header,header=false);
-	# Convert time to datetime
-	data = DataFrame(datetime=mat2time(dataall[:,1:6]))
-	# Fill columns
-	for i = 7:size(dataall,2)
-		channame = i-6 <= length(channels) ? channels[i-6] : "measurement"*string(i-6)
-		data[Symbol(channame)] = dataall[:,i];
-		# Remove Undetval
-		data[Symbol(channame)][find(x->x==undetval,data[Symbol(channame)])] = NA;
+	if unitsonly
+		return units;
+	else
+		# Read all data (will be sorted afterwards)
+		dataall = readdlm(filein,skipstart=count_header,header=false);
+		# Convert time to datetime
+		data = DataFrame(datetime=mat2time(dataall[:,1:6]))
+		# Fill columns
+		for i = 7:size(dataall,2)
+			channame = i-6 <= length(channels) ? channels[i-6] : "measurement"*string(i-6)
+			data[Symbol(channame)] = dataall[:,i];
+			# Remove Undetval
+			data[Symbol(channame)][find(x->x==undetval,data[Symbol(channame)])] = NaN;
+		end
+		return data
 	end
-	return data,units
 end # loadtsf
 
 """
@@ -92,7 +98,7 @@ Write DataFrame to tsf format
 
 **Example**
 ```
-data = DataFrame(temp=[10.,11.,12.,14.],grav=@data([9.8123,9.9,NA,9.7]),
+data = DataFrame(temp=[10.,11.,12.,14.],grav=@data([9.8123,9.9,NaN,9.7]),
        datetime=[DateTime(2010,1,1,0),DateTime(2010,1,1,1),
            DateTime(2010,1,1,2),DateTime(2010,1,1,4)]);
 writetsf(data,"../test/output/tsf_data.tsf",units=["degC","nm/s^2"],
@@ -149,7 +155,7 @@ function writetsf(data::DataFrame,fileout::String;
 						Dates.second(data[timei][i]));
 			# add data
 			for j in channels
-				if isna(dataout[j][i])
+				if isna(dataout[j][i]) || isnan(dataout[j][i])
 					@printf(fid," %s",flagval);
 				else
 					@printf(fid," %.10g",dataout[j][i]);

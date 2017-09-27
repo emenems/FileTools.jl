@@ -35,7 +35,7 @@ function test_stackframes()
 	f2 = DataFrame(datetime=[DateTime(2010,1,1,6),DateTime(2010,1,1,7),
 		DateTime(2010,1,1,8),DateTime(2010,1,1,9)],
 		grav=@data([22.,23.,24.,25.]));
-	data = stackframes(f1,f2,maxtime=Dates.Hour(3),maxval=NaN,corroffset=true);
+	data = stackframes(f1,f2,maxtime=Dates.Hour(3),maxval=NaN,corroffset=false);
 	@test size(data) == (size(f2,1)+size(f1,1)+1,2)
 	@test names(data)==[:datetime,:grav]
 	@test data[:datetime][4] == f1[:datetime][end]
@@ -53,4 +53,37 @@ function test_stackframes()
 	@test data[:grav] == data[:grav];
 end
 
+function test_loadatmacs()
+	# Load global and local part
+	glo,loc = loadatmacs(glofiles=[pwd()*"/test/input/atmacs_glo.grav"],
+						locfiles=[pwd()*"/test/input/atmacs_loc.grav"]);
+	# Independent loading
+	glo_m = readdlm(pwd()*"/test/input/atmacs_glo.grav")
+	loc_m = readdlm(pwd()*"/test/input/atmacs_loc.grav")
+	@test glo[:global_newton] == glo_m[:,2]
+	@test glo[:total_loading] == glo_m[:,3]
+	@test loc[:pressure] == loc_m[:,2]
+	@test loc[:local_newton] == loc_m[:,3]
+	@test loc[:regional_newton] == loc_m[:,4]
+	@test glo[:datetime] == DateTime.(string.(round.(Int,glo_m[:,1])),"yyyymmddHH")
+	@test loc[:datetime] == DateTime.(string.(round.(Int,loc_m[:,1])),"yyyymmddHH")
+
+	# Stack multiple global files covering global+local part (`loc` will be empty)
+	gfiles=[pwd()*"/test/input/atmacs_all_1.grav",
+			pwd()*"/test/input/atmacs_all_2.grav",
+			pwd()*"/test/input/atmacs_all_3.grav"];
+	glo,loc = loadatmacs(glofiles=gfiles);
+	total_m = Matrix{Float64}(0,5);
+	for i in gfiles
+		temp = readdlm(i)
+		total_m = vcat(total_m,temp);
+	end
+	total_time = DateTime.(string.(round.(Int,total_m[:,1])),"yyyymmddHH")
+	@test glo[:datetime] == DateTime.(string.(round.(Int,total_m[:,1])),"yyyymmddHH")
+	for i in 2:size(glo,2)
+		@test glo[i] == total_m[:,i]
+	end
+end
+
 test_stackframes();
+test_loadatmacs();

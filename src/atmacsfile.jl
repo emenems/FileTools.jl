@@ -60,8 +60,12 @@ function loadatmacsparts(files::Vector{String},channels::Vector{Symbol})
 			# delete downloaded file
 			FileTools.delfile(i);
 			# Stack data
-			atmacs = stackframes(atmacs,temp);
+			atmacs = stackframes(atmacs,temp,corroffset=true,maxval=NaN,maxtime=Dates.Hour(7));
 		end
+	end
+	# Check for incorrectly stacked data
+	for i in 1:size(atmacs,1)
+
 	end
 	return atmacs;
 end
@@ -109,8 +113,10 @@ function stackframes(frameall::DataFrame,frameapp::DataFrame;
 			# get temporal resolution (res) and gap between files (diff)
         	time_diff = frameapp[:datetime][1] - frameall[:datetime][end];
         	time_res = frameall[:datetime][end] - frameall[:datetime][end-1];
-			# If time step is < then `maxtime` insert NaN (for further interpolation)
-			if time_diff <= maxtime
+			# Start with spetial case where files such as Atmacs are stacked
+			if (time_diff<=maxtime) && isnan(maxval) && corroffset
+				return vcat(frameall,frameapp);
+			elseif time_diff <= maxtime
 				temp = DataFrame(datetime = frameall[:datetime][end]+time_res)
 				for i in names(frameapp)
 					if i != :datetime
@@ -188,3 +194,8 @@ function pattern2time(time::Float64,resolution::String)
 	end
 	return DateTime(year,month,day,hour,minute,second);
 end
+
+"""
+Auxiliary function to check correct Atmacs stacking
+This is needed as the stackframes function is more general
+"""

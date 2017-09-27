@@ -6,7 +6,8 @@ tests = ["tsffile_test.jl",
 		 "asciifile_test.jl",
 		 "campbell_test.jl",
 		 "dygraphs_test.jl",
-		 "eopfile_test.jl"];
+		 "eopfile_test.jl",
+		 "atmacsfile_test.jl"];
 # Run all tests in the list
 for i in tests
 	include(i)

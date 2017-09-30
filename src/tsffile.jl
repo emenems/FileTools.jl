@@ -1,5 +1,5 @@
 """
-	loadtsf(filein)
+	readtsf(filein)
 Load tsf file and store it in DataFrame
 
 **Input**
@@ -12,11 +12,11 @@ Load tsf file and store it in DataFrame
 
 **Example**
 ```
-data = loadtsf("../test/input/tsf_data.tsf");
-units = loadtsf("../test/input/tsf_data.tsf",unitsonly=true);
+data = readtsf("../test/input/tsf_data.tsf");
+units = readtsf("../test/input/tsf_data.tsf",unitsonly=true);
 ```
 """
-function loadtsf(filein::String;unitsonly::Bool=false)
+function readtsf(filein::String;unitsonly::Bool=false)
 	# Set default/intial values
 	undetval = 9999.999;
 	countinfo::Int64 = 0; # count data lines
@@ -83,7 +83,7 @@ function loadtsf(filein::String;unitsonly::Bool=false)
 		end
 		return data
 	end
-end # loadtsf
+end # readtsf
 
 """
 	writetsf(data,fileout,units,decimal,comment)

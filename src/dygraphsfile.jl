@@ -1,5 +1,5 @@
 """
-	loaddygraphs(filein)
+	readdygraphs(filein)
 Load data stored in Dygraphs file format to DataFrame
 
 **Input**
@@ -11,10 +11,10 @@ Load data stored in Dygraphs file format to DataFrame
 
 **Example**
 ```
-data = loaddygraphs("../test/input/dygraphs_data.tsf";datestring="yyyymmdd");
+data = readdygraphs("../test/input/dygraphs_data.tsf";datestring="yyyymmdd");
 ```
 """
-function loaddygraphs(filein::String;datestring::String="yyyy/mm/dd HH:MM:SS")
+function readdygraphs(filein::String;datestring::String="yyyy/mm/dd HH:MM:SS")
 	# Read header
 	channels = Array{SubString{String},1}(0);
 	open(filein,"r") do fid

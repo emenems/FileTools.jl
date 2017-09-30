@@ -9,8 +9,8 @@ include("dygraphsfile.jl")
 include("eopfile.jl")
 include("atmacsfile.jl")
 
-export loadtsf, writetsf, loadascii, writeascii, loadcampbell
-export loaddygraphs, writedygraphs
+export readtsf, writetsf, loadascii, writeascii, readcampbell
+export readdygraphs, writedygraphs
 export loadeop
 export stackframes, loadatmacs
 

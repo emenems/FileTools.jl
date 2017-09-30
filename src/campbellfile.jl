@@ -1,5 +1,5 @@
 """
-	loadcampbell(filein)
+	readcampbell(filein)
 Load data stored in Campbell logger file format to DataFrame
 
 **Input**
@@ -11,10 +11,10 @@ Load data stored in Campbell logger file format to DataFrame
 
 **Example**
 ```
-data,units = loadcampbell("../test/input/campbell_data.tsf");
+data,units = readcampbell("../test/input/campbell_data.tsf");
 ```
 """
-function loadcampbell(filein::String)
+function readcampbell(filein::String)
 	channels = Array{SubString{String},1}(0);
 	units = Array{SubString{String},1}(0);
 	# Read header

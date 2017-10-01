@@ -165,11 +165,11 @@ Auxiliary Function to convert time pattern (e.g., yyyymmdd) to datetime value
 function pattern2time(time::Float64,resolution::String)
 	# Declare output
 	year,month,day,hour,minute,second = (0,0,0,0,0,0)
-	if resolution == "day"
+	if resolution == "month"
 		year = floor(Int,time/1e+2);
 		month = floor(Int,time-year*1e+2);
 		day = 1;
-	elseif resolution == "month"
+	elseif resolution == "day"
 	    year = floor(Int,time/1e+4);
 	    month= floor(Int,(time - year*1e+4)/1e+2);
 	    day  = floor(Int,(time - year*1e+4 - month*1e+2));
@@ -194,8 +194,6 @@ function pattern2time(time::Float64,resolution::String)
 	end
 	return DateTime(year,month,day,hour,minute,second);
 end
-
-"""
-Auxiliary function to check correct Atmacs stacking
-This is needed as the stackframes function is more general
-"""
+function pattern2time(time::Int,resolution::String)
+	pattern2time(float(time),resolution);
+end

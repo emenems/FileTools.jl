@@ -1,4 +1,4 @@
-# Unit test for Dygraphs file reading
+# Unit test for Atmacs file reading
 function test_stackframes()
 	# First set (with overlapping)
 	f1 = DataFrame(datetime=[DateTime(2010,1,1,0),DateTime(2010,1,1,1),

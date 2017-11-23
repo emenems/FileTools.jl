@@ -63,10 +63,6 @@ function loadatmacsparts(files::Vector{String},channels::Vector{Symbol})
 			atmacs = stackframes(atmacs,temp,corroffset=true,maxval=NaN,maxtime=Dates.Hour(7));
 		end
 	end
-	# Check for incorrectly stacked data
-	for i in 1:size(atmacs,1)
-
-	end
 	return atmacs;
 end
 

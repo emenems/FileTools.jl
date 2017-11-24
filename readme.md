@@ -11,10 +11,11 @@ This repository contains functions for reading files in following formats:
 * `loadeop`: (down)load EOP [C04](http://hpiers.obspm.fr/iers/eop/eopc04/eopc04_IAU2000.62-now) parameters
 * `loadatmacs`: (down)load [Atmacs](/http://atmacs.bkg.bund.de) atmospheric model files
 * `readggp`: read GGP/[IGETS](http://gfzpublic.gfz-potsdam.de/pubman/faces/viewItemOverviewPage.jsp?itemId=escidoc:1870888) files
-* `readgpcpd*`: read [GPCP](https://precip.gsfc.nasa.gov/gpcp_daily_comb.html) _daily_ binary files 
+* `readgpcpd*`: read [GPCP](https://precip.gsfc.nasa.gov/gpcp_daily_comb.html) _daily_ binary files
 
 In addition, following functions are exported:
 * `stackframes`: stack (vertical concatenate) two DataFrame with optional overlapping or gap between DataFrames (time)
+* `coorShift_lon`: transform longitude coordinate system between _-180 to 180_ <--> _0 to 360_
 
 ## Usage
 * Check the function help for instructions and example usage

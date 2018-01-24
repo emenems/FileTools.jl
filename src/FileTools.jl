@@ -10,6 +10,7 @@ include("eopfile.jl")
 include("atmacsfile.jl")
 include("ggpfile.jl")
 include("gpcpdfile.jl")
+include("hydrusfile.jl")
 
 export readtsf, writetsf, loadascii, writeascii, readcampbell
 export readdygraphs, writedygraphs
@@ -17,5 +18,6 @@ export loadeop
 export stackframes, loadatmacs
 export readggp
 export readgpcpd, readgpcpd_head, readgpcpd_time, readgpcpd_lonlat, coorShift_lon
+export writeatmosph
 
 end #module

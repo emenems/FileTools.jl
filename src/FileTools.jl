@@ -18,6 +18,6 @@ export loadeop
 export stackframes, loadatmacs
 export readggp
 export readgpcpd, readgpcpd_head, readgpcpd_time, readgpcpd_lonlat, coorShift_lon
-export writeatmosph
+export writeatmosph, writeprofile1d, readhydrus1d_obsnode, readhydrus1d_nodinf
 
 end #module

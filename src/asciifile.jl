@@ -24,6 +24,10 @@ function loadascii(filein::AbstractString)
 		for i = 1:head
 			row = readline(fid);
 		 	temp = split(row," ");
+			# in case the line ends with an empty space (although it should not)
+			if temp[end] == ""
+				temp = temp[1:end-1]
+			end
 			if contains(lowercase(row),"ncols")
 	            ncols = parse(Int,temp[end]);
 	        elseif contains(lowercase(row),"nrows")

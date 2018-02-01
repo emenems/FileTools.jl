@@ -15,4 +15,4 @@ tests = ["tsffile_test.jl",
 for i in tests
 	include(i)
 end
-println("End test!")
+println("End of test!")

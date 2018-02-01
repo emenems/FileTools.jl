@@ -1,13 +1,13 @@
 """
 	writeatmosph(data,fileout;decimal)
-Write DataFrame to Dygraphs csv format
+Write DataFrame to Hydrus1D Atmospheric data format
 
 **Input**
 * data: dataframe containing columns + timevector in DateTime format.
 * fileout: full name of the output file
 * decimal: optional output precision for either all or individual columns.
 > input dataframe should contain :Prec,:rSoil,:rRoot,:hCritA,:rB,:hB,:ht columns,
-> if not, will be set to zero.
+> if not, will be set to zero. Tested for  Hydrus-1D 4.16.0110
 
 **Example**
 ```
@@ -56,8 +56,275 @@ function writeatmosph_head(fid::IOStream,l::Int,h::Float64)
 	for i in 1:34 @printf(fid,"*");end
 	@printf(fid,"\n   MaxAL                    (MaxAL = number of atmospheric data-records)\n")
 	@printf(fid,"   %i\n",l);
+	@printf(fid," DailyVar  SinusVar  lLay  lBCCycles lInterc lDummy  lDummy  lDummy  lDummy  lDummy\n");
+	@printf(fid,"       f       f       f       f       f       f       f       f       f       f\n")
 	@printf(fid," hCritS                 (max. allowed pressure head at the soil surface)\n");
 	@printf(fid,"   %.6g\n",h);
 	@printf(fid,"       tAtm        Prec       rSoil       rRoot      hCritA");
 	@printf(fid,"          rB          hB          ht      RootDepth\n");
+end
+
+"""
+	writeprofile1d(nodeinfo,fileout)
+Write Hydrus1D profile (nodal) file. Suitable only for pure water flow simulation
+
+**Input**
+soilinfo: dataframe containg information on:
+* :start = soil layer starting depth
+* :stop = soil layer end depth
+* :res = vertical resolution (constant sampling)
+* :h = Initial value of the pressure head
+* :Mat = index of the material
+* :Lay = subregion number assigned to nodes within the soil layer
+
+fileout: output file name
+iObs: list (vector) of the observation nodes for which values of the pressure head & the water content are printed
+
+> No information about temperature or concentrations is used! Hydrus-1D 4.16.0110
+
+**Example**
+```
+soilinfo = DataFrame(start=[0],stop=[10],res=[0.01],h=[100],Mat=[5],Lay=[1])
+output_file = pwd()*"/test/output/profile1d_data.in"
+print_nodes = [1,2,3];
+writeprofile1d(soilinfo,output_file,iObs=print_nodes);
+```
+"""
+function writeprofile1d(soilinfo::DataFrame,fileout::String;iObs=[0])
+	open(fileout,"w") do fid
+		# write header
+		@printf(fid,"    2\n");# fixed number for "fixed" nodes
+		@printf(fid,"%5g%15g%15g%15g\n",1,soilinfo[:start][1],1,1);
+		@printf(fid,"%5g%15g%15g%15g\n",2,-soilinfo[:stop][end],1,1);
+		@printf(fid,"%5g%5g%5g%5g",getnumofnodes(soilinfo),0,0,1);
+		@printf(fid," x         h       Mat  Lay      Beta           Axz            ");
+		@printf(fid,"Bxz            Dxz            Temp          Conc           SConc\n");
+		# Write nodes
+		c = 1;
+		for i in 1:size(soilinfo,1)
+			n = soilinfo[:start][i]:soilinfo[:res][i]:soilinfo[:stop][i];
+			for j in n
+				@printf(fid,"%5g%15g%15g%5g%5g",
+						c,-j,soilinfo[:h][i],soilinfo[:Mat][i],soilinfo[:Lay][i]);
+				# add constant values
+				@printf(fid,"  0.000000e+000  1.000000e+000  1.000000e+000  1.000000e+000              \n");
+				c += 1; # count nodes
+			end
+		end
+		# add footer
+		if iObs[1] != 0
+			@printf(fid,"%5g\n",length(iObs));
+			for i in iObs
+				@printf(fid,"%5g",i)
+			end
+			@printf(fid,"\n");
+		else
+			@printf(fid,"    0\n");
+		end
+	end
+end
+
+"""
+auxiliary function to get total number of observation points
+"""
+function getnumofnodes(soilinfo)
+	c = 0;
+	for i in 1:size(soilinfo,1)
+		for j in soilinfo[:start][i]:soilinfo[:res][i]:soilinfo[:stop][i]
+			c += 1; # count nodes
+		end
+	end
+	return c
+end
+
+"""
+	obnode = readhydrus1d_obsnode(filein,paramout)
+Read Hydrus1D observation node output
+
+**Input**
+* filein: input file name
+* paramout: what parameter should be returned (theta,h or Flux)
+
+**Output**
+obnode: dataframe containg:
+* :time = time index
+* :paramoutX = parameter value for node number X
+
+> Designed only for Hydrus1D with water fluxes only! Hydrus-1D 4.16.0110
+
+**Example**
+```
+input_file = pwd()*"/test/input/hydrus1d_Obs_Node.out"
+obnode = readhydrus1d_obsnode(input_file,paramout=:theta)
+```
+"""
+function readhydrus1d_obsnode(filein::String;paramout::Symbol=:theta)
+	# read all data
+	dataall = readdlm(filein,skipstart=11,comment_char='e');
+	obsnodes = getnodenumber(filein,paramout);
+	dataout = DataFrame(time=dataall[:,1]);
+	if paramout == :h
+		col = 2;
+	elseif paramout == :Flux
+		col = 4;
+	else
+		col = 3;
+	end
+	for (i,v) in enumerate(obsnodes)
+		dataout[v] = dataall[:,col+(i-1)*3];
+	end
+	return dataout;
+end
+
+"""
+auxiliary function to read node numbers
+"""
+function getnodenumber(filein::String,paramout::Symbol)
+	obsnodes = Vector{Symbol}();
+	# read node numbers
+	open(filein,"r") do fid
+		row = "";
+		for i in 1:9
+			row = readline(fid);
+		end
+		obsnodes = parsenodenumber(row,paramout);
+	end
+	return obsnodes;
+end
+
+"""
+auxiliary function to extract numbers from string
+"""
+function parsenodenumber(row::String,paramout::Symbol)
+	temp = split(row,"Node(");
+	c = 1000; # max obs node number in the hydrusFile is 999 (above just ***)
+	out = Vector{Symbol}();
+	for i in temp[2:end] # starts with empty field (see split)
+		if !contains(i,"*") # numbers below 1000
+			obsnode = parse(split(i,")")[1]) # ends with ')'
+		else
+			obsnode = c;
+			c += 1;
+		end
+		out = vcat(out,Symbol(string(paramout)*string(obsnode)));
+	end
+	return out
+end
+
+
+"""
+	obnode = readhydrus1d_nedinf(filein,paramout)
+Read Hydrus1D Node Info file (Nod\_inf.out)
+
+**Input**
+* filein: input file name
+* paramout: what parameter should be returned (all (default), theta, h or k)
+
+**Output**
+theta,k,h: dataframe containg:
+* :time = time index
+* :nodeX = valus for node number X
+
+> Designed only for Hydrus1D with water fluxes only!
+
+**Example**
+```
+input_file = pwd()*"/test/input/hydrus1d_Nod_Inf.out"
+moisture = readhydrus1d_nedinf(input_file,paramout=:theta)
+# moisture,k,h = readhydrus1d_nedinf(input_file)
+```
+"""
+function readhydrus1d_nodinf(filein;paramout::Symbol=:all)
+	# declare output
+	timeout = -1;
+	h = Matrix{Float64}(0,0);
+	theta = Matrix{Float64}(0,0);
+	k = Matrix{Float64}(0,0);
+	node = Vector{Int}(0);
+	depth = Vector{Float64}(0);
+	# read header
+	open(filein,"r") do fid
+		row = readhydrus1d_nodinf_head(fid);
+		while !eof(fid)
+			timeblock,datablock = readhydrus1d_nodinf_block(fid,row);
+			if typeof(timeout)==Int # initial run
+				timeout = timeblock;
+				h = datablock[:,3]; # get Heat values (fixed position)
+				theta = datablock[:,4];
+				k = datablock[:,5]; # get hydraulic conductivity values (fixed position)
+				node = round.(Int,datablock[:,1]); # read nodes and depth only once
+				depth = datablock[:,2];
+			else
+				timeout = vcat(timeout,timeblock);
+				h = hcat(h,datablock[:,3]);
+				theta = hcat(theta,datablock[:,4]);
+				k = hcat(k,datablock[:,5]);
+			end
+			row = readline(fid); # to reach EOF after last node info block
+		end
+	end
+	if paramout == :theta # could not pass "paramout" as input
+		return readhydrus1d_nodinf_df(timeout,node,theta)
+	elseif paramout == :k
+ 		return readhydrus1d_nodinf_df(timeout,node,k)
+	elseif paramout == :h
+ 		return readhydrus1d_nodinf_df(timeout,node,h)
+	else # return 3 dataframes (default)
+		return readhydrus1d_nodinf_df(timeout,node,theta),
+				readhydrus1d_nodinf_df(timeout,node,k),
+				readhydrus1d_nodinf_df(timeout,node,h)
+    end
+end
+
+"""
+auxiliary function to read time and data for each block
+"""
+function readhydrus1d_nodinf_block(fid,row)
+	# find time stamp
+	while !contains(row,"Time:")
+		row = readline(fid);
+	end
+	timeout = parse(split(row,":")[2])
+	# ignore header for each time step
+	row = readhydrus1d_nodinf_head(fid);
+	# read data
+	datanode = readhydrus1d_nodinf_data(fid);
+	return timeout,datanode
+end
+
+"""
+auxiliary function to read file header
+"""
+function readhydrus1d_nodinf_head(fid)
+	row = " ";
+	for i in 1:5
+		row = readline(fid);
+	end
+	return row;
+end
+
+"""
+auxiliary function to get data for current block
+"""
+function readhydrus1d_nodinf_data(fid)
+	# stack the data to a matrix
+	datanode = Matrix{Float64}(1,11);
+	row = readline(fid);
+	while !contains(row,"end")
+		datanode = vcat(datanode,row |> split |> x -> parse.(Float64,x) |> transpose);
+		row = readline(fid);
+	end
+	return datanode[2:end,:]; # first line is a dummy used for declaration
+end
+
+"""
+auxiliary function to convert matrix to dataframe
+"""
+function readhydrus1d_nodinf_df(timeout,nodes,dataout)
+	df = DataFrame(time = timeout);
+	for (i,v) in enumerate(nodes)
+		temp = Symbol("node"*string(v));
+		df[temp] = dataout[i,:];
+	end
+	return df
 end

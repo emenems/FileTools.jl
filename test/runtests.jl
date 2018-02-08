@@ -10,7 +10,8 @@ tests = ["tsffile_test.jl",
 		 "atmacsfile_test.jl",
 		 "ggpfile_test.jl",
 		 "gpcpdfile_test.jl",
-		 "hydrusfile_test.jl"];
+		 "hydrusfile_test.jl",
+		 "baytapfile_test.jl"];
 # Run all tests in the list
 for i in tests
 	include(i)

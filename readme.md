@@ -11,13 +11,14 @@ This repository contains functions for reading/writing files in following format
 * `loadeop`: (down)load EOP [C04](http://hpiers.obspm.fr/iers/eop/eopc04/eopc04_IAU2000.62-now) parameters
 * `loadatmacs`: (down)load [Atmacs](/http://atmacs.bkg.bund.de) atmospheric model files
 * `readggp`: read GGP/[IGETS](http://gfzpublic.gfz-potsdam.de/pubman/faces/viewItemOverviewPage.jsp?itemId=escidoc:1870888) files
+* `writeggp`: write GGP/[IGETS](http://gfzpublic.gfz-potsdam.de/pubman/faces/viewItemOverviewPage.jsp?itemId=escidoc:1870888) files
 * `readgpcpd*`: read [GPCP](https://precip.gsfc.nasa.gov/gpcp_daily_comb.html) _daily_ binary files
 * `writeatmosph`: write atmospheric data to [Hydrus1D](https://www.pc-progress.com/en/Default.aspx?H1D-description#k1) format (water flux only)
 * `writeprofile1d`: write vertical profile data in [Hydrus1D](https://www.pc-progress.com/en/Default.aspx?H1D-description#k1) format (water flux mode only)
 * `readhydrus1d_obsnode`: read [Hydrus1D](https://www.pc-progress.com/en/Default.aspx?H1D-description#k1) observation nodes output (water flux mode only)
 * `readhydrus1d_nodinf`: read [Hydrus1D](https://www.pc-progress.com/en/Default.aspx?H1D-description#k1) all nodes output (water flux mode only)
 * `writebaytap`: write data to [Baytap08](https://igppweb.ucsd.edu/~agnew/Baytap/baytap.html) data format
-* `baytap2tsoft`: convert [Baytap08](https://igppweb.ucsd.edu/~agnew/Baytap/baytap.html) results to format used in TSoft for tidal wave grouping 
+* `baytap2tsoft`: convert [Baytap08](https://igppweb.ucsd.edu/~agnew/Baytap/baytap.html) results to format used in TSoft for tidal wave grouping
 
 In addition, following functions are exported:
 * `stackframes`: stack (vertical concatenate) two DataFrame with optional overlapping or gap between DataFrames (time)

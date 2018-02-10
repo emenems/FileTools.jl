@@ -256,7 +256,7 @@ function writeggp(datawrite::DataFrame,fileout::String;
 				if haskey(blockinfo,"header")
 					# either identical header for each block (temp=1), or each block new header (temp=i)
 					temp = size(blockinfo["header"],1) == 1 ? 1 : i
-					@printf(fid,"%10s%15.4f%10.4f%10.3f%10i\n",
+					@printf(fid,"%-10s%15.4f%10.4f%10.3f%10i\n",
 	                    	blockinfo["header"][temp,1],blockinfo["header"][temp,2],
 							blockinfo["header"][temp,3],blockinfo["header"][temp,4],
 	                    	blockinfo["header"][temp,5]);
@@ -264,7 +264,7 @@ function writeggp(datawrite::DataFrame,fileout::String;
 			end
 			# write data for each block
 			writeggp_writeblock(fid,datawrite,channels,timei,bstart[i],bstop[i],
-								decimal,flagval);
+								bvalue[i,:],decimal,flagval);
 		end
 	    # Add 88888888 for eterna format only
 	    if file_format=="eterna"
@@ -311,9 +311,11 @@ function writeggp_findblocks(datain,channels,blockinfo)
 		for i in 1:length(blockinfo["start"])
 			temp = find(x -> x >= blockinfo["start"][i],datain[:datetime]);
 			if !isempty(temp)
-				bstart = vcat(bstart,temp[1]);
-				bstop = vcat(bstop,temp[1]-1);
-				bvalue = vcat(bvalue,blockinfo["offset"][i,:]');
+				if temp[1] != 1
+					bstart = vcat(bstart,temp[1]);
+					bstop = vcat(bstop,temp[1]-1);
+					bvalue = vcat(bvalue,blockinfo["offset"][i,:]');
+				end
 			end
 		end
 		bstop = vcat(bstop,size(datain,1));
@@ -328,17 +330,18 @@ Auxiliary function to write data blocks
 """
 function writeggp_writeblock(fid::IOStream,datawrite::DataFrame,
 							channels::Vector{Symbol},timei::Symbol,
-							s1::Int,s2::Int,decimal::Vector{Int},
+							s1::Int,s2::Int,bvalue,
+							decimal::Vector{Int},
 							flagval::String)
 	# beginning of the block
-	@printf(fid,"77777777        ");
+	@printf(fid,"77777777       ");
 	for (c,j) in enumerate(channels)
-		writewithprecision(fid,0.0,decimal[c]);
+		writewithprecision(fid,bvalue[c],decimal[c]);
 	end
 	@printf(fid,"\n");
 	for i in s1:s2
 		# write date+time
-		@printf(fid,"%04i%02i%02i %02i%02i%02i ",
+		@printf(fid,"%04i%02i%02i %02i%02i%02i",
 				Dates.year(datawrite[timei][i]),
 				Dates.month(datawrite[timei][i]),
 				Dates.day(datawrite[timei][i]),
@@ -348,7 +351,7 @@ function writeggp_writeblock(fid::IOStream,datawrite::DataFrame,
 		# write data
 		for (c,j) in enumerate(channels)
 			if isna(datawrite[j][i]) || isnan(datawrite[j][i])
-				@printf(fid," %s",flagval);
+				@printf(fid,"%10s",flagval);
 			else
 				writewithprecision(fid,datawrite[j][i],decimal[c]);
 			end
@@ -361,22 +364,79 @@ end
 
 function writewithprecision(fid::IOStream,d::Float64,decimal::Int)
 	if decimal == 0
-		@printf(fid," %9.0f",d);
+		@printf(fid,"%10.0f",d);
 	elseif decimal == 1
-		@printf(fid," %9.1f",d);
+		@printf(fid,"%10.1f",d);
 	elseif decimal == 2
-		@printf(fid," %9.2f",d);
+		@printf(fid,"%10.2f",d);
 	elseif decimal == 3
-		@printf(fid," %9.3f",d);
+		@printf(fid,"%10.3f",d);
 	elseif decimal == 4
-		@printf(fid," %9.4f",d);
+		@printf(fid,"%10.4f",d);
 	elseif decimal == 5
-		@printf(fid," %9.5f",d);
+		@printf(fid,"%10.5f",d);
 	elseif decimal == 6
-		@printf(fid," %9.6f",d);
+		@printf(fid,"%10.6f",d);
 	elseif decimal == 7
-		@printf(fid," %9.7f",d);
+		@printf(fid,"%10.7f",d);
 	elseif decimal == 8
-		@printf(fid," %9.8f",d);
+		@printf(fid,"%10.8f",d);
 	end
+end
+
+"""
+	ggpdata2blocks(datawrite;channels)
+Get block info removing all NaNs (split into blocks)
+
+**Input**
+* datawrite: dataframe containing columns + timevector in DateTime format
+* channels: DataFrame keys to be exported
+
+**Output**
+corrected DataFrame and block info needed for writeggp function
+
+**Example**
+```
+datawrite = DataFrame(pres=collect(1000.:1:1011.),
+				grav=collect(900.:-3:(900.-11*3)),
+   				datetime=collect(DateTime(2010,1,1):Dates.Hour(1):DateTime(2010,1,1,11)));
+datawrite[:grav][[3,6]] = NaN;
+datawrite[:pres][7] = NaN;
+dataout,block = ggpdata2blocks(datawrite;channels=[])
+```
+"""
+function ggpdata2blocks(datawrite::DataFrame;channels=[])
+	# use all channels/columns if not set
+	if isempty(channels)
+		channels,timei = FileTools.findchannels(datawrite);
+	else
+		timei = :datetime;
+	end
+	remrows = ggpdata2blocks_unique(datawrite,channels)
+	dataout = datawrite[vcat(timei,channels)]
+	if !isempty(remrows)
+		dataout = deleterows!(dataout,remrows);
+		# get blocks
+		if length(remrows)>1
+			remrows = vcat(remrows[1],remrows[find(x->x>1,diff(remrows))+1])
+		end
+		block = Dict("start"=>datawrite[timei][remrows],
+					 "offset"=>zeros(length(remrows),length(channels)),
+					 "header"=>hcat("INSTR",ones(length(channels))',zeros(2)'));
+	else
+		block = [];
+	end
+	return dataout,block
+end
+
+"""
+Auxiliary funciton to find rows with NaNs
+"""
+function ggpdata2blocks_unique(datawrite,channels)
+	# find channels containing NaN
+	remrows = Vector{Int}();
+	for i in channels
+		remrows = vcat(remrows,find(x->isnan(x),datawrite[i]))
+	end
+	return sort(unique(remrows))
 end

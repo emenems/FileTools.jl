@@ -76,13 +76,16 @@ function test_writeggp()
 				"offset"=>[10.1234 20.1234], # one row per block. 2 values per row = number channels
 	            "header"=>["iGrav006" 1.0 1.0 0.0 3])
 	fileout = pwd()*"/test/output/ggp_data_two.dat";
-
 	writeggp(dataout,fileout,
 				units=units,header=header,decimal=[1,3],
 				blockinfo=block,channels=[:grav,:pres])
-
+	# test
 	open(fileout,"r") do fid
-		@test readline(fid) == "N. Latitude (deg)    : 49.14354";
+		row = ""
+		for i in 1:10
+			row = readline(fid);
+		end
+		@test row == "yyyymmdd hhmmss grav(V) pres(hPa)";
 	end
 	b = readdlm(fileout,skipstart=12)
 	@test b[1,1] == 77777777
@@ -92,7 +95,31 @@ function test_writeggp()
 	@test b[3,2] == 010000
 	@test b[3,3] ≈ round(dataout[:grav][2]*10)/10
 	@test b[end-2,4] ≈ round(dataout[:pres][end-1]*1000)/1000
+	@test b[end-4,2] ≈ round(block["offset"][1]*10)/10
+	@test b[end-4,3] ≈ round(block["offset"][2]*1000)/1000
+	@test b[end-5,1] == block["header"][1]
+	@test b[end-5,2:end] == block["header"][2:end]
+end
+
+function test_ggpdata2blocks()
+	datawrite = DataFrame(pres=collect(1000.:1:1011.),
+					grav=collect(900.:-3:(900.-11*3)),
+					datetime=collect(DateTime(2010,1,1):Dates.Hour(1):DateTime(2010,1,1,11)));
+	datawrite[:grav][[3,6]] = NaN;
+	datawrite[:pres][7] = NaN;
+	dataout,block = ggpdata2blocks(datawrite;channels=[])
+	@test filter(!isnan,datawrite[:grav]+datawrite[:pres]) ≈ dataout[:grav]+dataout[:pres]
+	@test block["start"] == datawrite[:datetime][[3,6]]
+	@test block["offset"] == zeros(Float64,2,2)
+
+	#
+	dataout2,block2 = ggpdata2blocks(dataout;channels=[:pres])
+	@test dataout2[:datetime] == dataout[:datetime]
+	@test dataout2[:pres] == dataout[:pres]
+	@test !haskey(dataout2,:grav)
+	@test isempty(block2)
 end
 
 test_readggp();
 test_writeggp();
+test_ggpdata2blocks();

@@ -12,6 +12,7 @@ This repository contains functions for reading/writing files in following format
 * `loadatmacs`: (down)load [Atmacs](/http://atmacs.bkg.bund.de) atmospheric model files
 * `readggp`: read GGP/[IGETS](http://gfzpublic.gfz-potsdam.de/pubman/faces/viewItemOverviewPage.jsp?itemId=escidoc:1870888) files
 * `writeggp`: write GGP/[IGETS](http://gfzpublic.gfz-potsdam.de/pubman/faces/viewItemOverviewPage.jsp?itemId=escidoc:1870888) files
+* `ggpdata2blocks`: remove time spans of NaN and return blocks of data as needed for `writeggp` function
 * `readgpcpd*`: read [GPCP](https://precip.gsfc.nasa.gov/gpcp_daily_comb.html) _daily_ binary files
 * `writeatmosph`: write atmospheric data to [Hydrus1D](https://www.pc-progress.com/en/Default.aspx?H1D-description#k1) format (water flux only)
 * `writeprofile1d`: write vertical profile data in [Hydrus1D](https://www.pc-progress.com/en/Default.aspx?H1D-description#k1) format (water flux mode only)

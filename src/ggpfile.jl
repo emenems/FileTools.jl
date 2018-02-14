@@ -83,6 +83,12 @@ function readggpblocks(filein::String)
 		while !eof(fid)
 			row = readline(fid); i += 1;
 			if contains(row,"77777777")
+				# check if the data is in correct format
+				if length(row)> 8
+					if row[9:15] != "       "
+						row = row[1:8]*"       "*row[16:end];
+					end
+				end
 				push!(blockoffset,row);
 				row = readline(fid);i += 1; # read next line containing date
 				push!(blockdate,row);
@@ -163,7 +169,14 @@ end
 Auxiliary function to read data lines in input file (stream)
 """
 function readdataline(fid::IOStream)
-	return fid |> readline |> splitline
+	temp = readline(fid);
+	i::Int = 15;
+	out = split(temp[1:i]); # fix position
+	while i < length(temp)
+		push!(out,temp[i+1:i+10])# 10 strings per data-column
+		i += 10;
+	end
+	return parse.(Float64,out)
 end
 """
 Auxiliary function to prepare string for data extraction

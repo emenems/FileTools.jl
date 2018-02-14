@@ -4,7 +4,8 @@ Load tsf file and store it in DataFrame
 
 **Input**
 * filein: full name of the input file
-* unitsonly: switch to output either data or units only (by default false=>data only).
+* unitsonly: switch to output either data or units only (by default false=>data only)
+* channelname: "measurement" (default)= set dataframe columns to measurement name, "site_measurement" = set columns to site_measurement
 
 **Output**
 * dataframe containing columns + timevector in DateTime format
@@ -16,7 +17,7 @@ data = readtsf("../test/input/tsf_data.tsf");
 units = readtsf("../test/input/tsf_data.tsf",unitsonly=true);
 ```
 """
-function readtsf(filein::String;unitsonly::Bool=false)
+function readtsf(filein::String;unitsonly::Bool=false,channelname="measurement")
 	# Set default/intial values
 	undetval = 9999.999;
 	countinfo::Int64 = 0; # count data lines
@@ -65,7 +66,7 @@ function readtsf(filein::String;unitsonly::Bool=false)
 	    end
 	end # close reading line by line
 	# Correct/get channel names and units
-	channels = correct_channels(channels,":");
+	channels = correct_channels(channels,":",channelname=channelname);
 	units = correct_channels(units,":");
 	if unitsonly
 		return units;
@@ -186,13 +187,27 @@ end
 	correct_channels(in_string)
 Auxiliary function to get channel names/units from input vector of strings
 """
-function correct_channels(in_text::Vector{String},sp::String)
+function correct_channels(in_text::Vector{String},sp::String;
+							channelname="measurement")
 	out = Vector{String}(0);
+	c = 2; # count channels with identical name
 	for i in in_text
-		# Use only last string = name of the channel
 		temp = split(i,sp);
 		# remove empty spaces and other symbols
-		push!(out,replace(temp[end],r" |\r|\"",""))
+		name = replace(temp[end],r" |\r|\"","")
+		if channelname == "site_measurement"
+			site = replace(temp[1],r" |\r|\"","")*"_";
+			chan_number = ""
+		else
+			site = "";
+			chan_number = string(c);
+		end
+		# check if the name already exists
+		if any(contains.(out,name)) || channelname == "site_measurement"
+			push!(out,site*name*chan_number);c += 1;
+		else
+			push!(out,name)
+		end
 	end
 	return out;
 end
@@ -216,7 +231,7 @@ function findchannels(data::DataFrame)
 end
 
 """
-	round2output(data,)
+	round2output(data,decimal,channels)
 Auxiliary function to round data to output precision
 """
 function round2output(data::DataFrame,decimal,channels)

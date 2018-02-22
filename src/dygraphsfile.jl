@@ -27,33 +27,33 @@ function readdygraphs(filein::String;datestring::String="yyyy/mm/dd HH:MM:SS")
 	# Convert to DataFrame
 	data = DataFrame(datetime=DateTime.(preptimevec.(dataall[:,1]),datestring));
 	for (i,v) in enumerate(channels)
-		data[Symbol(v)] = dataall[:,i+1];
+		data[Symbol(v)] = convert.(Float64,dataall[:,i+1]);
 	end
 	return data;
 end
 
 """
-	writedygraphs(data,fileout;decimal)
+	writedygraphs(datain,fileout;decimal)
 Write DataFrame to Dygraphs csv format
 
 **Input**
-* data: dataframe containing columns + timevector in DateTime format
+* datain: dataframe containing columns + timevector in DateTime format
 * fileout: full name of the output file
 * decimal: optional output precision for either all or individual columns. Maximum precision is %.10g!
 > output date string is fixed: "yyyy/mm/dd HH:MM:SS"
 
 **Example**
 ```
-data = DataFrame(temp=[10.,11.,12.,14.],grav=@data([9.8123,9.9,NA,9.7]),
+datain = DataFrame(temp=[10.,11.,12.,14.],grav=@data([9.8123,9.9,NA,9.7]),
        datetime=[DateTime(2010,1,1),DateTime(2010,1,2),
            DateTime(2010,1,3),DateTime(2010,1,4)]);
-writedygraphs(data,"../test/output/dygraphs_data.csv",decimal=[1,3]);
+writedygraphs(datain,"../test/output/dygraphs_data.csv",decimal=[1,3]);
 ```
 """
-function writedygraphs(data::DataFrame,fileout::String;decimal=[4])
-	channels,timei = FileTools.findchannels(data);
+function writedygraphs(datain::DataFrame,fileout::String;decimal=[4])
+	channels,timei = FileTools.findchannels(datain);
 	# Round data to output precision
-	dataout = round2output(data,decimal,channels);
+	dataout = round2output(datain,decimal,channels);
 	# Write header
 	open(fileout,"w") do fid
 		@printf(fid,"date");
@@ -62,15 +62,15 @@ function writedygraphs(data::DataFrame,fileout::String;decimal=[4])
 		end
 		@printf(fid,"\n");
 		# Write data
-		for i = 1:size(data,1)
+		for i = 1:size(datain,1)
 			# Write date + time (do not use Dates.format == very slow)
 			@printf(fid,"%04i/%02i/%02i %02i:%02i:%02i",
-						Dates.year(data[timei][i]),
-						Dates.month(data[timei][i]),
-						Dates.day(data[timei][i]),
-						Dates.hour(data[timei][i]),
-						Dates.minute(data[timei][i]),
-						Dates.second(data[timei][i]));
+						Dates.year(datain[timei][i]),
+						Dates.month(datain[timei][i]),
+						Dates.day(datain[timei][i]),
+						Dates.hour(datain[timei][i]),
+						Dates.minute(datain[timei][i]),
+						Dates.second(datain[timei][i]));
 			# add data
 			flagval = "NaN";
 			for j in channels

@@ -18,16 +18,16 @@ dataout = DataFrame(Prec=[0.01,0.1,0.2,0.3],
 		   			  DateTime(2010,1,1,2),DateTime(2010,1,1,3)],);
 writeatmosph(dataout,pwd()*"/test/output/atmosph_data.in",
 			decimal=[1],
-			hCritS=1000.);
+			hCritS=1000.,Extinction=-1.0);
 ```
 """
-function writeatmosph(data::DataFrame,fileout::String;decimal=[4],hCritS=0.0)
+function writeatmosph(data::DataFrame,fileout::String;decimal=[4],hCritS=0.0,Extinction=-1.0)
 	channels,timei = FileTools.findchannels(data);
 	# Round data to output precision
 	dataout = FileTools.round2output(data,decimal,channels);
 	open(fileout,"w") do fid
 		# Write header
-		writeatmosph_head(fid,size(data,1),hCritS);
+		writeatmosph_head(fid,size(data,1),Extinction,hCritS);
 		# Write data
 		for i = 1:size(dataout,1)
 			# Write date-index
@@ -50,14 +50,19 @@ end
 """
 auxiliary function to write fixed header
 """
-function writeatmosph_head(fid::IOStream,l::Int,h::Float64)
+function writeatmosph_head(fid::IOStream,l::Int,extinc::Float64,h::Float64)
 	@printf(fid,"Pcp_File_Version=4\n");
 	@printf(fid,"*** BLOCK I: ATMOSPHERIC INFORMATION  ");
 	for i in 1:34 @printf(fid,"*");end
 	@printf(fid,"\n   MaxAL                    (MaxAL = number of atmospheric data-records)\n")
 	@printf(fid,"   %i\n",l);
 	@printf(fid," DailyVar  SinusVar  lLay  lBCCycles lInterc lDummy  lDummy  lDummy  lDummy  lDummy\n");
-	@printf(fid,"       f       f       f       f       f       f       f       f       f       f\n")
+	if extinc > -1e-6
+		@printf(fid,"       f       f       t       f       f       f       f       f       f       f\n")
+		@printf(fid," Extinction\n   %.6g\n",extinc);
+	else
+		@printf(fid,"       f       f       f       f       f       f       f       f       f       f\n")
+	end
 	@printf(fid," hCritS                 (max. allowed pressure head at the soil surface)\n");
 	@printf(fid,"   %.6g\n",h);
 	@printf(fid,"       tAtm        Prec       rSoil       rRoot      hCritA");

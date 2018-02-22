@@ -13,6 +13,7 @@ include("gpcpdfile.jl")
 include("hydrusfile.jl")
 include("baytapfile.jl")
 include("igetsfile.jl")
+include("otherfile.jl")
 
 export readtsf, writetsf, loadascii, writeascii, readcampbell
 export readdygraphs, writedygraphs

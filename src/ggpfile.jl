@@ -172,7 +172,7 @@ function readdataline(fid::IOStream)
 	temp = readline(fid);
 	i::Int = 15;
 	out = split(temp[1:i]); # fix position
-	while i < length(temp)
+	while i < length(temp)-1
 		push!(out,temp[i+1:i+10])# 10 strings per data-column
 		i += 10;
 	end

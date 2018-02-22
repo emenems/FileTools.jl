@@ -221,7 +221,7 @@ function findchannels(data::DataFrame)
 	channels = eltype(names(data))==String ? Vector{String}(0) : Vector{Symbol}(0);
 	timei = 1;
 	for i in names(data)
-		if eltype(data[i]) == DateTime
+		if eltype(data[i]) == DateTime # || i == :datetime
 			timei = i;
 		elseif eltype(data[i]) == Int || eltype(data[i]) == Float64
 			push!(channels,i);

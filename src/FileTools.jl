@@ -14,6 +14,7 @@ include("hydrusfile.jl")
 include("baytapfile.jl")
 include("igetsfile.jl")
 include("otherfile.jl")
+include("dwdfile.jl")
 
 export readtsf, writetsf, loadascii, writeascii, readcampbell
 export readdygraphs, writedygraphs
@@ -21,8 +22,9 @@ export loadeop
 export stackframes, loadatmacs
 export readggp, writeggp, ggpdata2blocks
 export readgpcpd, readgpcpd_head, readgpcpd_time, readgpcpd_lonlat, coorShift_lon
-export writeatmosph, writeprofile1d, readhydrus1d_obsnode, readhydrus1d_nodinf
+export writeatmosph, writeprofile1d, readhydrus1d_obsnode, readhydrus1d_nodinf, readatmosph
 export writebaytap, baytap2tsoft
-export igetsimport
+export igetsimport, igetsexport
+export dwdclimateraw
 
 end #module

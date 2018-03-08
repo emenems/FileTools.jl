@@ -182,6 +182,62 @@ function readhydrus1d_obsnode(filein::String;paramout::Symbol=:theta)
 end
 
 """
+	atm = readatmosph(filein)
+Read Hydrus1D ATMOSPH.IN file
+
+**Input**
+* filein: input file name
+
+**Output**
+obnode: dataframe containg:
+* :time = time index
+* :param = parameter name
+
+> Designed only for Hydrus1D Hydrus-1D 4.16.0110
+
+**Example**
+```
+input_file = pwd()*"/test/input/hydrus1d_atmosph.in"
+atm = readatmosph(input_file)
+```
+"""
+function readatmosph(filein::String)
+	nh = headlines(filein,"tAtm");
+	temp = readdlm(filein,skipstart=nh-1);
+	out = DataFrame(time=temp[2:end-1,1]);
+	for (i,v) in enumerate(temp[1,2:end])
+		out[Symbol(v)] = eltype(temp[2,i+1])==Char ?
+						zeros(Float64,length(temp[2:end-1,1])).*NaN :
+						convert(Vector{Float64},temp[2:end-1,i+1])
+	end
+	return out
+end
+
+"""
+Aux function to count number of header lines (up to a given string)
+
+**Example**
+```
+filein = "f:/mikolaj/code/data_processing/sites/aggo/hydro/hydrus/AGGO/ATMOSPH.IN";
+nh = headlines(filein,"tAtm")
+```
+"""
+function headlines(filein::String,flag::String)
+	c = 0;
+	open(filein,"r") do fid
+		row = readline(fid);
+		while !contains(row,flag)
+			row = readline(fid);
+			c += 1;
+			if eof(fid)
+				c = 0; break
+			end
+		end
+	end
+	return c+1
+end
+
+"""
 auxiliary function to read node numbers
 """
 function getnodenumber(filein::String,paramout::Symbol)

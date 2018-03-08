@@ -1,0 +1,17 @@
+function test_dwdclimateraw()
+	temp_out = pwd()*"/test/output/temp_dwdclimateraw.txt";
+	temp_in = pwd()*"/test/input/"
+	dwd = dwdclimateraw(DateTime(2012,04),67890,"P",downto=temp_out,
+						url=temp_in);
+	@test dwd[:datetime][end] == DateTime(2012,04)
+	@test dwd[:P][1] == 63
+	@test size(dwd) == (1,2)
+
+	timein = collect(DateTime(2012,04):Dates.Month(1):DateTime(2012,05));
+	dwdvec = dwdclimateraw(timein,12345,"Po",downto=temp_out,
+						url=temp_in);
+	@test dwdvec[:datetime] == timein
+	@test dwdvec[:Po] == [0,22222]
+end
+
+test_dwdclimateraw();

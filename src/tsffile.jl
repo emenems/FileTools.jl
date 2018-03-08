@@ -214,7 +214,7 @@ end
 
 """
 	findchannels(data)
-Auxiliary funciton to find columns with channel names and datetime
+Auxiliary function to find columns with channel names and datetime
 """
 function findchannels(data::DataFrame)
 	# find datetime column + use only numberic values for output

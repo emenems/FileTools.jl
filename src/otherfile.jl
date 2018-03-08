@@ -55,7 +55,7 @@ Function to read correction parameters used in 'correctinterval' function (Resam
 """
 function readcorrpar(corrfile::String)
 	temp = readdlm(corrfile,comments=true,comment_char='%');
-	corrpar = DataFrame(column=trunc.(Int,temp[:,2]),
+	corrpar = DataFrame(column = eltype(temp[:,2][1])==Int64 ? trunc.(Int,temp[:,2]) : Symbol.(temp[:,2]),
 						id = trunc.(Int,temp[:,1]),
 						x1 = DateTime.(temp[:,3],temp[:,4],temp[:,5],temp[:,6],temp[:,7],temp[:,8]),
 						x2 = DateTime.(temp[:,9],temp[:,10],temp[:,11],temp[:,12],temp[:,13],temp[:,14]),

@@ -112,8 +112,20 @@ function test_readhydrus1d_nodinf()
 	@test h[:node10] == [-50.000,-49.480,-42.537,-30.490]
 end
 
+function test_readatmosph()
+	input_file = pwd()*"/test/input/hydrus1d_atmosph.in"
+	ttest = readatmosph(input_file)
+	@test ttest[:time] == collect(1.:1.:11)
+	@test size(ttest) == (11,9)
+	@test ttest[:Prec] == [0.,0.,0.,0.,0.02,0.,0.,0.,0.,0.,0.]
+	@test ttest[:rSoil] == [0.,0.,0.,0.001,0.,0.,0.,0.,0.,0.,0.]
+	@test ttest[:ht] == zeros(11)
+	@test all(isnan.(ttest[:RootDepth]))
+end
+
 
 test_writeatmosph();
+test_readatmosph();
 test_writeprofile1d();
 test_readhydrus1d_obsnode();
 test_readhydrus1d_nodinf();

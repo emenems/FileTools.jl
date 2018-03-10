@@ -22,4 +22,13 @@ function writebaytap_test()
 	end
 end
 
-writebaytap_test()
+function baytap2tsoft_test()
+	file_results = pwd()*"/test/input/baytap08.out";
+	file_output = pwd()*"/test/output/baytap2tsoft.txt"
+	isfile(file_output) ? rm(file_output) : nothing
+	baytap2tsoft(file_results,file_output,site="Cantlay",name="test");
+	@test isfile(file_output)
+end
+
+writebaytap_test();
+baytap2tsoft_test();

@@ -1,0 +1,1084 @@
+     ******************************************************
+     *                                                    *
+     *  Program ANALYZE, version 3.40 970921 Fortran 90.  *
+     *                                                    *
+     *        Analysis of earthtide observations.         *
+     *                                                    *
+     *    The  Black  Forest  Observatory  Schiltach      *
+     *    wishes you much success when using ANALYZE.     *
+     *                                                    *
+     ******************************************************
+
+      First call of routine GEOEXT, version 1997.08.22.
+
+
+      Routine ETERIN, version 1997.09.21 Fortran 90.
+
+ # This file DEFAULT.INI status 1996.08.07 containing default               
+ # control parameters for program ANALYZE 3.30                              
+                                                                            
+ # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!            
+ # ! NOTE: The datalines have to start with their names.       !            
+ # !       An additional comment may follow after the values,  !            
+ # !       delimited by a whitespace                           !            
+ # ! Values of 0 or less causes PREGRED to calculate the       !            
+ # ! range(s) automatically resp. to use default values        !            
+ # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!            
+                                                                            
+ # a commentline starts with an '#', it may appear at any position          
+ # in this file. Empty lines may appear too                                 
+                                                                            
+                                                                            
+ # End of file DEFAULT.INI                                                  
+
+
+      Routine ETERIN, version 1997.09.21 Fortran 90.
+
+ SENSORNAME=ca012           #PRETERNA earth tide sensor name                
+ SAMPLERATE=  3600          #PRETERNA sampling interval in seconds          
+ GRAVLINCAL=     1.000      #PRETERNA linear    cal. factor for gravim.     
+ GRAVQUACAL=     0.0        #PRETERNA quadratic cal. factor for gravim.     
+ GRAVCUBCAL=     0.0        #PRETERNA cubic     cal. factor for gravim.     
+ GRAVTIMLAG=     0.0        #PRETERNA time lag of gravimeter in second      
+ AIRPCORFAC=      1.00000   #PRETERNA air pressure correction factor        
+ BAROLINCAL=      1.000     #PRETERNA linear    cal. factor for barom.      
+ BAROQUACAL=      0.000     #PRETERNA quadratic cal. factor for barom.      
+ BAROCUBCAL=      0.000     #PRETERNA cubic     cal. factor for barom.      
+ BAROTIMLAG=      0.000     #PRETERNA time lag of barometer in seconds      
+ STATLATITU=    +45.5850    #PRETERNA stations latitude in degree           
+ STATLONITU=    -75.8071    #PRETERNA stations longitude in degree          
+ STATELEVAT=    269.00      #PRETERNA stations elevation in meter           
+ STATGRAVIT=     -9.81      #PRETERNA stations gravity in m/s**2            
+ STATAZIMUT=       0.       #PRETERNA stations azimuth in degree from north 
+
+      earth tide sensor name                       :ca012     
+      sample rate                                  :  3600.000 seconds
+      stations latitude  in degree                 :   45.5850
+      stations longitude in degree                 :  -75.8071
+      stations height    in meter                  :   269.000
+      stations gravity   in m/s**2                 :   -9.8100
+      stations azimuth from north in degree        :    0.0000
+ INITIALEPO= 2012   01   02 #PRETERNA initial epoch in year,month,day       
+ TIDALCOMPO=      0         #PRETERNA tidal component, see manual           
+ TIDALPOTEN=      4         #PRETERNA tidal potential development           
+ STEPDETLIM=      5.        #PRETERNA limit for step detection  (nm/s**2)   
+ SPIKDETLIM=      2.        #PRETERNA limit for spike detection (nm/s**2)   
+                                                                            
+ PRINTDEVEL=      0        #ANALYZE print param. for tidal development (1=ye
+ SEARDATLIM=     -1.       #ANALYZE search for data error threshold         
+ NUMHIGPASS=      0        #ANALYZE highpass filtering = 1                  
+ POLETIDCOR=      0        #ANALYZE pole tide corrected with factor 1.164   
+ PRINTOBSER=      0        #ANALYZE print parameter for observations (1=yes)
+ PRINTLFOBS=      0        #ANALYZE print parameter fo lowpass filtered obs.
+ RIGIDEARTH=      0        #ANALYZE parameter for rigid earth model (1=yes) 
+ HANNWINDOW=      0        #ANALYZE parameter for Hann-window (1=yes)       
+ QUICKLOOKA=      0        #ANALYZE parameter for quick look analysis (1=yes
+                                                                            
+ #group ETERNA for 1year                                                    
+ WAVEGROUPI=   .721499   .833113  1.000000   .000000 SGQ1  #ETERNA wavegroup
+ WAVEGROUPI=   .851181   .859691  1.000000   .000000 2Q1   #ETERNA wavegroup
+ WAVEGROUPI=   .860895   .870024  1.000000   .000000 SGM1  #ETERNA wavegroup
+ WAVEGROUPI=   .887326   .896130  1.000000   .000000 Q1    #ETERNA wavegroup
+ WAVEGROUPI=   .897806   .906316  1.000000   .000000 RO1   #ETERNA wavegroup
+ WAVEGROUPI=   .921940   .930450  1.000000   .000000 O1    #ETERNA wavegroup
+ WAVEGROUPI=   .931963   .940488  1.000000   .000000 TAU1  #ETERNA wavegroup
+ WAVEGROUPI=   .958085   .966757  1.000000   .000000 NO1   #ETERNA wavegroup
+ WAVEGROUPI=   .968564   .974189  1.000000   .000000 CHI1  #ETERNA wavegroup
+ WAVEGROUPI=   .989048   .998029  1.000000   .000000 P1    #ETERNA wavegroup
+ WAVEGROUPI=   .999852  1.000148  1.000000   .000000 S1    #ETERNA wavegroup
+ WAVEGROUPI=  1.001824  1.013690  1.000000   .000000 K1    #ETERNA wavegroup
+ WAVEGROUPI=  1.028549  1.034468  1.000000   .000000 TET1  #ETERNA wavegroup
+ WAVEGROUPI=  1.036291  1.044801  1.000000   .000000 J1    #ETERNA wavegroup
+ WAVEGROUPI=  1.064840  1.071084  1.000000   .000000 SO1   #ETERNA wavegroup
+ WAVEGROUPI=  1.072582  1.080945  1.000000   .000000 OO1   #ETERNA wavegroup
+ WAVEGROUPI=  1.099160  1.216398  1.000000   .000000 NU1   #ETERNA wavegroup
+ WAVEGROUPI=  1.719380  1.837970  1.000000   .000000 EPS2  #ETERNA wavegroup
+ WAVEGROUPI=  1.853919  1.862429  1.000000   .000000 2N2   #ETERNA wavegroup
+ WAVEGROUPI=  1.863633  1.872143  1.000000   .000000 MU2   #ETERNA wavegroup
+ WAVEGROUPI=  1.888386  1.896749  1.000000   .000000 N2    #ETERNA wavegroup
+ WAVEGROUPI=  1.897953  1.906463  1.000000   .000000 NU2   #ETERNA wavegroup
+ WAVEGROUPI=  1.923765  1.942754  1.000000   .000000 M2    #ETERNA wavegroup
+ WAVEGROUPI=  1.958232  1.963709  1.000000   .000000 LAM2  #ETERNA wavegroup
+ WAVEGROUPI=  1.965826  1.976927  1.000000   .000000 L2    #ETERNA wavegroup
+ WAVEGROUPI=  1.991786  1.998288  1.000000   .000000 T2    #ETERNA wavegroup
+ WAVEGROUPI=  1.999705  2.000767  1.000000   .000000 S2    #ETERNA wavegroup
+ WAVEGROUPI=  2.002590  2.013690  1.000000   .000000 K2    #ETERNA wavegroup
+ WAVEGROUPI=  2.031287  2.047391  1.000000   .000000 ETA2  #ETERNA wavegroup
+ WAVEGROUPI=  2.067578  2.182844  1.000000   .000000 2K2   #ETERNA wavegroup
+ WAVEGROUPI=  2.753243  3.081255  1.000000   .000000 M3    #ETERNA wavegroup
+ WAVEGROUPI=  3.791963  3.937898  1.000000   .000000 M4    #ETERNA wavegroup
+                                                                            
+ METEOPARAM=        2      3.000air press.                                  
+      earth tide component                         :          0
+      print tidal component development (1=yes)    :          0
+      initial epoch for tidal development          : 2012  1  2  0
+      tidal potential development                  :          4
+      threshold for tidal potential catalogue      :  0.000D+00      m**2/s**2
+      threshold for data error search              :     -1.000
+      highpass filtering                           :          0
+      numerical lowpass filter selected            :             
+      amplitude factor for pole tide correction    :     0.0000
+      pole tide regression                         :          0
+      amplitude factor for LOD tide correction     :     0.0000
+      storage of normal equation system            :          0
+
+      wave group :   0.721499  0.833113    1.0000    0.0000 SGQ1
+      wave group :   0.851181  0.859691    1.0000    0.0000 2Q1 
+      wave group :   0.860895  0.870024    1.0000    0.0000 SGM1
+      wave group :   0.887326  0.896130    1.0000    0.0000 Q1  
+      wave group :   0.897806  0.906316    1.0000    0.0000 RO1 
+      wave group :   0.921940  0.930450    1.0000    0.0000 O1  
+      wave group :   0.931963  0.940488    1.0000    0.0000 TAU1
+      wave group :   0.958085  0.966757    1.0000    0.0000 NO1 
+      wave group :   0.968564  0.974189    1.0000    0.0000 CHI1
+      wave group :   0.989048  0.998029    1.0000    0.0000 P1  
+      wave group :   0.999852  1.000148    1.0000    0.0000 S1  
+      wave group :   1.001824  1.013690    1.0000    0.0000 K1  
+      wave group :   1.028549  1.034468    1.0000    0.0000 TET1
+      wave group :   1.036291  1.044801    1.0000    0.0000 J1  
+      wave group :   1.064840  1.071084    1.0000    0.0000 SO1 
+      wave group :   1.072582  1.080945    1.0000    0.0000 OO1 
+      wave group :   1.099160  1.216398    1.0000    0.0000 NU1 
+      wave group :   1.719380  1.837970    1.0000    0.0000 EPS2
+      wave group :   1.853919  1.862429    1.0000    0.0000 2N2 
+      wave group :   1.863633  1.872143    1.0000    0.0000 MU2 
+      wave group :   1.888386  1.896749    1.0000    0.0000 N2  
+      wave group :   1.897953  1.906463    1.0000    0.0000 NU2 
+      wave group :   1.923765  1.942754    1.0000    0.0000 M2  
+      wave group :   1.958232  1.963709    1.0000    0.0000 LAM2
+      wave group :   1.965826  1.976927    1.0000    0.0000 L2  
+      wave group :   1.991786  1.998288    1.0000    0.0000 T2  
+      wave group :   1.999705  2.000767    1.0000    0.0000 S2  
+      wave group :   2.002590  2.013690    1.0000    0.0000 K2  
+      wave group :   2.031287  2.047391    1.0000    0.0000 ETA2
+      wave group :   2.067578  2.182844    1.0000    0.0000 2K2 
+      wave group :   2.753243  3.081255    1.0000    0.0000 M3  
+      wave group :   3.791963  3.937898    1.0000    0.0000 M4  
+
+
+
+      meteorological parameter :     2    3.0000  air press.           
+
+
+
+      see prepare_sg_data.jl                                                   
+      yyyymmdd hhmmss grav(nm/s^2) pres(hPa)                                   
+      C*******************************************************                 
+
+      Routine ETINPD, version 1997.09.20
+              average of samples for block:     1
+                  channel   average
+
+                1    -0.624
+                2    -0.000
+
+      Routine ETINPD, version 1997.09.20
+              average of samples for block:     2
+                  channel   average
+
+                1     2.241
+                2     0.004
+
+      Routine ETINPD, version 1997.09.20
+              average of samples for block:     3
+                  channel   average
+
+                1     3.503
+                2     0.005
+
+      Routine ETINPD, version 1997.09.20
+              average of samples for block:     4
+                  channel   average
+
+                1    -4.940
+                2     0.012
+
+      Routine ETINPD, version 1997.09.20
+              average of samples for block:     5
+                  channel   average
+
+                1     1.084
+                2    -0.004
+
+      Routine ETINPD, version 1997.09.20
+              average of samples for block:     6
+                  channel   average
+
+                1    -2.162
+                2    -0.011
+
+      Routine ETINPD, version 1997.09.20
+              average of samples for block:     7
+                  channel   average
+
+                1    -1.449
+                2    -0.001
+
+      Routine ETINPD, version 1997.09.20
+              average of samples for block:     8
+                  channel   average
+
+                1    -2.183
+                2     0.008
+
+      Routine ETINPD, version 1997.09.20
+              average of samples for block:     9
+                  channel   average
+
+                1     1.270
+                2     0.006
+
+      Routine ETINPD, version 1997.09.20
+              average of samples for block:    10
+                  channel   average
+
+                1     8.692
+                2     0.023
+
+      Routine ETINPD, version 1997.09.20
+              average of samples for block:    11
+                  channel   average
+
+                1     0.432
+                2    -0.013
+
+      Routine ETINPD, version 1997.09.20
+              average of samples for block:    12
+                  channel   average
+
+                1     0.169
+                2    -0.002
+
+      Routine ETINPD, version 1997.09.20
+              average of samples for block:    13
+                  channel   average
+
+                1     0.348
+                2    -0.001
+
+      Routine ETINPD, version 1997.09.20
+              average of samples for block:    14
+                  channel   average
+
+                1     0.425
+                2     0.001
+
+      Routine ETINPD, version 1997.09.20
+              average of samples for block:    15
+                  channel   average
+
+                1    -1.596
+                2    -0.001
+
+      Routine GEOEXT. Execution time=     0.225 sec
+
+      Numerical filter is no filter    with    1 coefficients.
+
+
+      Routine ETPOTS, version 1997.09.20.
+      Tidal waves from tidal potential catalogue.
+      Tamura 1987          tidal potential catalogue is used.
+
+      Routine ETGCON, version 1997.03.03.
+
+      Computation of geodetic coefficients
+
+      Parameters of Geodetic Reference System 1980:
+      Major semi axis                      6378136.  m
+      1. excentricity                    0.00669440
+
+      Station parameters:
+
+      Latitude                          45.585000 deg
+      Geocentric latitude               45.392611 deg
+      Longitude                        -75.807100 deg
+      Height                              269.000 m
+      Gravity                            9.805899 m/s**2
+      Geocentric radius               6367539.474 m
+      Component of observations                 0
+      Azimuth from north direction       0.000000 deg
+
+
+
+      Routine ETLOVE, version 1996.05.25.
+      Latitude dependent parameters for an elliptical, rotating,
+      inelastic and oceanless Earth from Wahr-Dehant-Zschau model.
+
+      frequency of wave O1: 13.943036 deg per hour
+      resonance frequency : 15.073729 deg per hour
+
+      resonance factor for G: -0.000625
+      resonance factor for h: -0.002505
+      resonance factor for k: -0.001261
+      resonance factor for l:  0.000078
+      resonance factor for T:  0.001244
+
+
+
+      Latitude dependent elastic parameters
+
+      ellipsoidal latitude:   45.5850 deg
+
+      G    is gravimetric factor delta
+      h    is LOVE-number  h
+      k    is LOVE-number  k
+      l    is SHIDA-number l
+      T    is tilt factor gamma
+
+      degree  order         G         h         k         l         T
+ 
+            2      0  1.170192  0.618143  0.303006  0.088142  0.684863
+            2      1  1.153596  0.607135  0.301370  0.083429  0.694235
+            2      2  1.157793  0.614403  0.305386  0.082993  0.690983
+ 
+            3      0  1.072800  0.294600  0.094200  0.014900  0.799600
+            3      1  1.072800  0.294600  0.094200  0.014900  0.799600
+            3      2  1.072800  0.294600  0.094200  0.014900  0.799600
+            3      3  1.069847  0.295486  0.096267  0.014900  0.800781
+ 
+            4      0  1.036300  0.180700  0.042700  0.010000  0.862000
+            4      1  1.036300  0.180700  0.042700  0.010000  0.862000
+            4      2  1.036300  0.180700  0.042700  0.010000  0.862000
+            4      3  1.036300  0.180700  0.042700  0.010000  0.862000
+            4      4  1.035138  0.181253  0.045135  0.010000  0.863881
+
+      Geodetic coefficients and phases for component   0
+      azimuth:    0.000000 degree
+
+      GC 2,0  183.95683905  nm/s**2       180.000000 deg
+      GC 2,1  606.13095318  nm/s**2       180.000000 deg
+      GC 2,2  297.93632135  nm/s**2       180.000000 deg
+      GC 3,0 -203.38486483  nm/s**2       180.000000 deg
+      GC 3,1  820.39484446  nm/s**2       180.000000 deg
+      GC 3,2  842.28047661  nm/s**2       180.000000 deg
+      GC 3,3  338.41883732  nm/s**2       180.000000 deg
+      GC 4,0 -751.04414635  nm/s**2       180.000000 deg
+      GC 4,1  409.79130039  nm/s**2       180.000000 deg
+      GC 4,2 1315.75908714  nm/s**2       180.000000 deg
+      GC 4,3  963.74935851  nm/s**2       180.000000 deg
+      GC 4,4  335.53354933  nm/s**2       180.000000 deg
+      GC 5,0 -988.78036616  nm/s**2       180.000000 deg
+      GC 5,1 -610.84910350  nm/s**2       180.000000 deg
+      GC 5,2 1213.04413302  nm/s**2       180.000000 deg
+      GC 5,3 1665.25100925  nm/s**2       180.000000 deg
+      GC 5,4  990.02410560  nm/s**2       180.000000 deg
+      GC 5,5  308.39599577  nm/s**2       180.000000 deg
+      GC 6,0 -556.17938405  nm/s**2       180.000000 deg
+      GC 6,1-1662.60642241  nm/s**2       180.000000 deg
+      GC 6,2  272.36560299  nm/s**2       180.000000 deg
+      GC 6,3 1936.82516279  nm/s**2       180.000000 deg
+      GC 6,4 1855.00705228  nm/s**2       180.000000 deg
+      GC 6,5  949.44032962  nm/s**2       180.000000 deg
+      GC 6,6  270.04581653  nm/s**2       180.000000 deg
+
+
+      ***** Routine ETGCON finished the execution.
+
+
+
+      Routine ETASTN, version 1996.05.25.
+
+      Astronomic elements for initial epoch 
+      Modified Julian date (TDT)    :      55928.0000
+
+
+
+      local Moontime      F01     188.17631350813 deg  F01.    14.49205212083 deg/h
+      lunar longitude     F02      17.06351979720 deg  F02.     0.54901651205 deg/h
+      solar longitude     F03     281.05070593737 deg  F03.     0.04106863986 deg/h
+      lunar perigee       F04     211.69052671955 deg  F04.     0.00464181067 deg/h
+      lunar node longit.  F05     107.07827374371 deg  F05.     0.00220640621 deg/h
+      solar perigee       F06     283.14372215638 deg  F06.     0.00000196172 deg/h
+      longitude   Mercury F07     191.18889392668 deg  F07.     0.17051571098 deg/h
+      longitude   Venus   F08       5.08767137384 deg  F08.     0.06675703060 deg/h
+      longitude   Mars    F09     132.69900547868 deg  F09.     0.02183629528 deg/h
+      longitude   Jupiter F10      38.74948333645 deg  F10.     0.00346372670 deg/h
+      longitude   Saturn  F11     196.91555462471 deg  F11.     0.00139574628 deg/h
+
+
+      ***** Routine ETASTN finished the execution.
+
+      File:      TAMURAHW.DAT                                                         
+
+
+       Number of waves read from file is :  1200
+       Number of waves below limit is    :     0
+       Number of waves to be used is     :  1200
+
+
+
+
+      ***** Routine ETPOTS finished execution.
+
+
+      Routine GEOEXT. Execution time=     0.230 sec
+
+      Program ANALYZE, version 3.40 970921 Fortran 90.
+
+     ####################################################################
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     ####################################################################
+
+
+
+      Wave groups and parameters for main wave
+      WD delta: a priori WAHR-DEHANT inelastic amplitude factor
+
+      No. from   to     ampl. frequency        freq. transf. func.  WD delta
+                      nm/s**2     [cpd]                     [deg]
+
+          1   282   330    2.2939  0.825518   SGQ1   1.0000   0.000     1.15396
+          2   331   353    7.8675  0.856952   2Q1    1.0000   0.000     1.15390
+          3   354   373    9.4957  0.861809   SGM1   1.0000   0.000     1.15389
+          4   374   406   59.4599  0.893244   Q1     1.0000   0.000     1.15380
+          5   407   424   11.2943  0.898101   RO1    1.0000   0.000     1.15378
+          6   425   456  310.5569  0.929536   O1     1.0000   0.000     1.15360
+          7   457   482    4.0505  0.935012   TAU1   1.0000   0.000     1.15355
+          8   483   512   24.4242  0.966446   NO1    1.0000   0.000     1.15300
+          9   513   530    4.6711  0.971303   CHI1   1.0000   0.000     1.15282
+         10   531   547  144.5014  0.997262   P1     1.0000   0.000     1.14807
+         11   548   551    3.4153  1.000000   S1     1.0000   0.000     1.14464
+         12   552   586  436.7669  1.002738   K1     1.0000   0.000     1.13258
+         13   587   601    4.6704  1.034173   TET1   1.0000   0.000     1.15583
+         14   602   626   24.4235  1.039030   J1     1.0000   0.000     1.15560
+         15   627   641    4.0513  1.070464   SO1    1.0000   0.000     1.15494
+         16   642   664   13.3614  1.075940   OO1    1.0000   0.000     1.15488
+         17   665   731    2.5582  1.112232   NU1    1.0000   0.000     1.15466
+         18   732   786    2.7184  1.828256   EPS2   1.0000   0.000     1.15779
+         19   787   809    9.3231  1.859690   2N2    1.0000   0.000     1.15779
+         20   810   830   11.2513  1.864547   MU2    1.0000   0.000     1.15779
+         21   831   855   70.4549  1.895982   N2     1.0000   0.000     1.15779
+         22   856   880   13.3822  1.900839   NU2    1.0000   0.000     1.15779
+         23   881   936  367.9877  1.932274   M2     1.0000   0.000     1.15779
+         24   937   943    2.7135  1.963708   LAM2   1.0000   0.000     1.15779
+         25   944   975   10.4012  1.968565   L2     1.0000   0.000     1.15779
+         26   976   984   10.0056  1.997262   T2     1.0000   0.000     1.15779
+         27   985   991  171.2072  2.000000   S2     1.0000   0.000     1.15779
+         28   992  1019   46.5338  2.005476   K2     1.0000   0.000     1.15779
+         29  1020  1055    2.6018  2.041767   ETA2   1.0000   0.000     1.15779
+         30  1056  1108    0.6814  2.078678   2K2    1.0000   0.000     1.15779
+         31  1109  1190    5.0626  2.898410   M3     1.0000   0.000     1.06985
+         32  1191  1200    0.0645  3.864547   M4     1.0000   0.000     1.03514
+
+
+
+      Meteorological or hydrological parameters :
+
+      no.   parameter unit
+
+
+        1  air press.            
+
+      Routine GEOEXT. Execution time=     0.232 sec
+
+      Program ANALYZE, version 3.40 970921 Fortran 90.
+
+     ####################################################################
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     ####################################################################
+
+      Summary of observation data :
+
+      Block  From             To               Days     Stdv.  Time lag Bias Used
+                                                      nm/s**2      [s]
+
+           1  20120104 110000  20120314  30000   69.71     1.000     0.000    0    1
+           2  20120418  50000  20120516 130000   28.38     1.000     0.000    0    1
+           3  20120526  30000  20120801 110000   67.38     1.000     0.000    0    1
+           4  20121130  30000  20130115 110000   46.38     1.000     0.000    0    1
+           5  20130127  70000  20130306 110000   38.21     1.000     0.000    0    1
+           6  20130316 160000  20130417 110000   31.83     1.000     0.000    0    1
+           7  20130611 130000  20130704 130000   23.04     1.000     0.000    0    1
+           8  20131223 230000  20140203 110000   41.54     1.000     0.000    0    1
+           9  20140225 130000  20140312 120000   15.00     1.000     0.000    0    1
+          10  20140322  10000  20140331  80000    9.33     1.000     0.000    0    1
+          11  20140410 130000  20140501  90000   20.88     1.000     0.000    0    1
+          12  20140526 150000  20141025  30000  151.54     1.000     0.000    0    1
+          13  20141128  40000  20150517 110000  170.33     1.000     0.000    0    1
+          14  20150527 130000  20150824 100000   88.92     1.000     0.000    0    1
+          15  20150927  40000  20151228 110000   92.33     1.000     0.000    0    1
+
+      Total
+
+          15  20120104 110000  20151228 110000  894.79
+
+      Total number of observations:       42950
+
+
+      Routine GEOEXT. Execution time=     0.233 sec
+
+
+      Routine GEOEXT. Execution time=     0.796 sec
+
+
+      Routine GEOEXT. Execution time=     0.812 sec
+
+
+      Routine GEOEXT. Execution time=     0.812 sec
+
+
+      Standard deviation of weight unit:     2.860
+      Degree of freedom:                     21410
+      Max. correlation:                     -0.264 air press. with Y-wave-S2 
+
+
+
+      Program ANALYZE, version 3.40 970921               File:   ca012_00
+     ####################################################################
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     ####################################################################
+      Latitude: 45.5850 deg, longitude:-75.8071 deg, azimuth:  0.0000 deg.
+      20120104...20151228    15 blocks. Recorded days in total:    894.792
+      Tamura (1987)          TGP, threshold: 0.000D+00      1200 waves.
+      WAHR-DEHANT-ZSCHAU inelastic Earth model used.
+      UNITY window used for least squares adjustment.
+      Sampling interval:     3600. s
+      Numerical filter is no filter    with    1 coefficients.
+
+      Estimation of noise by least squares method.
+      White noise structure assumed.
+
+
+      Adjusted tidal parameters :
+
+                               theor.                       
+      from      to      wave    ampl. ampl.fac.    stdv. ph. lead    stdv.
+      [cpd]     [cpd]     [nm/s**2 ]                        [deg]    [deg]
+
+      0.721499 0.833113 SGQ1   2.2939   1.26423  0.01261   2.5536   0.5716
+      0.851181 0.859691 2Q1    7.8675   1.25801  0.00426   0.8131   0.1943
+      0.860895 0.870024 SGM1   9.4957   1.25081  0.00342   0.1874   0.1565
+      0.887326 0.896130 Q1    59.4599   1.20136  0.00056   0.7280   0.0266
+      0.897806 0.906316 RO1   11.2943   1.18662  0.00287   0.8891   0.1386
+      0.921940 0.930450 O1   310.5569   1.14310  0.00011   0.5530   0.0053
+      0.931963 0.940488 TAU1   4.0505   1.12963  0.00556   1.1364   0.2820
+      0.958085 0.966757 NO1   24.4242   1.10415  0.00105   0.7345   0.0546
+      0.968564 0.974189 CHI1   4.6711   1.07678  0.00692  -0.8163   0.3682
+      0.989048 0.998029 P1   144.5014   1.09239  0.00019   0.5659   0.0102
+      0.999852 1.000148 S1     3.4153   1.29233  0.01188  11.4138   0.5200
+      1.001824 1.013690 K1   436.7669   1.08182  0.00007   0.6120   0.0038
+      1.028549 1.034468 TET1   4.6704   1.12955  0.00679   1.6375   0.3447
+      1.036291 1.044801 J1    24.4235   1.13074  0.00136   0.4917   0.0691
+      1.064840 1.071084 SO1    4.0513   1.13426  0.00840   1.0500   0.4245
+      1.072582 1.080945 OO1   13.3614   1.16627  0.00331   1.0692   0.1625
+      1.099160 1.216398 NU1    2.5582   1.21377  0.01646   0.0971   0.7770
+      1.719380 1.837970 EPS2   2.7184   1.20167  0.00911   0.6125   0.4340
+      1.853919 1.862429 2N2    9.3231   1.20050  0.00312   0.4530   0.1489
+      1.863633 1.872143 MU2   11.2513   1.18734  0.00242   0.4883   0.1166
+      1.888386 1.896749 N2    70.4549   1.19155  0.00040  -0.0389   0.0192
+      1.897953 1.906463 NU2   13.3822   1.19028  0.00202   0.0112   0.0973
+      1.923765 1.942754 M2   367.9877   1.18739  0.00007  -0.4923   0.0035
+      1.958232 1.963709 LAM2   2.7135   1.19766  0.00990  -1.0889   0.4734
+      1.965826 1.976927 L2    10.4012   1.17599  0.00193  -0.3187   0.0942
+      1.991786 1.998288 T2    10.0056   1.21075  0.00279  -1.9359   0.1321
+      1.999705 2.000767 S2   171.2072   1.19148  0.00017  -1.1176   0.0083
+      2.002590 2.013690 K2    46.5338   1.19145  0.00075  -0.9828   0.0363
+      2.031287 2.047391 ETA2   2.6018   1.19072  0.01572   0.5983   0.7563
+      2.067578 2.182844 2K2    0.6814   1.13670  0.05577  -1.4362   2.8103
+      2.753243 3.081255 M3     5.0626   1.08769  0.00495   0.2461   0.2606
+      3.791963 3.937898 M4     0.0645   1.00880  0.37163 -33.1361  21.1086
+
+      Adjusted meteorological or hydrological parameters:
+
+      no. regr.coeff.       stdv.  parameter   unit
+
+        1    -3.60025     0.01871  air press.  nm/s**2 /          
+
+      Adjusted TSCHEBYSCHEFF polynomial bias parameters :
+
+      block    degree        bias                 stdv.
+
+
+
+      Standard deviation of weight unit:     2.860
+      Degree of freedom:                     21410
+      Max. correlation:                     -0.264 air press. with Y-wave-S2 
+
+      Routine GEOEXT. Execution time=     0.812 sec
+
+
+      Maximum residual in block no.          1
+      Date: 2012. 3. 7. 4 IS :     4.437  nm/s**2 
+      RMS residual is        :     1.253  nm/s**2 
+
+
+      Maximum residual in block no.          2
+      Date: 2012. 4.24. 4 IS :     5.339  nm/s**2 
+      RMS residual is        :     2.533  nm/s**2 
+
+
+      Maximum residual in block no.          3
+      Date: 2012. 6. 2. 4 IS :     7.768  nm/s**2 
+      RMS residual is        :     3.796  nm/s**2 
+
+
+      Maximum residual in block no.          4
+      Date: 2013. 1. 7. 4 IS :     9.200  nm/s**2 
+      RMS residual is        :     5.072  nm/s**2 
+
+
+      Maximum residual in block no.          5
+      Date: 2013. 2. 5. 4 IS :    11.553  nm/s**2 
+      RMS residual is        :     1.653  nm/s**2 
+
+
+      Maximum residual in block no.          6
+      Date: 2013. 4.16. 4 IS :     7.659  nm/s**2 
+      RMS residual is        :     2.560  nm/s**2 
+
+      *** large residual at:20130619 110000    17.013
+
+      Maximum residual in block no.          7
+      Date: 2013. 6.19. 4 IS :    17.013  nm/s**2 
+      RMS residual is        :     2.435  nm/s**2 
+
+      *** large residual at:20131230 200000    15.119
+      *** large residual at:20131230 210000    18.630
+      *** large residual at:20131230 220000    21.379
+      *** large residual at:20131230 230000    24.532
+      *** large residual at:20131231      0   -31.595
+      *** large residual at:20131231  10000   -28.266
+      *** large residual at:20131231  20000   -24.748
+      *** large residual at:20131231  30000   -21.062
+      *** large residual at:20131231  40000   -18.475
+      *** large residual at:20131231  50000   -14.351
+
+      Maximum residual in block no.          8
+      Date: 2013.12.31. 4 IS :    31.595  nm/s**2 
+      RMS residual is        :     3.551  nm/s**2 
+
+
+      Maximum residual in block no.          9
+      Date: 2014. 3. 4. 4 IS :     8.083  nm/s**2 
+      RMS residual is        :     2.375  nm/s**2 
+
+      *** large residual at:20140325 170000    14.848
+      *** large residual at:20140325 180000    14.337
+      *** large residual at:20140326      0    14.708
+      *** large residual at:20140326  10000    15.541
+
+      Maximum residual in block no.         10
+      Date: 2014. 3.26. 4 IS :    15.541  nm/s**2 
+      RMS residual is        :     9.050  nm/s**2 
+
+
+      Maximum residual in block no.         11
+      Date: 2014. 4.17. 4 IS :     7.470  nm/s**2 
+      RMS residual is        :     1.799  nm/s**2 
+
+
+      Maximum residual in block no.         12
+      Date: 2014. 9.12. 4 IS :    12.531  nm/s**2 
+      RMS residual is        :     2.428  nm/s**2 
+
+
+      Maximum residual in block no.         13
+      Date: 2015. 5.14. 4 IS :    11.776  nm/s**2 
+      RMS residual is        :     1.825  nm/s**2 
+
+      *** large residual at:20150601 100000    18.792
+      *** large residual at:20150601 110000    15.121
+      *** large residual at:20150816 200000   -15.298
+      *** large residual at:20150816 210000   -14.550
+
+      Maximum residual in block no.         14
+      Date: 2015. 6. 1. 4 IS :    18.792  nm/s**2 
+      RMS residual is        :     2.648  nm/s**2 
+
+      *** large residual at:20151019  40000    14.581
+
+      Maximum residual in block no.         15
+      Date: 2015.10.19. 4 IS :    14.581  nm/s**2 
+      RMS residual is        :     3.178  nm/s**2 
+
+
+      Standard deviation:                    2.860  nm/s**2 
+      Degree of freedom:                     21410
+      Maximum residual:                     31.595  nm/s**2 
+      Maximum correlation:                  -0.264 air press. with Y-wave-S2 
+      Condition number of normal equ.        2.500
+
+      Routine GEOEXT. Execution time=     1.312 sec
+
+      FOURIER-spectrum of residuals
+      amplitudes in nm/s**2 
+      Frequency   +0.00        +0.05        +0.10        +0.15        +0.20
+      [deg/hour]
+
+      0.00     0.086412     0.687700     0.301185     1.010704     0.742430
+      0.25     0.138819     0.602840     0.496149     0.192559     0.172753
+      0.50     0.214333     0.105913     0.234518     0.232801     0.155646
+      0.75     0.146575     0.178769     0.182467     0.138688     0.146226
+      1.00     0.135369     0.125554     0.122535     0.117696     0.130588
+      1.25     0.127883     0.126508     0.127072     0.120278     0.110891
+      1.50     0.104548     0.093883     0.088980     0.085905     0.078249
+      1.75     0.076924     0.072908     0.070213     0.067417     0.064140
+      2.00     0.059817     0.055246     0.051492     0.047581     0.044622
+      2.25     0.041654     0.039842     0.036409     0.032729     0.029632
+      2.50     0.027245     0.023152     0.020505     0.018425     0.015252
+      2.75     0.013668     0.010886     0.009666     0.008116     0.006096
+      3.00     0.004978     0.003792     0.002487     0.001038     0.000115
+      3.25     0.000815     0.001349     0.002226     0.002322     0.002799
+      3.50     0.003487     0.004154     0.004306     0.004546     0.005059
+      3.75     0.004962     0.005244     0.004929     0.004990     0.004891
+      4.00     0.004512     0.004217     0.004258     0.004064     0.003798
+      4.25     0.003402     0.003039     0.002890     0.002215     0.001998
+      4.50     0.001783     0.001485     0.001181     0.001012     0.000778
+      4.75     0.000593     0.000285     0.000453     0.000341     0.000497
+      5.00     0.000696     0.000873     0.000847     0.001640     0.001621
+      5.25     0.001709     0.001505     0.001516     0.001830     0.001501
+      5.50     0.001500     0.002945     0.001193     0.001703     0.002346
+      5.75     0.001991     0.001476     0.001940     0.002237     0.002723
+      6.00     0.003234     0.002407     0.003173     0.001672     0.002360
+      6.25     0.002017     0.000844     0.001014     0.002214     0.001957
+      6.50     0.003375     0.004611     0.001993     0.002462     0.004327
+      6.75     0.001486     0.003110     0.003940     0.002046     0.005555
+      7.00     0.006134     0.005844     0.004573     0.013687     0.008828
+      7.25     0.006609     0.011875     0.006789     0.005671     0.006958
+      7.50     0.008756     0.020962     0.007199     0.015607     0.011799
+      7.75     0.014549     0.035211     0.022009     0.025361     0.018685
+      8.00     0.014006     0.026103     0.007402     0.006903     0.022454
+      8.25     0.020309     0.019992     0.032209     0.014935     0.019750
+      8.50     0.011340     0.032720     0.043134     0.033930     0.026090
+      8.75     0.029936     0.035093     0.030754     0.026075     0.040628
+      9.00     0.031299     0.038579     0.045055     0.028702     0.029045
+      9.25     0.042643     0.038847     0.062796     0.077805     0.094484
+      9.50     0.041271     0.034221     0.037346     0.017155     0.046236
+      9.75     0.047291     0.078939     0.061261     0.022767     0.064027
+     10.00     0.019064     0.023581     0.060345     0.032695     0.077113
+     10.25     0.023197     0.014638     0.102049     0.056967     0.091045
+     10.50     0.064248     0.008043     0.051143     0.059252     0.035538
+     10.75     0.048692     0.083185     0.154501     0.053868     0.094271
+     11.00     0.083113     0.014593     0.073506     0.064772     0.046502
+     11.25     0.159348     0.046871     0.088492     0.038870     0.097506
+     11.50     0.059444     0.032295     0.022288     0.064251     0.063509
+     11.75     0.093127     0.123909     0.041057     0.156202     0.053306
+     12.00     0.097486     0.166414     0.021779     0.119221     0.012475
+     12.25     0.108180     0.102285     0.105044     0.107453     0.130808
+     12.50     0.051997     0.119305     0.033530     0.150739     0.049504
+     12.75     0.066251     0.063382     0.051169     0.056523     0.035561
+     13.00     0.040680     0.152143     0.152977     0.135758     0.150027
+     13.25     0.133960     0.093793     0.053375     0.054331     0.047504
+     13.50     0.080715     0.066821     0.025564     0.080855     0.060527
+     13.75     0.074899     0.113499     0.064505     0.040669     0.054599
+     14.00     0.105013     0.062918     0.081769     0.073702     0.096967
+     14.25     0.108645     0.149985     0.103034     0.151613     0.037914
+     14.50     0.181236     0.142590     0.180407     0.090698     0.212212
+     14.75     0.089164     0.183785     0.061911     0.210961     0.324694
+     15.00     0.106043     0.432197     0.121825     0.219098     0.177679
+     15.25     0.083839     0.173915     0.109966     0.084250     0.081314
+     15.50     0.075580     0.080071     0.152020     0.086374     0.134761
+     15.75     0.119391     0.060563     0.046335     0.103046     0.046150
+     16.00     0.045345     0.066280     0.076635     0.088221     0.065432
+     16.25     0.114886     0.015889     0.044299     0.057175     0.043561
+     16.50     0.014120     0.047077     0.058018     0.012581     0.114639
+     16.75     0.057383     0.109091     0.082414     0.090253     0.013693
+     17.00     0.070500     0.061918     0.021637     0.110752     0.047987
+     17.25     0.038487     0.064226     0.112597     0.097778     0.082668
+     17.50     0.076945     0.071277     0.111638     0.027467     0.131251
+     17.75     0.001136     0.062540     0.094608     0.032927     0.068257
+     18.00     0.078098     0.036631     0.058898     0.050773     0.063096
+     18.25     0.091222     0.034868     0.033453     0.087509     0.021243
+     18.50     0.025179     0.036924     0.075676     0.039012     0.053464
+     18.75     0.058870     0.059198     0.007127     0.042228     0.062698
+     19.00     0.034638     0.011281     0.039655     0.082736     0.085956
+     19.25     0.017282     0.017123     0.037149     0.047335     0.031456
+     19.50     0.043009     0.072799     0.027910     0.081888     0.040185
+     19.75     0.057288     0.055057     0.091204     0.011041     0.092418
+     20.00     0.010021     0.061109     0.008450     0.044468     0.029506
+     20.25     0.059622     0.063025     0.045256     0.059547     0.039047
+     20.50     0.047943     0.020198     0.058981     0.024477     0.034330
+     20.75     0.042185     0.029551     0.015787     0.063397     0.027621
+     21.00     0.057223     0.020376     0.029241     0.016125     0.034876
+     21.25     0.007803     0.014106     0.029809     0.049502     0.067358
+     21.50     0.056290     0.049636     0.036733     0.035926     0.020300
+     21.75     0.045114     0.025682     0.034146     0.012305     0.020129
+     22.00     0.069788     0.017836     0.024414     0.010676     0.034307
+     22.25     0.026961     0.047071     0.047450     0.048978     0.030051
+     22.50     0.071086     0.047495     0.074797     0.058803     0.050748
+     22.75     0.028806     0.026005     0.034450     0.042953     0.022252
+     23.00     0.077407     0.033460     0.028720     0.035482     0.052796
+     23.25     0.045626     0.020079     0.041755     0.045989     0.043217
+     23.50     0.043767     0.023252     0.034081     0.046598     0.013969
+     23.75     0.038905     0.025945     0.021163     0.010133     0.022271
+     24.00     0.002707     0.038408     0.065583     0.066701     0.014203
+     24.25     0.070160     0.029971     0.012926     0.046982     0.037214
+     24.50     0.049081     0.015825     0.040594     0.019686     0.024748
+     24.75     0.004955     0.014871     0.032941     0.023816     0.016946
+     25.00     0.011261     0.021141     0.042481     0.048342     0.050745
+     25.25     0.008086     0.009377     0.023465     0.034065     0.038088
+     25.50     0.008251     0.021914     0.023036     0.019820     0.049877
+     25.75     0.028143     0.065954     0.036628     0.084143     0.029064
+     26.00     0.006922     0.029968     0.035040     0.025142     0.014675
+     26.25     0.043215     0.031432     0.019010     0.060964     0.033221
+     26.50     0.010901     0.010199     0.040335     0.009184     0.014065
+     26.75     0.020268     0.019876     0.023592     0.010746     0.058701
+     27.00     0.021600     0.091279     0.049779     0.027758     0.033564
+     27.25     0.029676     0.021477     0.031272     0.008796     0.024138
+     27.50     0.044215     0.047122     0.036570     0.072632     0.021059
+     27.75     0.051492     0.031592     0.057614     0.029534     0.056601
+     28.00     0.031011     0.050007     0.072974     0.023779     0.047740
+     28.25     0.049201     0.036138     0.067728     0.123919     0.074752
+     28.50     0.041722     0.052015     0.025394     0.011459     0.051974
+     28.75     0.031692     0.016186     0.055949     0.062076     0.060371
+     29.00     0.017156     0.082381     0.014762     0.082893     0.040879
+     29.25     0.004387     0.036418     0.049593     0.055971     0.063024
+     29.50     0.054703     0.066841     0.070177     0.095753     0.051787
+     29.75     0.059784     0.089709     0.038427     0.148542     0.084672
+     30.00     0.045897     0.139584     0.031972     0.040973     0.099407
+     30.25     0.054748     0.078826     0.077127     0.088161     0.052477
+     30.50     0.054501     0.047382     0.035377     0.042447     0.030826
+     30.75     0.064442     0.035361     0.050474     0.025559     0.007149
+     31.00     0.009556     0.027609     0.044364     0.042145     0.032104
+     31.25     0.027320     0.025773     0.027542     0.022408     0.036265
+     31.50     0.005360     0.008172     0.016892     0.049387     0.050376
+     31.75     0.048355     0.025192     0.007824     0.034969     0.069416
+     32.00     0.037978     0.022424     0.028096     0.030309     0.016591
+     32.25     0.042290     0.005392     0.044238     0.048774     0.032662
+     32.50     0.065149     0.062679     0.021985     0.025138     0.012203
+     32.75     0.048948     0.018391     0.017012     0.015670     0.004298
+     33.00     0.003103     0.018551     0.039085     0.043182     0.035374
+     33.25     0.023705     0.022351     0.017689     0.018687     0.024273
+     33.50     0.033406     0.037944     0.038535     0.030000     0.036842
+     33.75     0.053939     0.010112     0.051455     0.028464     0.029351
+     34.00     0.017185     0.013360     0.028002     0.040915     0.052006
+     34.25     0.021622     0.022132     0.017003     0.035977     0.033093
+     34.50     0.027626     0.040173     0.052866     0.048744     0.014660
+     34.75     0.025854     0.020622     0.041167     0.058711     0.046187
+     35.00     0.008469     0.028810     0.038936     0.024147     0.017053
+     35.25     0.022638     0.056044     0.010439     0.017848     0.012325
+     35.50     0.035209     0.029892     0.016296     0.021327     0.033306
+     35.75     0.012450     0.015039     0.011011     0.010755     0.021555
+     36.00     0.020535     0.022262     0.045785     0.012908     0.038377
+     36.25     0.024180     0.020095     0.038648     0.029034     0.004332
+     36.50     0.011039     0.034368     0.004171     0.015442     0.013375
+     36.75     0.047192     0.029543     0.007265     0.007533     0.031077
+     37.00     0.015213     0.031824     0.014370     0.018711     0.016623
+     37.25     0.015691     0.037779     0.026859     0.020650     0.029365
+     37.50     0.046029     0.013219     0.037979     0.038348     0.015252
+     37.75     0.023488     0.017620     0.030150     0.018693     0.026250
+     38.00     0.008497     0.032640     0.002253     0.036512     0.023154
+     38.25     0.027581     0.025860     0.019978     0.021594     0.013986
+     38.50     0.012062     0.001352     0.019509     0.017916     0.025495
+     38.75     0.028978     0.050612     0.004844     0.015956     0.004929
+     39.00     0.014692     0.032547     0.025720     0.033993     0.039289
+     39.25     0.029166     0.042665     0.013790     0.026703     0.057543
+     39.50     0.026168     0.016043     0.019099     0.018851     0.028753
+     39.75     0.036196     0.019386     0.036202     0.029059     0.014967
+     40.00     0.011449     0.011813     0.026822     0.016594     0.021692
+     40.25     0.011585     0.020147     0.009295     0.028942     0.012309
+     40.50     0.020984     0.037201     0.008569     0.022037     0.015700
+     40.75     0.002810     0.063018     0.019857     0.014149     0.018535
+     41.00     0.008084     0.038602     0.035186     0.025744     0.022054
+     41.25     0.026828     0.013860     0.017544     0.030001     0.015794
+     41.50     0.039666     0.010637     0.025712     0.023549     0.022882
+     41.75     0.032770     0.009718     0.017840     0.022489     0.014381
+     42.00     0.023699     0.026788     0.026837     0.030247     0.031557
+     42.25     0.011580     0.011375     0.020383     0.020555     0.017601
+     42.50     0.011375     0.014376     0.019971     0.037161     0.014615
+     42.75     0.045724     0.001634     0.021566     0.015393     0.054689
+     43.00     0.036115     0.020367     0.017851     0.016617     0.017812
+     43.25     0.025451     0.044245     0.045724     0.012436     0.055564
+     43.50     0.018449     0.016457     0.036147     0.031379     0.033552
+     43.75     0.013736     0.011249     0.013561     0.015750     0.016330
+     44.00     0.019303     0.008181     0.024182     0.017111     0.018253
+     44.25     0.010268     0.036994     0.010600     0.028167     0.016144
+     44.50     0.018909     0.018177     0.008574     0.036704     0.031595
+     44.75     0.013036     0.028889     0.036444     0.094229     0.010751
+     45.00     0.143657     0.019996     0.060800     0.018773     0.030810
+     45.25     0.035288     0.034520     0.059345     0.010929     0.016021
+     45.50     0.039182     0.016038     0.019861     0.037026     0.022669
+     45.75     0.038063     0.022992     0.037297     0.022979     0.014671
+     46.00     0.027643     0.019853     0.020319     0.030280     0.015751
+     46.25     0.024851     0.022207     0.024049     0.034897     0.039217
+     46.50     0.019957     0.024081     0.020826     0.025439     0.024416
+     46.75     0.053239     0.010489     0.037386     0.018892     0.021237
+     47.00     0.027644     0.012930     0.011008     0.030182     0.053881
+     47.25     0.007505     0.043414     0.019515     0.016822     0.026649
+     47.50     0.029492     0.002065     0.005171     0.024375     0.032875
+     47.75     0.029891     0.030618     0.056823     0.028081     0.074824
+     48.00     0.031211     0.026492     0.028699     0.012063     0.020242
+     48.25     0.025647     0.022575     0.018252     0.009657     0.006687
+     48.50     0.022473     0.014841     0.040828     0.040467     0.040473
+     48.75     0.014402     0.037590     0.032637     0.009972     0.005973
+     49.00     0.042406     0.010747     0.025699     0.028551     0.010707
+     49.25     0.054049     0.039288     0.038063     0.062251     0.012879
+     49.50     0.032997     0.017499     0.012254     0.021487     0.009654
+     49.75     0.024191     0.020083     0.012487     0.021039     0.033122
+     50.00     0.014250     0.026194     0.011728     0.011374     0.011808
+     50.25     0.008591     0.009756     0.009847     0.005085     0.012131
+     50.50     0.011647     0.014174     0.030001     0.015610     0.025530
+     50.75     0.012545     0.019482     0.031792     0.022733     0.016920
+     51.00     0.002463     0.014178     0.015595     0.011735     0.003186
+     51.25     0.010867     0.015034     0.015437     0.029024     0.033053
+     51.50     0.014308     0.015769     0.040367     0.028502     0.021056
+     51.75     0.033820     0.023554     0.009569     0.011787     0.008600
+     52.00     0.012609     0.018892     0.036604     0.034482     0.028268
+     52.25     0.009659     0.003081     0.011362     0.021593     0.012766
+     52.50     0.013389     0.019894     0.019987     0.022090     0.012717
+     52.75     0.025289     0.007987     0.037791     0.022352     0.010066
+     53.00     0.019166     0.019163     0.009601     0.014020     0.007613
+     53.25     0.018498     0.021563     0.009711     0.028998     0.021953
+     53.50     0.001772     0.010997     0.005339     0.024728     0.007277
+     53.75     0.017306     0.012097     0.012087     0.015591     0.022236
+     54.00     0.015597     0.018126     0.009395     0.025929     0.008664
+     54.25     0.027904     0.042027     0.013240     0.010936     0.022802
+     54.50     0.009676     0.023808     0.033693     0.014953     0.030395
+     54.75     0.019249     0.010536     0.023880     0.007672     0.009195
+     55.00     0.021442     0.018748     0.016155     0.005431     0.008143
+     55.25     0.015755     0.033692     0.016356     0.013751     0.013344
+     55.50     0.022193     0.030937     0.018347     0.030733     0.010973
+     55.75     0.031123     0.010625     0.005375     0.010135     0.013681
+     56.00     0.012947     0.008742     0.028017     0.019225     0.018324
+     56.25     0.035536     0.022598     0.015172     0.026905     0.032969
+     56.50     0.021677     0.030791     0.008438     0.018109     0.017036
+     56.75     0.017458     0.020182     0.019406     0.026280     0.050302
+     57.00     0.004237     0.005969     0.012094     0.012281     0.015668
+     57.25     0.008548     0.016850     0.009219     0.020569     0.013370
+     57.50     0.009955     0.021958     0.009959     0.017522     0.014557
+     57.75     0.015290     0.007799     0.006252     0.010738     0.022010
+     58.00     0.021956     0.021004     0.015381     0.021388     0.010929
+     58.25     0.019063     0.020604     0.036168     0.039843     0.007016
+     58.50     0.012509     0.017939     0.002155     0.019622     0.018175
+     58.75     0.017723     0.000970     0.016739     0.007881     0.013955
+     59.00     0.034977     0.009589     0.032349     0.015961     0.006310
+     59.25     0.024612     0.029948     0.034637     0.019862     0.014815
+     59.50     0.030483     0.008875     0.004812     0.036377     0.029819
+     59.75     0.013820     0.033319     0.031824     0.034381     0.010025
+     60.00     0.013122     0.033076     0.009246     0.016214     0.015857
+     60.25     0.022761     0.028207     0.030391     0.026822     0.009723
+     60.50     0.033468     0.022497     0.011961     0.012875     0.017707
+     60.75     0.017708     0.020225     0.003705     0.011866     0.005411
+     61.00     0.018463     0.020378     0.013654     0.021876     0.013676
+     61.25     0.016941     0.028362     0.013762     0.015510     0.011353
+     61.50     0.016672     0.011437     0.011548     0.012966     0.031885
+     61.75     0.011700     0.016658     0.012015     0.014555     0.030762
+     62.00     0.008807     0.007641     0.014037     0.027749     0.011700
+     62.25     0.026402     0.026418     0.022946     0.013475     0.028537
+     62.50     0.028231     0.030614     0.019188     0.004269     0.019705
+     62.75     0.005998     0.018790     0.032561     0.003149     0.005340
+     63.00     0.007682     0.016604     0.026765     0.012577     0.026176
+     63.25     0.020190     0.012843     0.016600     0.009423     0.008710
+     63.50     0.016037     0.012174     0.027692     0.007209     0.013896
+     63.75     0.012578     0.021441     0.012513     0.010973     0.016355
+     64.00     0.025836     0.015490     0.005279     0.004878     0.010212
+     64.25     0.006882     0.001053     0.006322     0.011340     0.011440
+     64.50     0.018591     0.004818     0.004208     0.044992     0.016970
+     64.75     0.005549     0.015156     0.035698     0.016891     0.015861
+
+      Routine GEOEXT. Execution time=     1.447 sec
+
+
+
+
+      Program ANALYZE, version 3.40 970921               File:   ca012_00
+     ####################################################################
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     #                                                                  #
+     ####################################################################
+      Latitude: 45.5850 deg, longitude:-75.8071 deg, azimuth:  0.0000 deg.
+      20120104...20151228    15 blocks. Recorded days in total:    894.792
+      Tamura (1987)          TGP, threshold: 0.000D+00      1200 waves.
+      WAHR-DEHANT-ZSCHAU inelastic Earth model used.
+      UNITY window used for least squares adjustment.
+      Sampling interval:     3600. s
+      Numerical filter is no filter    with    1 coefficients.
+
+      Average noise level at frequency bands in nm/s**2 
+      0.1 cpd   0.074304      1.0 cpd   0.092481        2.0 cpd   0.043222
+      3.0 cpd   0.026448      4.0 cpd   0.017730    white noise   0.034588
+
+      adjusted tidal parameters :
+
+                               theor.                   
+      from      to      wave    ampl. ampl.fac.    stdv. ph. lead    stdv.
+      [cpd]     [cpd]     [nm/s**2 ]                        [deg]    [deg]
+
+      0.721499 0.833113 SGQ1   2.2939   1.26423  0.03373   2.5536   1.5285
+      0.851181 0.859691 2Q1    7.8675   1.25801  0.01140   0.8131   0.5196
+      0.860895 0.870024 SGM1   9.4957   1.25081  0.00913   0.1874   0.4185
+      0.887326 0.896130 Q1    59.4599   1.20136  0.00149   0.7280   0.0710
+      0.897806 0.906316 RO1   11.2943   1.18662  0.00768   0.8891   0.3706
+      0.921940 0.930450 O1   310.5569   1.14310  0.00028   0.5530   0.0142
+      0.931963 0.940488 TAU1   4.0505   1.12963  0.01487   1.1364   0.7541
+      0.958085 0.966757 NO1   24.4242   1.10415  0.00281   0.7345   0.1459
+      0.968564 0.974189 CHI1   4.6711   1.07678  0.01851  -0.8163   0.9845
+      0.989048 0.998029 P1   144.5014   1.09239  0.00052   0.5659   0.0272
+      0.999852 1.000148 S1     3.4153   1.29233  0.03177  11.4138   1.3904
+      1.001824 1.013690 K1   436.7669   1.08182  0.00019   0.6120   0.0101
+      1.028549 1.034468 TET1   4.6704   1.12955  0.01817   1.6375   0.9216
+      1.036291 1.044801 J1    24.4235   1.13074  0.00364   0.4917   0.1847
+      1.064840 1.071084 SO1    4.0513   1.13426  0.02246   1.0500   1.1349
+      1.072582 1.080945 OO1   13.3614   1.16627  0.00885   1.0692   0.4344
+      1.099160 1.216398 NU1    2.5582   1.21377  0.04402   0.0971   2.0775
+      1.719380 1.837970 EPS2   2.7184   1.20167  0.01138   0.6125   0.5423
+      1.853919 1.862429 2N2    9.3231   1.20050  0.00390   0.4530   0.1860
+      1.863633 1.872143 MU2   11.2513   1.18734  0.00302   0.4883   0.1458
+      1.888386 1.896749 N2    70.4549   1.19155  0.00050  -0.0389   0.0240
+      1.897953 1.906463 NU2   13.3822   1.19028  0.00253   0.0112   0.1216
+      1.923765 1.942754 M2   367.9877   1.18739  0.00009  -0.4923   0.0044
+      1.958232 1.963709 LAM2   2.7135   1.19766  0.01237  -1.0889   0.5916
+      1.965826 1.976927 L2    10.4012   1.17599  0.00242  -0.3187   0.1178
+      1.991786 1.998288 T2    10.0056   1.21075  0.00349  -1.9359   0.1651
+      1.999705 2.000767 S2   171.2072   1.19148  0.00021  -1.1176   0.0103
+      2.002590 2.013690 K2    46.5338   1.19145  0.00094  -0.9828   0.0453
+      2.031287 2.047391 ETA2   2.6018   1.19072  0.01964   0.5983   0.9451
+      2.067578 2.182844 2K2    0.6814   1.13670  0.06969  -1.4362   3.5119
+      2.753243 3.081255 M3     5.0626   1.08769  0.00378   0.2461   0.1993
+      3.791963 3.937898 M4     0.0645   1.00880  0.19050 -33.1361  10.8206
+
+      Adjusted meteorological or hydrological parameters:
+
+      no. regr.coeff.       stdv.  parameter   unit
+
+        1    -3.60025     0.01871  air press.  nm/s**2 /          
+
+      Adjusted TSCHEBYSCHEFF polynomial bias parameters :
+
+      block    degree        bias                 stdv.
+
+
+
+      Standard deviation:                    2.860  nm/s**2 
+      Degree of freedom:                     21410
+      Maximum residual:                     31.595  nm/s**2 
+      Maximum correlation:                  -0.264 air press. with Y-wave-S2 
+      Condition number of normal equ.        2.500
+
+      Routine GEOEXT. Execution time=     1.447 sec
+

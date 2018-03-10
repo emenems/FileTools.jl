@@ -15,6 +15,7 @@ include("baytapfile.jl")
 include("igetsfile.jl")
 include("otherfile.jl")
 include("dwdfile.jl")
+include("tidefile.jl")
 
 export readtsf, writetsf, loadascii, writeascii, readcampbell
 export readdygraphs, writedygraphs
@@ -26,5 +27,6 @@ export writeatmosph, writeprofile1d, readhydrus1d_obsnode, readhydrus1d_nodinf, 
 export writebaytap, baytap2tsoft
 export igetsimport, igetsexport
 export dwdclimateraw
+export vav2tsoft, eterna2tsoft
 
 end #module

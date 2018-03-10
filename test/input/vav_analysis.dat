@@ -1,0 +1,267 @@
+>start of the program VAV/2006 08.03.2018, 12h 52m 52sec
+
+>selected data file:  \vav06\data\ca012_00\ca012_00.dat 
+> with control file:  \vav06\data\ca012_00\ca012_00.ini 
+>  output folder(a):  \vav06\data\ca012_00\results_a\
+>  output folder(b):  \vav06\data\ca012_00\results_b\
+input_controld: 00
+>input from cwords.inp, time:   0.000 sec.
+>end input from cwords.inp, time:   0.010 sec.
+
+>start control data from file  all_ini.inp: 
+--------------------------------------------------
+--------------------------------------------------
+>start control data from file \vav06\data\ca012_00\ca012_00.ini                                               
+--------------------------------------------------
+>ST-LONG-E: -75.8071                      
+>ST-LATIT-N: 45.5850                       
+>ST-ALTIT-METERS: 269.00                        
+>ST-NAME: CA012                         
+>F-T-WINDOW: 24                            
+>F-K-DRIFT-POLYN: 0                             
+>F-HIGHEST-FREQ: 4                             
+ 4                                                                                                                                 
+                                         
+>D-TIDAL-CHANNEL: 1                             
+>D-NM-INPUT-CHANNELS: 2                             
+>D-MAX-NM-DATA: 34978                         
+>D-STEP-MEAN-(MINUTES): 60                            
+>OUT-HR-RESIDUALS: YES                           
+>MCH-MODEL: 1                             
+>MCH-CHANNEL: 2                             
+--------------------------------------------------
+>end control data from file \vav06\data\ca012_00\ca012_00.ini                                               
+--------------------------------------------------
+>end of the control data input
+
+>start data input, time:   0.010 sec.
+>input formatted data file: \vav06\data\ca012_00\ca012_00.dat 
+>output file: \vav06\data\ca012_00\results_b\vav_out.dat                                      
+>end formatted data input, time:   0.190 sec.
+>output UNformatted data file: \vav06\data\ca012_00\ca012_00.unf 
+>end UNformatted output, time:   0.190 sec.
+
+information about the data
+within the blocks are situated the data without gaps
+and the gaps are between the blocks
+
+blocks   from      till    gap          from            till      time windows
+ nr      hour      hour                 date            date       from  till
+  1       0.0    1659.0       0.0   2012.01.05.00   2012.03.14.03     1    70
+  2    2501.0    3181.0     842.0   2012.04.18.05   2012.05.16.13    71    99
+  3    3411.0    5027.0     230.0   2012.05.26.03   2012.08.01.11   100   167
+  4    7923.0    9035.0    2896.0   2012.11.30.03   2013.01.15.11   168   214
+  5    9319.0   10235.0     284.0   2013.01.27.07   2013.03.06.11   215   253
+  6   10480.0   11243.0     245.0   2013.03.16.16   2013.04.17.11   254   285
+  7   12565.0   13117.0    1322.0   2013.06.11.13   2013.07.04.13   286   309
+  8   17255.0   18251.0    4138.0   2013.12.23.23   2014.02.03.11   310   351
+  9   18781.0   19140.0     530.0   2014.02.25.13   2014.03.12.12   352   366
+ 10   19369.0   19592.0     229.0   2014.03.22.01   2014.03.31.08   367   376
+ 11   19837.0   20337.0     245.0   2014.04.10.13   2014.05.01.09   377   397
+ 12   20943.0   24579.0     606.0   2014.05.26.15   2014.10.25.03   398   549
+ 13   25396.0   29483.0     817.0   2014.11.28.04   2015.05.17.11   550   720
+ 14   29725.0   31858.0     242.0   2015.05.27.13   2015.08.24.10   721   809
+ 15   32668.0   34883.0     810.0   2015.09.27.04   2015.12.28.11   810   902
+
+    number of filtered time windows:   902
+ minimum length of the time windows:    24.0000
+ maximum length of the time windows:    24.0000
+minimum number data in time windows:    24
+maximum number data in time windows:    24
+  number evenly spaced time windows:   902
+           mean time step (minutes):    60.0000
+
+>start of the analysis, time:   0.200 sec.
+
+>start creating observational and normal equations, time:   0.240 sec.
+>start solving normal equations, time:   1.010 sec.
+>end solving normal equations, time:   1.010 sec.
+Station and data name:
+
+CA012                                                                           
+ 
+Program VAV, version 2006
+ 
+Geophysical Institute, Bulgarian Academy of Sciences
+Instituto de Astronomia y Geodesia (C.S.I.C. - U.C.M.), Madrid
+ 
+References about the program VAV:
+ 
+Venedikov, A., Arnoso, J., Vieira, R., 2001. 
+Program VAV/2000 for tidal analysis of unevenly spaced 
+data with irregular drift and colored noise. 
+Journal Geodetic Society Japan, 47,1,281-286
+ 
+Venedikov, A., Arnoso, J., Vieira, R., 2003.
+VAV: A program for tidal data processing.
+Computers & Geosciences, 29, 487-502
+ 
+time window: 24 hours = length of the filters
+power of the drift polynomials in a window: 0
+mean time lag/step:   60.00 minuts
+time lag accepted as no gap in a window:     60.0 minutes
+orthogonal filters (inverse triangular matrix)
+
+development of the tide generating potential of Tamura
+data used:  931.1 days,  21648 readings,   902 intervals   15 blocks:
+     2012.01.05.00.00.00 - 2012.03.14.03.00.00
+     2012.04.18.05.00.00 - 2012.05.16.13.00.00
+     2012.05.26.03.00.00 - 2012.08.01.11.00.00
+     2012.11.30.03.00.00 - 2013.01.15.11.00.00
+     2013.01.27.07.00.00 - 2013.03.06.11.00.00
+     2013.03.16.16.00.00 - 2013.04.17.11.00.00
+     2013.06.11.13.00.00 - 2013.07.04.13.00.00
+     2013.12.23.23.00.00 - 2014.02.03.11.00.00
+     2014.02.25.13.00.00 - 2014.03.12.12.00.00
+     2014.03.22.01.00.00 - 2014.03.31.08.00.00
+     2014.04.10.13.00.00 - 2014.05.01.09.00.00
+     2014.05.26.15.00.00 - 2014.10.25.03.00.00
+     2014.11.28.04.00.00 - 2015.05.17.11.00.00
+     2015.05.27.13.00.00 - 2015.08.24.10.00.00
+     2015.09.27.04.00.00 - 2015.12.28.11.00.00
+analysis performed on 08.03.2018, 12h 52m 53sec
+
+>start residuals filtered numbers, time:   1.010 sec.
+output of the residuals in file:
+\vav06\data\ca012_00\results_b\residfn_00.dat
+ 
+frequency dependent sum of squares of residuals:
+ 
+freq_deg = main or basic frequency in degrees/hour
+freq_cpd = main or basic frequency in cycles/day
+nmdata = number of the data or residuals at the frequency freq
+nm_unkn = number of tidal & regression unknowns
+DFR = degrees of freedom
+SSQ = sum of squares of residuals
+ 
+  freq_deg freq_cpd    nmdata  nm_unkn     DFR         SSQ
+    15.000  1.0000      1804      53      1751      47816.31
+    30.000  2.0000      1804      51      1753      14841.00
+    45.000  3.0000      1804       5      1799       5937.11
+    60.000  4.0000      1804       5      1799       3511.68
+
+end frequency dependent sum of squares of residuals
+
+Frequency dependent MSD (mean square deviations) in data units          
+
+frequency = main or basic frequency in cycles/day
+DFR = degrees of freedom at the corresponding frequency
+nm_unkn = number of tidal & regression unknowns 
+MSD_at_CLN = frequency dependent mean square deviation
+             i.e. MSD under the assumption of colored noise
+MSD_at_WN = MSD under thr assumption of white noise
+CLN/WN = ratio MSD colored noise / MSD white noise
+AIC = Akaike criterion at the corresponding frequency
+ 
+frequency      DFR   nm_unkn MSD_at_CLN  MSD_at_WN CLN/WN     AIC
+  1.0000      1751      53      5.226      3.186   1.6400    11194.
+  2.0000      1753      51      2.910      3.186   0.9132     9077.
+  3.0000      1799       5      1.817      3.186   0.5701     7285.
+  4.0000      1799       5      1.397      3.186   0.4385     6338.
+
+MSD under the assumption of white noise =     3.186 data units          
+global criterion AIC (Akaike):    37433., iteration: 00
+output in file:
+\vav06\data\ca012_00\results_b\residfn_00.dat
+
+Multi-channel (MCH) analysis:
+frequency dependent regression coefficients       
+
+regression on channel 02
+unit: data units / data units          
+
+ freq_cpd  b1-coeff.  MSD(b1)                                                  
+    1.000   -3.6030    0.0392
+    2.000   -3.6965    0.0676
+    3.000   -3.4633    0.0651
+    4.000   -3.7108    0.0772
+ iteration nr:  0, eliminated data:  0.0%, number observ. equations:   7216
+
+ VAV/2006 analysis results
+ amplitudes in data units, phases in degrees of arc
+ ------------------------------------------------------------------------------
+          TIDAL GROUP                     ANALYSIS RESULTS
+ frequency interval numb name    main             amplit.         phase
+    (cycles/day)   tides  of    observed MSD of   factor  MSD of   lag   MSD of
+                         group  amplit H   H      delta   delta   kappa  kappa
+     (1)      (2)   (3)   (4)     (5)     (6)      (7)     (8)     (9)    (10)
+ ------------------------------------------------------------------------------
+  results at filter frequency  1.000 cpd with MSD of unit weight =   5.23
+ ------------------------------------------------------------------------------
+  0.00015 : 0.24995 279   MF     0.2160  0.5403  0.00638 0.01596 153.469142.212
+  0.72150 : 0.83311  49   SGQ1   2.8894  0.0542  1.25964 0.02362   2.520  1.074
+  0.85118 : 0.85969  23   2Q1    9.9029  0.0622  1.25875 0.00791   0.823  0.360
+  0.86090 : 0.89233  31   SGM1  11.8785  0.0600  1.25096 0.00631   0.260  0.289
+  0.89264 : 0.89295   5   3MK1   2.5689  0.1057  1.36130 0.05602   1.658  2.356
+  0.89310 : 0.89613  17   Q1    71.5896  0.0838  1.20402 0.00141   0.701  0.067
+  0.89781 : 0.90631  18   RO1   13.4097  0.0600  1.18733 0.00531   0.768  0.256
+  0.92194 : 0.93045  32   O1   355.0115  0.0613  1.14317 0.00020   0.553  0.010
+  0.93196 : 0.94049  26   TAU1   4.5732  0.0412  1.12907 0.01018   1.220  0.517
+  0.95809 : 0.96386  14   NTAU   2.5614  0.0646  1.11772 0.02818   4.098  1.447
+  0.96553 : 0.96583   3   LK1    9.8691  0.1516  1.12393 0.01726  -1.342  0.880
+  0.96584 : 0.96628   6   3M1    6.4383  0.1469  1.08940 0.02486  -3.051  1.307
+  0.96630 : 0.96676   7   NO1   27.3079  0.1498  1.11809 0.00613   1.237  0.314
+  0.96857 : 0.97419  18   CHI1   5.0379  0.0619  1.07853 0.01325  -0.755  0.704
+  0.98905 : 0.99514   7   PI1    9.3837  0.0518  1.11100 0.00614   2.141  0.316
+  0.99697 : 0.99803  10   P1   157.7995  0.0522  1.09205 0.00036   0.556  0.019
+  0.99985 : 1.00015   4   S1     4.3954  0.0767  1.28715 0.02247  12.379  1.000
+  1.00182 : 1.00365  18   K1   472.4756  0.0586  1.08178 0.00013   0.609  0.007
+  1.00533 : 1.00562   4   PSI1   4.0039  0.0530  1.17240 0.01551  -5.128  0.758
+  1.00759 : 1.01369  13   PHI1   6.5875  0.0510  1.05942 0.00820   1.472  0.443
+  1.02855 : 1.03447  15   TET1   5.2748  0.0583  1.12942 0.01248   1.641  0.633
+  1.03629 : 1.03919  11   J1    27.7142  0.0936  1.13476 0.00383   0.374  0.193
+  1.03932 : 1.03965   6   3MO1   2.6191  0.1284  1.21717 0.05967  -3.321  2.811
+  1.03980 : 1.07108  23   SO1    4.5958  0.0631  1.13444 0.01556   0.910  0.788
+  1.07258 : 1.08094  23   OO1   15.5874  0.0817  1.16668 0.00612   1.085  0.300
+  1.09916 : 1.21640  67   NU1    3.1042  0.0773  1.21350 0.03023   0.064  1.427
+ ------------------------------------------------------------------------------
+  results at filter frequency  2.000 cpd with MSD of unit weight =   2.91
+ ------------------------------------------------------------------------------
+  1.71938 : 1.82340  36   3N2    1.2417  0.0267  1.18366 0.02548   1.633  1.233
+  1.82552 : 1.85695  25   EPS2   3.2759  0.0281  1.20508 0.01032   0.285  0.491
+  1.85878 : 1.85938   7   3MJ2   1.9086  0.0484  1.17511 0.02978   3.157  1.451
+  1.85954 : 1.86243  10   2N2   11.2009  0.0394  1.20141 0.00422   0.713  0.201
+  1.86363 : 1.89507  33   MU2   13.3584  0.0279  1.18728 0.00248   0.502  0.120
+  1.89536 : 1.89569   6   3MK2   6.7734  0.0462  1.14469 0.00781   0.474  0.391
+  1.89583 : 1.89675   7   N2    83.8416  0.0386  1.19000 0.00055   0.054  0.026
+  1.89795 : 1.90646  25   NU2   15.9159  0.0277  1.18933 0.00207   0.086  0.100
+  1.92377 : 1.92742   9   GAM2   1.3330  0.0278  1.20591 0.02513  -1.755  1.194
+  1.92939 : 1.93015   4   ALF2   1.4269  0.0296  1.12808 0.02336  -6.234  1.186
+  1.93136 : 1.93319  19   M2   436.8942  0.0290  1.18725 0.00008  -0.491  0.004
+  1.93439 : 1.93532   8   BET2   1.3185  0.0290  1.18420 0.02606  -3.570  1.261
+  1.93698 : 1.94275  16   DEL2   0.4709  0.0171  1.09013 0.03970   3.836  2.087
+  1.95823 : 1.96371   7   LAM2   3.2716  0.0282  1.20565 0.01038  -1.226  0.493
+  1.96583 : 1.96857   9   L2    12.1905  0.0582  1.17202 0.00559  -0.752  0.273
+  1.96873 : 1.96917   6   3MO2   6.5587  0.0894  1.20149 0.01637  -0.047  0.781
+  1.96918 : 1.97693  17   KNO2   3.0455  0.0835  1.17100 0.03209   2.445  1.569
+  1.99179 : 1.99829   9   T2    12.0824  0.0290  1.20768 0.00290  -1.906  0.137
+  1.99971 : 2.00077   7   S2   203.9485  0.0299  1.19123 0.00017  -1.132  0.011
+  2.00259 : 2.00303   5   R2     1.6025  0.0243  1.11902 0.01698   2.844  0.868
+  2.00471 : 2.00517   4   3MQ2   0.4464  0.0380  1.50097 0.12764   6.984  4.871
+  2.00531 : 2.01369  19   K2    55.3097  0.0507  1.18864 0.00109  -1.001  0.052
+  2.03129 : 2.04739  36   ETA2   3.0983  0.0416  1.19091 0.01598   0.262  0.769
+  2.06758 : 2.07366  12   2S2    0.5056  0.0414  1.17067 0.09578   2.234  4.688
+  2.07594 : 2.18284  41   2K2    0.7697  0.0476  1.12956 0.06980  -3.359  3.540
+ ------------------------------------------------------------------------------
+  results at filter frequency  3.000 cpd with MSD of unit weight =   1.82
+ ------------------------------------------------------------------------------
+  2.75324 : 3.08125  81   M3     5.5066  0.0159  1.08769 0.00314   0.230  0.166
+  3.00000 : 3.00000   1   S3     0.0971  0.0178  16.2811  2.9760 -58.454 10.360
+ ------------------------------------------------------------------------------
+  results at filter frequency  4.000 cpd with MSD of unit weight =   1.40
+ ------------------------------------------------------------------------------
+  3.79196 : 3.93790  10   M4     0.0632  0.0118  0.97896 0.18342 -32.630 10.738
+  4.00000 : 4.00000   1   S4     0.0052  0.0134                  141.071147.792
+ ------------------------------------------------------------------------------
+>start data residuals, time:   1.060 sec.
+ <resid.ready   200 intervals of   902 time:   1.250
+ <resid.ready   400 intervals of   902 time:   1.410
+ <resid.ready   600 intervals of   902 time:   1.600
+ <resid.ready   800 intervals of   902 time:   1.770
+ <resid.ready   902 intervals of   902 time:   1.850
+ nr_resid:     0
+ drift_last:          1.6642
+>end data residuals, time:   1.870 sec.
+>Normal end of the program VAV/2006
+ 08.03.2018, 12h 52m 54sec
+ stop execution, time used:          1.8700

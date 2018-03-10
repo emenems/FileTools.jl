@@ -1,0 +1,247 @@
+ kind    1  1
+ span    5  34968
+ shift   1  0
+ ipoten  1  2
+ dmin    6  0.50d0
+ lpout   1  0
+ filout  1  1
+ lagp    1  0
+ timsys  5  0.0d0
+ maxjmp  1  0
+ igrp    1  5
+ year    4  2012
+ mon     2  01
+ day     2  05
+ hr      2  00
+ min     2  00
+ sec     2  00
+ ndata   5  34968
+ delta   3  1.0
+ inform  1  1
+ rlim    4  9999
+ spectw  1  0
+ Analysis using Baytap08, Version 1.9.2 which is 
+  from NAO Mizusawa (mod by IGPP/Scripps/UC San Diego)             
+  and which was run on  Tue Mar  6 16:20:27 2018
+
+   Arrays dimensioned:
+
+    maxh2  =  7500000 maxdc  =   320000 maxout =   100000 maxgrp =       31
+    maxaux =        3 lbuff  =    50000 maxunk =      100
+
+   Parameters have been set to:
+
+    span       34968 shift          0 dmin       0.500 igrp     5
+    rlim      9999.0 kind           1 az           0.0
+    lagp           0 iaug           1 lagint         1
+    inform         1 filout         0 lpout          0
+
+    spectw         0 paglen        66 weight     1.000 maxjmp   0
+    timsys       0.0 ith            1 ipoten         2 maxitr  21
+    order          2 ifcr           0 qval      1150.0 s1wave   0
+    p4flag         1 icetgr         1 prepro         0 lovenm   2
+    nsine  
+
+   Data rejection settings:
+
+    sigma1 = 1.00D+30  sigma2 = 1.00D+30  zerorm =    0
+
+
+ *****  Top of tidal data  *****
+
+ created by 'prepare_sg_data.jl'                                                 
+
+   latitude  longitude    height   gravity
+    45.5850   -75.8071    269.00  982.0000
+
+
+ tidal data has range ratio    1.0000D+00
+
+ Analysis start time 2012-01-05T00:00:00.  Interval  3600 s, with
+                                                      34968 terms
+
+
+ *** Actual span =   744 and shift =     0    ***
+
+          ***** Array Sizes and Allocations *****
+                     size                 allocation
+
+ span                  744        maxout      100000
+ data length         34968        maxh2-11   7499989
+ iaug + 2                3        maxaux+2         5
+ n2max                  34        maxunk         100
+ limit                 778        maxop2      100100
+ (order+1)*limit      2334        maxdc       320000
+ n2max*limit         26452        maxh2      7500000
+
+ where n2max = 2*(# groups)*2 + (lagp+1)*iaug + order + maxjmp + 1
+         and  limit = n2max + span
+
+
+ normalizing factor for P30, P31, P32 :  0.92441
+ normalizing factor for P40, P41, P42 :  0.89546
+ normalizing factor for P43           :  0.96869
+
+
+ *****  Top of auxiliary data  *****
+
+ created by 'prepare_sg_data.jl'                                                 
+
+   latitude  longitude    height   gravity
+    45.5850   -75.8071    269.00  982.0000
+
+
+ auxiliary data has range ratio    1.4263D+01 and mean value   6.2905D-04
+ 
+
+ ****************************************************************
+ *                                                              *
+ *    Start 2012  1  5  0  0  0    End 2015 12 31 23  0  0      *
+ *                                                              *
+ ****************************************************************
+
+     ABIC(  2.0000D+00  ) =  -80309.29   alsqe =  -1.02800D+05    alndn =  3.54607D+04    alndtd =  2.42175D+04
+     ABIC(  2.8284D+00  ) =  -78724.04   alsqe =  -9.76427D+04    alndn =  4.57938D+04    alndtd =  3.63365D+04
+     ABIC(  1.4142D+00  ) =  -81433.34   alsqe =  -1.08241D+05    alndn =  2.55004D+04    alndtd =  1.20985D+04
+     ABIC(  1.0000D+00  ) =  -81993.02   alsqe =  -1.14038D+05    alndn =  1.59999D+04    alndtd = -2.04603D+01
+     ABIC(  7.0711D-01  ) =  -81948.56   alsqe =  -1.20357D+05    alndn =  7.06254D+03    alndtd = -1.21394D+04
+
+ minimum ABIC = -81993.02   attained at vmin =  1.0000D+00    sd =  7.0177D-02
+
+ tidal factors    (cos and sin parts)
+   fact. =   1.20291D+00 -1.56273D-02    1.14304D+00 -1.12944D-02    1.10593D+00 -1.21957D-02
+   fact. =   1.09202D+00 -1.08516D-02    1.20772D+00 -1.53600D-01    1.08212D+00 -1.13406D-02
+   fact. =   1.13101D+00 -1.12919D-02    1.16487D+00 -1.89528D-02    1.19353D+00 -9.94556D-03
+   fact. =   1.19136D+00  7.59272D-04    1.18730D+00  1.00991D-02    1.17801D+00  6.60172D-03
+   fact. =   1.19119D+00  2.34905D-02    1.19134D+00  2.13414D-02    1.08827D+00 -3.75536D-03
+   error =   2.36263D-03  2.36473D-03    4.32942D-04  4.32954D-04    3.99511D-03  3.99508D-03
+   error =   6.99736D-04  6.99440D-04    3.20967D-02  3.20870D-02    2.55364D-04  2.55578D-04
+   error =   4.39369D-03  4.39514D-03    9.31941D-03  9.31666D-03    1.95973D-03  1.95944D-03
+   error =   4.03696D-04  4.03544D-04    7.39447D-05  7.39018D-05    1.82266D-03  1.82246D-03
+   error =   1.55331D-04  1.69846D-04    7.07956D-04  7.08232D-04    2.53100D-03  2.53159D-03
+
+ response weights        auxiliary dataset no. =  1
+   lag   =        0
+   respc =   -3.62041D-01
+   error =    2.80673D-03
+
+ sqe  =    4.92479D-03
+
+ ----------------------------------------------------------------
+
+
+ 					  Gravity Tide                                                             
+                                                                                 
+     station       cantley                                 
+        Lon.=        -75.807 E
+        Lat.=         45.585 N
+        Ht. =       269.000 M
+     Instrument:    superconducting gravimeter              
+     amplitude     10**(-8) gravity                        
+
+     From       2012  1  5  0  0  0 to 2015 12 31 23  0  0
+
+     available / block len.    21462 / 34968
+   potential   : Tamura, Y., 1987, BIM, 99. (with P4)
+
+  grp           symbol     factor   rmse       phase   rmse    amplitude  rmse
+                                           (local, lags negative)
+
+>  1    1-143: Q1        1.20301  0.00236      0.744   0.113      7.153  0.014 
+>  2  144-201: O1        1.14310  0.00043      0.566   0.022     35.501  0.013 
+>  3  202-249: M1        1.10600  0.00400      0.632   0.207      2.701  0.010 
+>  4  250-266: P1        1.09207  0.00070      0.569   0.037     15.781  0.010 
+>  5  267-270: S1        1.21745  0.03210      7.248   1.510      0.415  0.011 
+>  6  271-305: K1        1.08217  0.00026      0.600   0.014     47.268  0.011 
+>  7  306-345: J1        1.13106  0.00439      0.572   0.223      2.763  0.011 
+>  8  346-450: OO1       1.16502  0.00932      0.932   0.458      1.557  0.012 
+
+>  9  451-549: 2N2       1.19357  0.00196      0.477   0.094      1.112  0.002 
+> 10  550-599: N2        1.19136  0.00040     -0.037   0.019      8.394  0.003 
+> 11  600-655: M2        1.18734  0.00007     -0.487   0.004     43.692  0.003 
+> 12  656-681: L2        1.17803  0.00182     -0.321   0.089      1.225  0.002 
+> 13  682-710: S2        1.19142  0.00016     -1.130   0.008     20.398  0.003 
+> 14  711-827: K2        1.19153  0.00071     -1.026   0.034      5.545  0.003 
+
+> 15  828-909: M3        1.08827  0.00253      0.198   0.133      0.551  0.001 
+
+
+    Minimum ABIC       =  -81993.02
+    Standard deviation =       0.0702
+
+    Hyperparameter W   =       1.000
+          "        D   =   1.000    
+
+    Sample   interval  (original)  =  1.0 hour
+                          shift    =      0
+
+    Auxiliary data : Atmospheric pressure                    
+                      maximum lag  =  0
+                      lag interval =  1
+
+      Frequency response of auxiliary data  to  1-th aux. input
+
+   cycle/day    amplitude                       phase
+
+>R  0.0000       0.3620                          180.00
+>R  0.2000       0.3620                          180.00
+>R  0.4000       0.3620                          180.00
+>R  0.6000       0.3620                          180.00
+>R  0.8000       0.3620                          180.00
+>R  1.0000       0.3620                          180.00
+>R  1.2000       0.3620                          180.00
+>R  1.4000       0.3620                          180.00
+>R  1.6000       0.3620                          180.00
+>R  1.8000       0.3620                          180.00
+>R  2.0000       0.3620                          180.00
+>R  2.2000       0.3620                          180.00
+>R  2.4000       0.3620                          180.00
+>R  2.6000       0.3620                          180.00
+>R  2.8000       0.3620                          180.00
+>R  3.0000       0.3620                          180.00
+>R  3.2000       0.3620                          180.00
+>R  3.4000       0.3620                          180.00
+>R  3.6000       0.3620                          180.00
+>R  3.8000       0.3620                          180.00
+>R  4.0000       0.3620                          180.00
+>R  4.2000       0.3620                          180.00
+>R  4.4000       0.3620                          180.00
+>R  4.6000       0.3620                          180.00
+>R  4.8000       0.3620                          180.00
+>R  5.0000       0.3620                          180.00
+>R  5.2000       0.3620                          180.00
+>R  5.4000       0.3620                          180.00
+>R  5.6000       0.3620                          180.00
+>R  5.8000       0.3620                          180.00
+>R  6.0000       0.3620                          180.00
+>R  6.2000       0.3620                          180.00
+>R  6.4000       0.3620                          180.00
+>R  6.6000       0.3620                          180.00
+>R  6.8000       0.3620                          180.00
+>R  7.0000       0.3620                          180.00
+>R  7.2000       0.3620                          180.00
+>R  7.4000       0.3620                          180.00
+>R  7.6000       0.3620                          180.00
+>R  7.8000       0.3620                          180.00
+>R  8.0000       0.3620                          180.00
+>R  8.2000       0.3620                          180.00
+>R  8.4000       0.3620                          180.00
+>R  8.6000       0.3620                          180.00
+>R  8.8000       0.3620                          180.00
+>R  9.0000       0.3620                          180.00
+>R  9.2000       0.3620                          180.00
+>R  9.4000       0.3620                          180.00
+>R  9.6000       0.3620                          180.00
+>R  9.8000       0.3620                          180.00
+>R 10.0000       0.3620                          180.00
+>R 10.2000       0.3620                          180.00
+>R 10.4000       0.3620                          180.00
+>R 10.6000       0.3620                          180.00
+>R 10.8000       0.3620                          180.00
+>R 11.0000       0.3620                          180.00
+>R 11.2000       0.3620                          180.00
+>R 11.4000       0.3620                          180.00
+>R 11.6000       0.3620                          180.00
+>R 11.8000       0.3620                          180.00
+>R 12.0000       0.3620                          180.00
+  (lags negative)

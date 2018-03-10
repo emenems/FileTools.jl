@@ -81,25 +81,34 @@ end
 
 
 """
-	baytap2tsoft(file_results,file_output;file_groups)
-Convert baytap08 results to TSoft tidal group info
+	baytap2tsoft(file_results,file_output;file_groups,sitename)
+Convert baytap08 results (Earth tides) to TSoft tidal group info (written
+parameters can be used in "LOCAT.TSD")
 
 **Input**
 * file_results: file containing baytap08 results of gravity tidal analysis
 * file_output: output file with tidal groups in tsoft format. Paste these results to TSoft/Tidal parameter set
 * file_groups: file containing tidal waves after Tamura (1987) (see /test/input/ folder of this package)
+* site: name of the site (identical to TSoft database)
+* name: name of the tidal parameters (unique for given site)
+* filemode: write new file ("w", default) or append to existing ("a")
+
+**Example**
 ```
-file_results = "f:/mikolaj/download/results.dat";
-file_output = "f:/mikolaj/download/results2.dat";
-baytap2tsoft(file_results,file_output);
+file_results = pwd()*"/test/input/baytap08.out";
+file_output = pwd()*"/test/output/baytap2tsoft.txt"
+baytap2tsoft(file_results,file_output,site="Cantlay",name="test");
 ```
 """
 function baytap2tsoft(file_results::String,file_output::String;
-					  file_groups="f:/mikolaj/code/libraries/julia/FileTools.jl/test/input/baytap_tamura_waves.txt")
+					  site::String="Site",name::String="Name",
+					  file_groups::String="f:/mikolaj/code/libraries/julia/FileTools.jl/test/input/baytap_tamura_waves.txt",
+					  filemode::String="w")
 	waves = readdlm(file_groups);
 	# open file for writting
-	fo = open(file_output,"w");
-	# read results
+	# open file for writting + add header
+	fo = FileTools.tide2tsoft(file_output,site,name,filemode);
+	# write parameters
 	open(file_results,"r") do fid
 		row = readline(fid);
 		while !eof(fid)
@@ -107,7 +116,7 @@ function baytap2tsoft(file_results::String,file_output::String;
 				if row[2] != 'R'
 					wstart,wstop,wfactor,wphase,wname = get_wave_info(row);
 					freqinfo = find_freq_info(wstart,wstop,waves);
-					@printf(fo,"%8.6f\t%8.6f\t%7.5f\t%6.4f\t%s \n",
+					@printf(fo,"COMP: %8.6f  %8.6f  %7.5f  %8.4f %s\n",
 							freqinfo[1],freqinfo[2],wfactor,wphase,wname);
 				end
 			end

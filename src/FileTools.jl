@@ -16,6 +16,7 @@ include("igetsfile.jl")
 include("otherfile.jl")
 include("dwdfile.jl")
 include("tidefile.jl")
+include("gravityeffectfile.jl")
 
 export readtsf, writetsf, loadascii, writeascii, readcampbell
 export readdygraphs, writedygraphs
@@ -28,5 +29,6 @@ export writebaytap, baytap2tsoft
 export igetsimport, igetsexport
 export dwdclimateraw
 export vav2tsoft, eterna2tsoft
+export read_layerResponse
 
 end #module

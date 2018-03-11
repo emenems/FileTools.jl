@@ -30,6 +30,7 @@ This repository contains functions for reading/writing files in following format
 In addition, following functions are exported:
 * `stackframes`: stack (vertical concatenate) two DataFrame with optional overlapping or gap between DataFrames (time)
 * `coorShift_lon`: transform longitude coordinate system between _-180 to 180_ <--> _0 to 360_
+* `read_layerResponse`: read formatted output of the [GravityEffect](https://github.com/emenems/GravityEffect.jl)/`layerResponse` function
 
 ### Usage
 * Check the function help for instructions and example usage

@@ -14,7 +14,8 @@ tests = ["tsffile_test.jl",
 		 "baytapfile_test.jl",
 		 "otherfile_test.jl",
 		 "dwdfile_test.jl",
-		 "tidefile_test.jl"];
+		 "tidefile_test.jl",
+		 "gravityeffectfile_test.jl"];
 # Run all tests in the list
 for i in tests
 	include(i)

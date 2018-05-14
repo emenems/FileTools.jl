@@ -6,7 +6,7 @@
 % nanheight->false
 % outfile->F:\mikolaj\code\libraries\julia\FileTools.jl/test/output/write_layerResponse.txt
 % def_density->10.0
-% Computation date: 11/47/2018 10:47:28
+% Computation date: 14/05/2018 16:09:13
 % RESULTS (gravity effect in nm/s^2, depth in m): 
 %  Nr start  stop    total      zone1     zone2
    1  0.000  1.000   3.82615   3.76682   0.05933

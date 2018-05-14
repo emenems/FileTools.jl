@@ -88,10 +88,10 @@ exists. Set to NaN for stacking without offset check.
 ```
 f1 = DataFrame(datetime=[DateTime(2010,1,1,0),DateTime(2010,1,1,1),
            DateTime(2010,1,1,2),DateTime(2010,1,1,3)],
-		   grav=@data([10.,11.,12.,13.]));
+		   grav=[10.,11.,12.,13.]);
 f2 = DataFrame(datetime=[DateTime(2010,1,1,2),DateTime(2010,1,1,3),
            DateTime(2010,1,1,4),DateTime(2010,1,1,5)],
-		   grav=@data([22.,23.,24.,25.]));
+		   grav=[22.,23.,24.,25.]);
 fall = stackframes(f1,f2,maxtime=Dates.Hour(1),maxval=NaN,corroffset=true);
 # Following call will not be stacked as maximum offset is exceeded
 fnot = stackframes(f1,f2,maxval=1.0)

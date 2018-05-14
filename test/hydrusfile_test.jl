@@ -1,6 +1,6 @@
 # Unit test for Hydrus1D ATMOSPH.IN
 function test_writeatmosph()
-	data = DataFrame(Prec=[0.01,0.1,0.2,0.3],rSoil=@data([0.0,0.1,0.2,0.9]),
+	data = DataFrame(Prec=[0.01,0.1,0.2,0.3],rSoil=[0.0,0.1,0.2,0.9],
 		   datetime=[DateTime(2010,1,1,0),DateTime(2010,1,1,1),
 			   DateTime(2010,1,1,2),DateTime(2010,1,1,4)],
 			   hCritA=[1,1,1,1]);

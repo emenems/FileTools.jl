@@ -3,10 +3,10 @@ function test_stackframes()
 	# First set (with overlapping)
 	f1 = DataFrame(datetime=[DateTime(2010,1,1,0),DateTime(2010,1,1,1),
 	           DateTime(2010,1,1,2),DateTime(2010,1,1,3)],
-			   grav=@data([10.,11.,12.,13.]));
+			   grav=[10.,11.,12.,13.]);
 	f2 = DataFrame(datetime=[DateTime(2010,1,1,2),DateTime(2010,1,1,3),
 	           DateTime(2010,1,1,4),DateTime(2010,1,1,5)],
-			   grav=@data([22.,23.,24.,25.]));
+			   grav=[22.,23.,24.,25.]);
 	data = stackframes(f1,f2,maxtime=Dates.Hour(1),maxval=NaN,corroffset=true);
 	@test size(data) == (6,2)
 	@test names(data)==[:datetime,:grav]
@@ -34,7 +34,7 @@ function test_stackframes()
 	# No overlapping but within maximum time stap
 	f2 = DataFrame(datetime=[DateTime(2010,1,1,6),DateTime(2010,1,1,7),
 		DateTime(2010,1,1,8),DateTime(2010,1,1,9)],
-		grav=@data([22.,23.,24.,25.]));
+		grav=[22.,23.,24.,25.]);
 	data = stackframes(f1,f2,maxtime=Dates.Hour(3),maxval=NaN,corroffset=false);
 	@test size(data) == (size(f2,1)+size(f1,1)+1,2)
 	@test names(data)==[:datetime,:grav]

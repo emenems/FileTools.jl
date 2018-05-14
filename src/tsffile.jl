@@ -99,7 +99,7 @@ Write DataFrame to tsf format
 
 **Example**
 ```
-data = DataFrame(temp=[10.,11.,12.,14.],grav=@data([9.8123,9.9,NaN,9.7]),
+data = DataFrame(temp=[10.,11.,12.,14.],grav=[9.8123,9.9,NaN,9.7],
        datetime=[DateTime(2010,1,1,0),DateTime(2010,1,1,1),
            DateTime(2010,1,1,2),DateTime(2010,1,1,4)]);
 writetsf(data,"../test/output/tsf_data.tsf",units=["degC","nm/s^2"],
@@ -156,7 +156,7 @@ function writetsf(data::DataFrame,fileout::String;
 						Dates.second(data[timei][i]));
 			# add data
 			for j in channels
-				if isna(dataout[j][i]) || isnan(dataout[j][i])
+				if ismissing(dataout[j][i]) || isnan(dataout[j][i])
 					@printf(fid," %s",flagval);
 				else
 					@printf(fid," %.10g",dataout[j][i]);

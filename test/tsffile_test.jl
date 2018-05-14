@@ -15,7 +15,7 @@ end
 
 # Test writting
 function test_write_tsf()
-	data = DataFrame(temp=[10.,11.,12.,14.],grav=@data([9.8123,9.9,NaN,9.7]),
+	data = DataFrame(temp=[10.,11.,12.,14.],grav=[9.8123,9.9,NaN,9.7],
 	       datetime=[DateTime(2010,1,1,0),DateTime(2010,1,1,1),
 	           DateTime(2010,1,1,2),DateTime(2010,1,1,4)]);
 	writetsf(data,pwd()*"/test/output/tsf_data.tsf",units=["degC","nm/s^2"],

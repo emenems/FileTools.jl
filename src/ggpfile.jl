@@ -363,7 +363,7 @@ function writeggp_writeblock(fid::IOStream,datawrite::DataFrame,
 				Dates.second(datawrite[timei][i]));
 		# write data
 		for (c,j) in enumerate(channels)
-			if isna(datawrite[j][i]) || isnan(datawrite[j][i])
+			if ismissing(datawrite[j][i]) || isnan(datawrite[j][i])
 				@printf(fid,"%10s",flagval);
 			else
 				writewithprecision(fid,datawrite[j][i],decimal[c]);

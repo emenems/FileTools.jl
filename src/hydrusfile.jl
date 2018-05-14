@@ -12,7 +12,7 @@ Write DataFrame to Hydrus1D Atmospheric data format
 **Example**
 ```
 dataout = DataFrame(Prec=[0.01,0.1,0.2,0.3],
-				 rSoil=@data([0.0,0.1,0.2,0.9]),
+				 rSoil=[0.0,0.1,0.2,0.9],
 	   			 hCritA=[1,1,1,1]
 	   			 datetime=[DateTime(2010,1,1,0),DateTime(2010,1,1,1),
 		   			  DateTime(2010,1,1,2),DateTime(2010,1,1,3)],);
@@ -388,4 +388,50 @@ function readhydrus1d_nodinf_df(timeout,nodes,dataout)
 		df[temp] = dataout[i,:];
 	end
 	return df
+end
+
+"""
+	corr_hydrus1d_obsnode(file_obs_node,file_profile)
+Correct Hydrus1D Observation node file if this does not contain all node numbers
+in the header. This is motly the case if more then 10 observation nodes are
+selected (manually) in the profile settings.
+
+**Input**
+* file_obs_node: Observation node file (mostly "Obs_Node.out"). The header of this file will be overwritten
+* file_profile: profile settings file (mostly "PROFILE.DAT"). Will be used to get full row of Node IDs
+
+**Example**
+```
+file_obs_node = "f:/mikolaj/code/data_processing/sites/aggo/hydro/model/hydrus/AGGO/Obs_Node.out"
+file_profile = "f:/mikolaj/code/data_processing/sites/aggo/hydro/model/hydrus/AGGO/PROFILE.DAT"
+FileTools.corr_hydrus1d_obsnode(file_obs_node,file_profile)
+```
+"""
+function corr_hydrus1d_obsnode(file_obs_node::String,file_profile::String)
+	fileout = "temp_Obs_Node.out";
+
+	## Get node numbers
+	temp = ""
+	fid = open(file_profile,"r");
+	node_id = fid |> readlines |> x->x[end] |> split |> x-> parse.(Int,x)
+	close(fid)
+
+	## Write with new Node Info
+	open(file_obs_node,"r") do fid
+		fid_out = open(fileout,"w");
+		while !eof(fid)
+			row = readline(fid);
+			if contains(row,"Node(")
+				for i in node_id
+					@printf(fid_out,"                      Node(%3i)",i)
+				end
+			else
+				@printf(fid_out,"%s",row);
+			end
+			@printf(fid_out,"\n");
+		end
+		close(fid_out)
+	end
+	cp(fileout,file_obs_node,remove_destination=true);
+	rm(fileout);
 end

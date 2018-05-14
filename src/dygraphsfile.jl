@@ -44,7 +44,7 @@ Write DataFrame to Dygraphs csv format
 
 **Example**
 ```
-datain = DataFrame(temp=[10.,11.,12.,14.],grav=@data([9.8123,9.9,NA,9.7]),
+datain = DataFrame(temp=[10.,11.,12.,14.],grav=[9.8123,9.9,NaN,9.7],
        datetime=[DateTime(2010,1,1),DateTime(2010,1,2),
            DateTime(2010,1,3),DateTime(2010,1,4)]);
 writedygraphs(datain,"../test/output/dygraphs_data.csv",decimal=[1,3]);
@@ -74,7 +74,7 @@ function writedygraphs(datain::DataFrame,fileout::String;decimal=[4])
 			# add data
 			flagval = "NaN";
 			for j in channels
-				if isna(dataout[j][i])
+				if ismissing(dataout[j][i])
 					@printf(fid,",%s",flagval);
 				else
 					@printf(fid,",%.10g",dataout[j][i]);

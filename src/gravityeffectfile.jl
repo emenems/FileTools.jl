@@ -48,7 +48,7 @@ function write_layerResponse(sensor,layers,zones,exclude,nanheight,outfile,def_d
 		println(fid,"% nanheight->$nanheight");
 		println(fid,"% outfile->$outfile");
 		println(fid,"% def_density->$def_density");
-		@printf(fid,"%% Computation date: %s\n",Dates.format(now(),"dd/MM/yyyy HH:MM:SS"))
+		@printf(fid,"%% Computation date: %s\n",Dates.format(now(),"dd/mm/yyyy HH:MM:SS"))
 		@printf(fid,"%% RESULTS (gravity effect in nm/s^2, depth in m): \n");
 		@printf(fid,"%%  Nr start  stop    total ");
 		for i in 1:length(zones[:radius])

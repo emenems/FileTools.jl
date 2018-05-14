@@ -35,7 +35,7 @@ function dwdclimateraw(datein,siteid::Int,param::String;
 		dfo[:paramout][i] = eltype(d[r,c])==Int ? d[r,c] : NA;
 		!isdir(url) ? rm(fileout) : nothing
 	end
-	return rename!(dfo,:paramout,Symbol(param));
+	return rename!(dfo,:paramout=>Symbol(param));
 end
 
 """

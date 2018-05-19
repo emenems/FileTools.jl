@@ -30,13 +30,17 @@ dataloaded = igetsimport(path_input,name_input,ext_input,
 """
 function igetsimport(path_input::String,name_input::String,ext_input::String,
 					load_interval;nanval::Float64=9999.999)
-	dataout = DataFrame();
+	dataout = [];
 	for i in load_interval
 		file_load = joinpath(path_input,Dates.format(i,"yyyy"),
 							name_input*Dates.format(i,"yyyymm")*ext_input)
 		if isfile(file_load)
 			temp = readggp(file_load,nanval=nanval);
-			dataout = vcat(dataout,temp);
+			if isempty(dataout)
+				dataout = temp;
+			else 
+				dataout = vcat(dataout,temp);
+			end
 		end
 	end
 	return dataout

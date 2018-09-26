@@ -103,7 +103,7 @@ end
 
 function test_ggpdata2blocks()
 	datawrite = DataFrame(pres=collect(1000.:1:1011.),
-					grav=collect(900.:-3:(900.-11*3)),
+					grav=collect(900.:-3:(900. -11*3)),
 					datetime=collect(DateTime(2010,1,1):Dates.Hour(1):DateTime(2010,1,1,11)));
 	datawrite[:grav][[3,6]] = NaN;
 	datawrite[:pres][7] = NaN;

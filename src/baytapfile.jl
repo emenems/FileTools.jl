@@ -64,7 +64,7 @@ auxiliary function to export time string in required format
 function yyyymmddhh(timein::DateTime)
 	yyyy,mm,dd,hh,mi,ss = datevec(timein)
 	return @sprintf("%5i%5i%5i%10.5f",
-					yyyy,mm,dd,hh+mi/60.+ss/3600.)
+					yyyy,mm,dd,hh + mi/60 .+ ss/3600.)
 end
 
 """
@@ -112,7 +112,7 @@ function baytap2tsoft(file_results::String,file_output::String;
 	open(file_results,"r") do fid
 		row = readline(fid);
 		while !eof(fid)
-			if contains(row,">")
+			if occursin(row,">")
 				if row[2] != 'R'
 					wstart,wstop,wfactor,wphase,wname = get_wave_info(row);
 					freqinfo = find_freq_info(wstart,wstop,waves);
@@ -131,10 +131,10 @@ Auxiliary function to extract needed results
 """
 function get_wave_info(row::String)
 	temp = split(row)
-	wstart = temp |> x -> split(x[3],"-") |> x -> parse(x[1])
-	wstop = temp |> x -> split(x[3],"-") |> x -> parse(x[2][1:end-1])
-	wfactor = parse(temp[5])
-	wphase = parse(temp[7])
+	wstart = temp |> x -> split(x[3],"-") |> x -> Base.parse(x[1])
+	wstop = temp |> x -> split(x[3],"-") |> x -> Base.parse(x[2][1:end-1])
+	wfactor = Base.parse(temp[5])
+	wphase = Base.parse(temp[7])
 	wname = temp[4];
 	return wstart,wstop,wfactor,wphase,wname
 end
@@ -143,7 +143,7 @@ end
 Auxiliary function to find frequency giving wave number
 """
 function find_freq_info(wstart,wstop,waves)
-	r1 = find(waves[:,1].==wstart)
-	r2 = find(waves[:,1].==wstop)
+	r1 = findall(waves[:,1].==wstart)
+	r2 = findall(waves[:,1].==wstop)
 	return (waves[r1[1],3],waves[r2[1],3])
 end

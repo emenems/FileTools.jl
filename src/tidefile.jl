@@ -26,8 +26,8 @@ function vav2tsoft(file_results::String,file_output::String;
 		open(file_results,"r") do fid
 			for i in 1:hl+1;readline(fid); end
 			row = readline(fid);
-			while !contains(row,">")
-				if !contains(row,"---") && !contains(row,"results")
+			while !occursin(row,">")
+				if !occursin(row,"---") && !occursin(row,"results")
 					vav2tsoft_write(fo,row);
 				end
 				row = readline(fid);
@@ -74,7 +74,7 @@ function eterna2tsoft(file_results::String,file_output::String;
 		open(file_results,"r") do fid
 			for i in 1:hl+5;readline(fid); end
 			row = readline(fid);
-			while !contains(row,"Adjusted")
+			while !occursin(row,"Adjusted")
 				length(row)>73 ? eterna2tsoft_write(fo,row) : nothing
 				row = readline(fid);
 				eof(fid) ? break : nothing;

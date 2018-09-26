@@ -41,7 +41,7 @@ will be stored in a temporary file
 """
 function downfile(filein::String)
 	downto = "tempdownfile.down";
-	if contains(filein,"http:") || contains(filein,"ftp:")
+	if occursin(filein,"http:") || occursin(filein,"ftp:")
 		try
 			download(filein,downto)
 		catch
@@ -58,7 +58,7 @@ end
 Delete file IF downloaded
 """
 function delfile(filein::String)
-	if contains(filein,"http:") || contains(filein,"ftp:")
+	if occursin(filein,"http:") || occursin(filein,"ftp:")
 		if isfile("tempdownfile.down")
 			rm("tempdownfile.down")
 		end
@@ -70,7 +70,7 @@ end
 Get EOP header=channels
 """
 function eopchannels(filein::String)
-	channels = Array{Symbol,1}(0);
+	channels = Array{Symbol,1}();
 	open(filein,"r") do fid
 		row = "";
 		for i in 1:11
@@ -79,7 +79,7 @@ function eopchannels(filein::String)
 		temp = split(row,"  ");
 		for i in temp
 			if (i != "") && (i != "Date")
-				push!(channels,Symbol(replace(i," ","")));
+				push!(channels,Symbol(replace(i," "=>"")));
 			end
 		end
 	end

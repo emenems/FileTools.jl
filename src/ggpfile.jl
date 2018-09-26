@@ -76,13 +76,13 @@ end
 Auxiliary function to read block headers
 """
 function readggpblocks(filein::String)
-	blockoffset,blockdate = Vector{String}(0),Vector{String}(0);
-	blockstart,blockstop = Vector{Int}(0),Vector{Int}(0);
+	blockoffset,blockdate = Vector{String}(),Vector{String}();
+	blockstart,blockstop = Vector{Int}(),Vector{Int}();
 	open(filein,"r") do fid
 		i = 0; # count lines to get block start and stop
 		while !eof(fid)
 			row = readline(fid); i += 1;
-			if contains(row,"77777777")
+			if occursin(row,"77777777")
 				# check if the data is in correct format
 				if length(row)> 8
 					if row[9:15] != "       "
@@ -93,7 +93,7 @@ function readggpblocks(filein::String)
 				row = readline(fid);i += 1; # read next line containing date
 				push!(blockdate,row);
 				push!(blockstart,i);
-			elseif contains(row,"99999999") # end of block
+			elseif occursin(row,"99999999") # end of block
 				push!(blockstop,i-1);
 			end
 		end
@@ -105,10 +105,10 @@ end
 Auxiliary function to read just the GGP file header
 """
 function readggphead(filein::String)
-	head = Vector{String}(0);
+	head = Vector{String}();
 	open(filein,"r") do fid
 		row = readline(fid);
-		while !contains(row,"C**")
+		while !occursin(row,"C**")
 			push!(head,row);
 			row = readline(fid);
 		end
@@ -142,7 +142,7 @@ end
 """
 Auxiliary function to convert time pattern (HHMMSS) to DateTime
 """
-function append2df{T<:Real}(indf::DataFrame,appmat::Matrix{T},appstring::String)
+function append2df(indf::DataFrame,appmat::Matrix{Int},appstring::String)
 	for i in 1:size(appmat,2)
 		indf[Symbol(appstring,i)] = appmat[:,i];
 	end
@@ -292,7 +292,7 @@ auxiliary function to write the header
 function writeggp_head(fid,header,channels,units)
 	if !isempty(header)
 		for i in header
-			if !contains(i[1],"freetext")
+			if !occursin(i[1],"freetext")
 	   			@printf(fid,"%-21s: %s\n",i[1],i[2])
 			end
 		end
@@ -322,7 +322,7 @@ function writeggp_findblocks(datain,channels,blockinfo)
 	bvalue = zeros(1,length(channels));
 	if !isempty(blockinfo)
 		for i in 1:length(blockinfo["start"])
-			temp = find(x -> x >= blockinfo["start"][i],datain[:datetime]);
+			temp = findall(x -> x >= blockinfo["start"][i],datain[:datetime]);
 			if !isempty(temp)
 				if temp[1] != 1
 					bstart = vcat(bstart,temp[1]);
@@ -431,7 +431,7 @@ function ggpdata2blocks(datawrite::DataFrame;channels=[])
 		dataout = deleterows!(dataout,remrows);
 		# get blocks
 		if length(remrows)>1
-			remrows = vcat(remrows[1],remrows[find(x->x>1,diff(remrows))+1])
+			remrows = vcat(remrows[1],remrows[findall(x->x>1,diff(remrows))+1])
 		end
 		block = Dict("start"=>datawrite[timei][remrows],
 					 "offset"=>zeros(length(remrows),length(channels)),
@@ -449,7 +449,7 @@ function ggpdata2blocks_unique(datawrite,channels)
 	# find channels containing NaN
 	remrows = Vector{Int}();
 	for i in channels
-		remrows = vcat(remrows,find(x->isnan(x),datawrite[i]))
+		remrows = vcat(remrows,findall(x->isnan(x),datawrite[i]))
 	end
 	return sort(unique(remrows))
 end

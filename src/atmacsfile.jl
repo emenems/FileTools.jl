@@ -104,7 +104,7 @@ function stackframes(frameall::DataFrame,frameapp::DataFrame;
 		return frameapp;
 	else
 		# Check date (for overlapping or missing data)
-    	r = find(frameall[:datetime][end] .== frameapp[:datetime]);
+    	r = findall(frameall[:datetime][end] .== frameapp[:datetime]);
 	    if isempty(r) # No such time exist (no overlapping) => check how big is the gap
 			# get temporal resolution (res) and gap between files (diff)
         	time_diff = frameapp[:datetime][1] - frameall[:datetime][end];
@@ -132,7 +132,7 @@ function stackframes(frameall::DataFrame,frameapp::DataFrame;
 				maxoffset = zeros(size(frameall,2)-1) .+ maxval;
 			end
 			# and set to infinity if NaN on input
-			maxoffset[isnan.(maxoffset)] = Inf;
+			maxoffset[isnan.(maxoffset)] .= Inf;
 			# Apply offset (if set so)
 			for (j,i) in enumerate(names(frameapp))
 				if i != :datetime

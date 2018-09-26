@@ -4,7 +4,12 @@ function test_load_asc()
 	@test size(dem[:height]) == (6,4)
 	@test size(dem[:x]) == (4,)
 	@test size(dem[:y]) == (6,)
-	@test find(isnan,dem[:height]) == [5,6,12,19]
+	@test isnan(dem[:height][5])
+	@test isnan(dem[:height][6])
+	@test isnan(dem[:height][12])
+	@test isnan(dem[:height][19])
+	@test !isnan(dem[:height][1])
+	@test !isnan(dem[:height][4])
 	@test dem[:x][1] == 25.
 	@test dem[:y][end] == 275.
 	@test dem[:x][1] - dem[:x][2] ≈ -50.
@@ -15,7 +20,7 @@ end
 function test_write_asc()
 	# prepare output data
 	dem = Dict(:x => collect(1:1:10.),:y => collect(10:1:20.),
-	       	   :height => ones(10,11));
+	       	   :height => ones(Float64,10,11));
    	dem[:height][1,2] = NaN;
 	dem[:height][2,3] = 0.00049;
 	# write
@@ -33,22 +38,22 @@ function test_write_asc()
 		for i = 1:6
 			row = readline(fid);
 			temp = split(row," ");
-			if contains(lowercase(row),"ncols")
+			if occursin("ncols",lowercase(row))
 				count_header += 1;
 				@test temp[end] == "11";
-			elseif contains(lowercase(row),"nrows")
+			elseif occursin("nrows",lowercase(row))
 				count_header += 1;
 				@test temp[end] == "10";
-			elseif contains(lowercase(row),"xll")
+			elseif occursin("xll",lowercase(row))
 				count_header += 1;
 				@test temp[end] == "0.5"
-			elseif contains(lowercase(row),"yll")
+			elseif occursin("yll",lowercase(row))
 				count_header += 1;
 				@test temp[end] == "9.5"
-			elseif contains(lowercase(row),"cellsize")
+			elseif occursin("cellsize",lowercase(row))
 				count_header += 1;
 				@test temp[end] == "1"
-			elseif contains(lowercase(row),"nodata")
+			elseif occursin("nodata",lowercase(row))
 				count_header += 1;
 				@test temp[end] == "8888"
 			end

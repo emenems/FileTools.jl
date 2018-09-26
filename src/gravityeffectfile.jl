@@ -24,11 +24,11 @@ function read_layerResponse(filein::String,par::String="results")
 	else
 		row = ""
 		open(filein,"r") do fid
-			while !contains(lowercase(row),lowercase(par))
+			while !occursin(lowercase(row),lowercase(par))
 				row = eof(fid) ? par : readline(fid)
 			end
 		end
-		return contains(row,"->") ? eval(parse(split(row,"->")[2])) : []
+		return occursin(row,"->") ? eval(Base.parse(split(row,"->")[2])) : []
 	end
 end
 

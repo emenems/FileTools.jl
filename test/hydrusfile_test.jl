@@ -13,11 +13,11 @@ function test_writeatmosph()
 		for i in 1:4
 			row = readline(fid);
 		end
-		@test parse(row) == 4
+		@test Meta.parse(row) == 4
 		for i in 1:3
 			row = readline(fid);
 		end
-		hcrits = fid |> readline |> parse
+		hcrits = fid |> readline |> Meta.parse
 		@test hcrits == 1000
 	end
 	data_read = readdlm(pwd()*"/test/output/atmosph_data.in",skipstart=9);

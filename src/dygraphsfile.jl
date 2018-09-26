@@ -16,10 +16,10 @@ data = readdygraphs("../test/input/dygraphs_data.tsf";datestring="yyyymmdd");
 """
 function readdygraphs(filein::String;datestring::String="yyyy/mm/dd HH:MM:SS")
 	# Read header
-	channels = Array{SubString{String},1}(0);
+	channels = Array{SubString{String},1}();
 	open(filein,"r") do fid
 		# Read channel names
-		channels = fid |> readline |> x -> replace(x,r" |\r|\"","") |>
+		channels = fid |> readline |> x -> replace(x,r" |\r|\""=>"") |>
 						x -> split(x,",") |> x -> x[2:end];
 	end
 	# read data

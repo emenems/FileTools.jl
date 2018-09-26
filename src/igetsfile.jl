@@ -88,7 +88,7 @@ function igetsexport(datain::DataFrame,path_out::String,
 	for i in 1:length(exp_interval)-1
 		path_yyyy = joinpath(path_out,Dates.format(exp_interval[i],"yyyy"))
 		file_out = name_out*Dates.format(exp_interval[i],"yyyymm")*ext_out;
-		r = find(x->x<exp_interval[i] || x>=exp_interval[i+1],datain[:datetime])
+		r = findall(x->x<exp_interval[i] || x>=exp_interval[i+1],datain[:datetime])
 		dataout = deepcopy(datain);
 		!isempty(r) ? deleterows!(dataout,r) : nothing
 		if !isempty(dataout)

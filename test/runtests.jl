@@ -1,5 +1,7 @@
 using FileTools
-using Base.Test, DataFrames
+using Test, DataFrames
+using Dates
+using DelimitedFiles
 
 # List of test files. Run the test from FileTools.jl folder
 tests = ["tsffile_test.jl",

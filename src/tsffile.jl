@@ -22,13 +22,13 @@ function readtsf(filein::String;unitsonly::Bool=false,channelname="measurement")
 	undetval = 9999.999;
 	countinfo::Int64 = 0; # count data lines
 	count_header::Int64 = 0;
-	channels = Vector{String}(0);
-	units = Vector{String}(0);
+	channels = Vector{String}();
+	units = Vector{String}();
 
 	# Set aux Function for channel and unit line extraction
 	function extract_channels(fid::IOStream,row::String,out::Vector{String})
 		row = readline(fid);count_header += 1;
-		while !contains(row,"[")
+		while !occursin(row,"[")
 			if length(row) > 0
 				push!(out,row);
 			end
@@ -45,19 +45,21 @@ function readtsf(filein::String;unitsonly::Bool=false,channelname="measurement")
 		row = readline(fid);count_header += 1;
 	    while !eof(fid)
 			# Get important header info
-			if contains(row,"[UNDETVAL]")
-	            undetval = parse(Float64,row[11:end]);
+			if isempty(row)
+				row = "empty row not to be parsed"
+			elseif occursin(row,"[UNDETVAL]")
+	            undetval = Base.parse(Float64,row[11:end]);
 				row = readline(fid);count_header += 1;
-			elseif contains(row,"[COUNTINFO]")
-				countinfo = parse(Int,row[12:end]);
+			elseif occursin(row,"[COUNTINFO]")
+				countinfo = Base.parse(Int,row[12:end]);
 				row = readline(fid);count_header += 1;
-			elseif contains(row,"[CHANNELS]")
+			elseif occursin(row,"[CHANNELS]")
 				# Now get channel names
 				channels,row = extract_channels(fid,row,channels);
-			elseif contains(row,"[UNITS]")
+			elseif occursin(row,"[UNITS]")
 				# Now get channel units
 				units,row = extract_channels(fid,row,units);
-			elseif contains(row,"[DATA]")
+			elseif occursin(row,"[DATA]")
 				# do not read using readline function (low performance)
 				break;
 			else
@@ -80,7 +82,7 @@ function readtsf(filein::String;unitsonly::Bool=false,channelname="measurement")
 			channame = i-6 <= length(channels) ? channels[i-6] : "measurement"*string(i-6)
 			data[Symbol(channame)] = dataall[:,i];
 			# Remove Undetval
-			data[Symbol(channame)][find(x->x==undetval,data[Symbol(channame)])] = NaN;
+			data[Symbol(channame)][findall(x->x.==undetval,data[Symbol(channame)])] .= NaN;
 		end
 		return data
 	end
@@ -171,7 +173,7 @@ end
 	mat2time(mat)
 Auxiliary function to convert time in matrix to datetime format
 """
-function mat2time{T<:Real}(mat::Matrix{T})
+function mat2time(mat::Matrix{Float64})
 	if eltype(mat) != Int
 		temp = round.(Int64,mat)
 	end
@@ -189,21 +191,21 @@ Auxiliary function to get channel names/units from input vector of strings
 """
 function correct_channels(in_text::Vector{String},sp::String;
 							channelname="measurement")
-	out = Vector{String}(0);
+	out = Vector{String}();
 	c = 2; # count channels with identical name
 	for i in in_text
 		temp = split(i,sp);
 		# remove empty spaces and other symbols
-		name = replace(temp[end],r" |\r|\"","")
+		name = replace(temp[end],r" |\r|\""=>"")
 		if channelname == "site_measurement"
-			site = replace(temp[1],r" |\r|\"","")*"_";
+			site = replace(temp[1],r" |\r|\""=>"")*"_";
 			chan_number = ""
 		else
 			site = "";
 			chan_number = string(c);
 		end
 		# check if the name already exists
-		if any(contains.(out,name)) || channelname == "site_measurement"
+		if any(occursin.(out,name)) || channelname == "site_measurement"
 			push!(out,site*name*chan_number);c += 1;
 		else
 			push!(out,name)
@@ -218,7 +220,7 @@ Auxiliary function to find columns with channel names and datetime
 """
 function findchannels(data::DataFrame)
 	# find datetime column + use only numberic values for output
-	channels = eltype(names(data))==String ? Vector{String}(0) : Vector{Symbol}(0);
+	channels = eltype(names(data))==String ? Vector{String}() : Vector{Symbol}();
 	timei = 1;
 	for i in names(data)
 		if eltype(data[i]) == DateTime  || eltype(data[i]) == Union{DateTime, Missings.Missing}

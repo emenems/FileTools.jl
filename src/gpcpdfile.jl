@@ -86,7 +86,7 @@ function readgpcpd_lonlat(headout::String)
 		headout = readgpcpd_head(headout);
 	end
 	string_size = match(r"[0-9]{3}x[0-9]{3}",headout);
-	x,y = split(string_size.match,"x") |> x -> (parse(x[1]),parse(x[2]))
+	x,y = split(string_size.match,"x") |> x -> (Base.parse(x[1]),Base.parse(x[2]))
 	return collect(0.5:1:(x-0.5)),collect(89.5:-1:(-y/2+0.5))
 end
 
@@ -113,12 +113,12 @@ function readgpcpd_time(headout::String)
 	string_yyyy = match(r"year=[0-9]{4}",headout);
 	string_mm = match(r"month=[0-9]{2}",headout);
 	string_dd = match(r"days=.-[0-9]{2}",headout) |> x->split(x.match,"=") |> x->x[2]
-	time_start = DateTime(parse(split(string_yyyy.match,"=")[2]),
-						parse(split(string_mm.match,"=")[2]),
-						parse(split(string_dd,"-")[1]));
-	time_stop = DateTime(parse(split(string_yyyy.match,"=")[2]),
-						parse(split(string_mm.match,"=")[2]),
-						parse(split(string_dd,"-")[2]));
+	time_start = DateTime(Base.parse(split(string_yyyy.match,"=")[2]),
+						Base.parse(split(string_mm.match,"=")[2]),
+						Base.parse(split(string_dd,"-")[1]));
+	time_stop = DateTime(Base.parse(split(string_yyyy.match,"=")[2]),
+						Base.parse(split(string_mm.match,"=")[2]),
+						Base.parse(split(string_dd,"-")[2]));
 	return collect(time_start:Dates.Day(1):time_stop)
 end
 
@@ -163,7 +163,7 @@ function coorShift_lon(lon,datain;to::String="-180to180")
 	# find indices
 	i_lon = zeros(Int,length(lon))
 	for (i,v) in enumerate(lonout)
-		i_lon[i] = find(v.==lonin)[1];
+		i_lon[i] = findall(v.==lonin)[1];
 	end
 	# Get the correct dimension and transform the data
 	if size(datain,1) == length(lon)

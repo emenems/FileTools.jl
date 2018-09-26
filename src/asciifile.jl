@@ -28,18 +28,18 @@ function loadascii(filein::AbstractString)
 			if temp[end] == ""
 				temp = temp[1:end-1]
 			end
-			if contains(lowercase(row),"ncols")
-	            ncols = parse(Int,temp[end]);
-	        elseif contains(lowercase(row),"nrows")
-	            nrows = parse(Int,temp[end]);
-	        elseif contains(lowercase(row),"xll")
-	            xll = parse(Float64,temp[end]);
-	        elseif contains(lowercase(row),"yll")
-	            yll = parse(Float64,temp[end]);
-	        elseif contains(lowercase(row),"cellsize")
-	            resol = parse(Float64,temp[end]);
-	        elseif contains(lowercase(row),"nodata")
-	            nodata = parse(Float64,temp[end]);
+			if occursin("ncols",lowercase(row))
+	            ncols = Base.parse(Int,temp[end]);
+	        elseif occursin("nrows",lowercase(row))
+	            nrows = Base.parse(Int,temp[end]);
+	        elseif occursin("xll",lowercase(row))
+	            xll = Base.parse(Float64,temp[end]);
+	        elseif occursin("yll",lowercase(row))
+	            yll = Base.parse(Float64,temp[end]);
+	        elseif occursin("cellsize",lowercase(row))
+	            resol = Base.parse(Float64,temp[end]);
+	        elseif occursin("nodata",lowercase(row))
+	            nodata = Base.parse(Float64,temp[end]);
 	        end
 		end
 		close(fid);
@@ -50,12 +50,12 @@ function loadascii(filein::AbstractString)
 	data = readdlm(filein,skipstart=head,header=false);
 	# Transpose/flip upside down the input data to be get correct values with
 	# respect to x,y (meshgrid)
-	height = flipdim(data,1);
+	height = reverse(data,dims=1);
 	# Compute x, y grid vectors
 	x = collect(xll+resol/2:resol:xll+resol/2+resol*(ncols-1));
 	y = collect(yll+resol/2:resol:yll+resol/2+resol*(nrows-1));
 	# Set NoData values to NaN
-	height[height.==nodata] = NaN;
+	height[height.==nodata] .= NaN;
 	return Dict(:x => x,:y => y, :height => height);
 end
 
@@ -76,12 +76,12 @@ dem = Dict(:x => collect(1:1:10.),:y => collect(10:1:20.),
 writeascii(dem,"../test/output/ascii2mat_data.asc");
 ```
 """
-function writeascii(dem::Dict{Symbol,Any},fileout::String;
+function writeascii(dem,fileout::String;
 							 flag::String="9999",decimal::Int=4)
 	# Set to output precision
 	h = round.(dem[:height].*10^decimal)./10^decimal;
 	# Flipt upside down to get required format (y downards)
-	h = flipdim(h,1);
+	h = reverse(h,dims=1);
 	# get output size
 	nrows,ncols = size(h);
 	cellsize = abs(dem[:x][1]-dem[:x][2]);

@@ -73,7 +73,7 @@ function test_loadatmacs()
 			pwd()*"/test/input/atmacs_all_2.grav",
 			pwd()*"/test/input/atmacs_all_3.grav"];
 	glo,loc = loadatmacs(glofiles=gfiles);
-	total_m = Matrix{Float64}(0,5);
+	total_m = Matrix{Float64}(undef,0,5);
 	for i in gfiles
 		temp = readdlm(i)
 		total_m = vcat(total_m,temp);

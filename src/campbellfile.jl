@@ -15,16 +15,16 @@ data,units = readcampbell("../test/input/campbell_data.tsf");
 ```
 """
 function readcampbell(filein::String)
-	channels = Array{SubString{String},1}(0);
-	units = Array{SubString{String},1}(0);
+	channels = Array{SubString{String},1}();
+	units = Array{SubString{String},1}();
 	# Read header
 	open(filein,"r") do fid
 		readline(fid);# firts line is not important
 		# Read channel names
-		temp = split(replace(readline(fid),r" |\r|\"",""),','); # remove funny symbols
+		temp = split(replace(readline(fid),r" |\r|\""=>""),','); # remove funny symbols
 		channels = temp[2:end];
 		# Read units
-		temp = split(replace(readline(fid),r" |\r|\"",""),','); # remove funny symbols
+		temp = split(replace(readline(fid),r" |\r|\""=>""),','); # remove funny symbols
 		units = temp[2:end];
 	end
 	# read data

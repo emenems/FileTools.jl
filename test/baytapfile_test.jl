@@ -1,8 +1,8 @@
 function writebaytap_test()
 	timeout = collect(DateTime(2010,1,1,0):Dates.Hour(1):DateTime(2010,1,1,13));
 	gravout = ones(Float64,length(timeout));
-	gravout[[3,end]] = NaN;
-	gravout[[4,7]] = 10.123;
+	gravout[[3,end]] .= NaN;
+	gravout[[4,7]] .= 10.123;
 	dataout = DataFrame(datetime=timeout, grav=gravout);
 	output_file = pwd()*"/test/output/baytap_dataseries.txt";
 	writebaytap(dataout,:grav,(14.123,45.888,100.0,982.024), # position+mean gravity

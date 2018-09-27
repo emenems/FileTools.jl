@@ -19,7 +19,7 @@ function test_write_layerResponse()
 				   zone2=[0.05933,0.09874].*1e-9);
     FileTools.write_layerResponse(sensor,layers,zones,exclude,false,
 			   		    outputfile,10.,outdata);
-	t = readdlm(outputfile,comment_char='%');
+	t = readdlm(outputfile,comments=true,comment_char='%');
 	@test size(t) == (2,6)
 	@test all(isapprox.(t[:,4],outdata[:total].*1e+9))
 	@test all(isapprox.(t[:,5],outdata[:zone1].*1e+9))

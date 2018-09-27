@@ -16,7 +16,7 @@ vav2tsoft(file_vav,file_tsoft,site="Cantlay",name="test");
 """
 function vav2tsoft(file_results::String,file_output::String;
 					site::String="Site",name::String="Name",
-					filemode::String="w")::Void
+					filemode::String="w")::Nothing
 	# Get number of header lines
 	hl = FileTools.headlines(file_results,"results at filter frequency")
 	# open file for writting + add header
@@ -26,8 +26,8 @@ function vav2tsoft(file_results::String,file_output::String;
 		open(file_results,"r") do fid
 			for i in 1:hl+1;readline(fid); end
 			row = readline(fid);
-			while !occursin(row,">")
-				if !occursin(row,"---") && !occursin(row,"results")
+			while !occursin(">",row)
+				if !occursin("---",row) && !occursin("results",row)
 					vav2tsoft_write(fo,row);
 				end
 				row = readline(fid);
@@ -40,9 +40,9 @@ end
 """
 Auxiliary function to write the output file of vav2tsoft function
 """
-function vav2tsoft_write(f::IOStream,s::String)::Void
+function vav2tsoft_write(f::IOStream,s::String)::Nothing
 	@printf(f,"COMP: %s  %s  %s  %s  %s\n",
-			s[1:10],s[13:20],s[50:57],s[65:73],replace(s[27:31]," ",""));
+			s[1:10],s[13:20],s[50:57],s[65:73],replace(s[27:31]," "=>""));
 end
 
 """
@@ -64,7 +64,7 @@ eterna2tsoft(file_eterna,file_tsoft,site="Cantlay",name="test");
 """
 function eterna2tsoft(file_results::String,file_output::String;
 					site::String="Site",name::String="Name",
-					filemode::String="w")::Void
+					filemode::String="w")::Nothing
 	# Get number of header lines
 	hl = FileTools.headlines(file_results,"Adjusted tidal parameters :")
 	# open file for writting + add header
@@ -74,7 +74,7 @@ function eterna2tsoft(file_results::String,file_output::String;
 		open(file_results,"r") do fid
 			for i in 1:hl+5;readline(fid); end
 			row = readline(fid);
-			while !occursin(row,"Adjusted")
+			while !occursin("Adjusted",row)
 				length(row)>73 ? eterna2tsoft_write(fo,row) : nothing
 				row = readline(fid);
 				eof(fid) ? break : nothing;
@@ -86,9 +86,9 @@ end
 """
 Auxiliary function to write the output file of eterna2tsoft function
 """
-function eterna2tsoft_write(f::IOStream,s::String)::Void
+function eterna2tsoft_write(f::IOStream,s::String)::Nothing
 	@printf(f,"COMP: %s %s %s %s %s\n",
-			s[7:15],s[16:24],s[39:48],s[57:66],replace(s[25:29]," ",""));
+			s[7:15],s[16:24],s[39:48],s[57:66],replace(s[25:29]," "=>""));
 end
 """
 Auxiliary function to write TSD header

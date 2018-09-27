@@ -26,16 +26,15 @@ function readgpcpd(filein::String)
 	lon,lat = readgpcpd_lonlat(headout);
 	timeout = readgpcpd_time(headout);
 	# declare output
-	dataout = Array{Float64}(length(lon)*length(lat)*length(timeout));
+	dataout = Array{Float32}(undef,length(lon)*length(lat)*length(timeout));
 	open(filein,"r") do fid
 		# remove header lines
 		seek(fid,length(headout)-3);
 		# read data
-		dataout = read(fid,Float32,length(lon)*length(lat)*length(timeout)) |>
-						x -> convert(Vector{Float64},x);
+		read!(fid,dataout);
 	end
 	#dataout[dataout.<0.] == NaN;
-	return reshape(dataout,length(lon),length(lat),length(timeout))
+	return reshape(convert(Vector{Float64},dataout),length(lon),length(lat),length(timeout))
 end
 
 """
@@ -86,7 +85,7 @@ function readgpcpd_lonlat(headout::String)
 		headout = readgpcpd_head(headout);
 	end
 	string_size = match(r"[0-9]{3}x[0-9]{3}",headout);
-	x,y = split(string_size.match,"x") |> x -> (Base.parse(x[1]),Base.parse(x[2]))
+	x,y = split(string_size.match,"x") |> x -> (Meta.parse(x[1]),Meta.parse(x[2]))
 	return collect(0.5:1:(x-0.5)),collect(89.5:-1:(-y/2+0.5))
 end
 
@@ -113,12 +112,12 @@ function readgpcpd_time(headout::String)
 	string_yyyy = match(r"year=[0-9]{4}",headout);
 	string_mm = match(r"month=[0-9]{2}",headout);
 	string_dd = match(r"days=.-[0-9]{2}",headout) |> x->split(x.match,"=") |> x->x[2]
-	time_start = DateTime(Base.parse(split(string_yyyy.match,"=")[2]),
-						Base.parse(split(string_mm.match,"=")[2]),
-						Base.parse(split(string_dd,"-")[1]));
-	time_stop = DateTime(Base.parse(split(string_yyyy.match,"=")[2]),
-						Base.parse(split(string_mm.match,"=")[2]),
-						Base.parse(split(string_dd,"-")[2]));
+	time_start = DateTime(Meta.parse(split(string_yyyy.match,"=")[2]),
+						Meta.parse(split(string_mm.match,"=")[2]),
+						Meta.parse(split(string_dd,"-")[1]));
+	time_stop = DateTime(Meta.parse(split(string_yyyy.match,"=")[2]),
+						Meta.parse(split(string_mm.match,"=")[2]),
+						Meta.parse(split(string_dd,"-")[2]));
 	return collect(time_start:Dates.Day(1):time_stop)
 end
 
@@ -139,14 +138,14 @@ Convert 0 to 360 longitude coordinate (e.g. GPCP) system to -180 to 180
 ```
 # convert to 0-360 system
 lon = collect(-179.5:1:179.5);
-datain = repmat(-179.5:1:179.5,1,180);
+datain = repeat(-179.5:1:179.5,1,180);
 lonout,dataout = coorShift_lon(lon,datain,to="0to360")
 
 # convert to -180 to 180 system
 lon = collect(0.125:0.25:359.875);
 datain = Array{Float64}(720,length(lon),2);
-datain[:,:,1] = transpose(repmat(0.125:0.25:359.875,1,720));
-datain[:,:,2] = transpose(repmat(0.125:0.25:359.875,1,720));
+datain[:,:,1] = transpose(repeat(0.125:0.25:359.875,1,720));
+datain[:,:,2] = transpose(repeat(0.125:0.25:359.875,1,720));
 lonout,dataout = coorShift_lon(lon,datain,to="-180to180");
 ```
 """
@@ -154,11 +153,11 @@ function coorShift_lon(lon,datain;to::String="-180to180")
 	lonin = copy(lon);
 	# prepare output longitude
 	if to == "-180to180"
-		lonout = sort(lon-180);
-		lonin[lon.>180] = lon[lon.>180]-360.;
+		lonout = sort(lon .- 180);
+		lonin[lon.>180] = lon[lon.>180] .- 360.;
 	elseif to == "0to360"
-		lonout = sort(lon+180);
-		lonin[lon.<0] = lon[lon.<0]+360.;
+		lonout = sort(lon .+ 180);
+		lonin[lon.<0] = lon[lon.<0] .+ 360.;
 	end
 	# find indices
 	i_lon = zeros(Int,length(lon))

@@ -165,7 +165,7 @@ obnode = readhydrus1d_obsnode(input_file,paramout=:theta)
 """
 function readhydrus1d_obsnode(filein::String;paramout::Symbol=:theta)
 	# read all data
-	dataall = readdlm(filein,skipstart=11,comment_char='e');
+	dataall = readdlm(filein,skipstart=11,comments=true,comment_char='e');
 	obsnodes = getnodenumber(filein,paramout);
 	dataout = DataFrame(time=dataall[:,1]);
 	if paramout == :h
@@ -226,7 +226,7 @@ function headlines(filein::String,flag::String)
 	c = 0;
 	open(filein,"r") do fid
 		row = readline(fid);
-		while !occursin(row,flag)
+		while !occursin(flag,row)
 			row = readline(fid);
 			c += 1;
 			if eof(fid)
@@ -261,8 +261,8 @@ function parsenodenumber(row::String,paramout::Symbol)
 	c = 1000; # max obs node number in the hydrusFile is 999 (above just ***)
 	out = Vector{Symbol}();
 	for i in temp[2:end] # starts with empty field (see split)
-		if !occursin(i,"*") # numbers below 1000
-			obsnode = Base.parse(split(i,")")[1]) # ends with ')'
+		if !occursin("*",i) # numbers below 1000
+			obsnode = Meta.parse(split(i,")")[1]) # ends with ')'
 		else
 			obsnode = c;
 			c += 1;
@@ -298,11 +298,11 @@ moisture = readhydrus1d_nedinf(input_file,paramout=:theta)
 function readhydrus1d_nodinf(filein;paramout::Symbol=:all)
 	# declare output
 	timeout = -1;
-	h = Matrix{Float64}(0,0);
-	theta = Matrix{Float64}(0,0);
-	k = Matrix{Float64}(0,0);
-	node = Vector{Int}(0);
-	depth = Vector{Float64}(0);
+	h = Matrix{Float64}(undef,0,0);
+	theta = Matrix{Float64}(undef,0,0);
+	k = Matrix{Float64}(undef,0,0);
+	node = Vector{Int}();
+	depth = Vector{Float64}();
 	# read header
 	open(filein,"r") do fid
 		row = readhydrus1d_nodinf_head(fid);
@@ -342,10 +342,10 @@ auxiliary function to read time and data for each block
 """
 function readhydrus1d_nodinf_block(fid,row)
 	# find time stamp
-	while !occursin(row,"Time:")
+	while !occursin("Time:",row)
 		row = readline(fid);
 	end
-	timeout = Base.parse(split(row,":")[2])
+	timeout = Meta.parse(split(row,":")[2])
 	# ignore header for each time step
 	row = readhydrus1d_nodinf_head(fid);
 	# read data
@@ -369,10 +369,10 @@ auxiliary function to get data for current block
 """
 function readhydrus1d_nodinf_data(fid)
 	# stack the data to a matrix
-	datanode = Matrix{Float64}(1,11);
+	datanode = Matrix{Float64}(undef,1,11);
 	row = readline(fid);
-	while !occursin(row,"end")
-		datanode = vcat(datanode,row |> split |> x -> parse.(Float64,x) |> transpose);
+	while !occursin("end",row)
+		datanode = vcat(datanode,row |> split |> x -> Base.parse.(Float64,x) |> transpose);
 		row = readline(fid);
 	end
 	return datanode[2:end,:]; # first line is a dummy used for declaration
@@ -413,7 +413,7 @@ function corr_hydrus1d_obsnode(file_obs_node::String,file_profile::String)
 	## Get node numbers
 	temp = ""
 	fid = open(file_profile,"r");
-	node_id = fid |> readlines |> x->x[end] |> split |> x-> parse.(Int,x)
+	node_id = fid |> readlines |> x->x[end] |> split |> x-> Base.parse.(Int,x)
 	close(fid)
 
 	## Write with new Node Info
@@ -421,7 +421,7 @@ function corr_hydrus1d_obsnode(file_obs_node::String,file_profile::String)
 		fid_out = open(fileout,"w");
 		while !eof(fid)
 			row = readline(fid);
-			if occursin(row,"Node(")
+			if occursin("Node(",row)
 				for i in node_id
 					@printf(fid_out,"                      Node(%3i)",i)
 				end

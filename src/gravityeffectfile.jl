@@ -15,7 +15,7 @@ layers = read_layerResponse(fileinput,"layers");
 """
 function read_layerResponse(filein::String,par::String="results")
 	if par=="results"
-		d = readdlm(filein,comment_char='%');
+		d = readdlm(filein,comments=true,comment_char='%');
 		out = DataFrame(layer=d[:,1],start=d[:,2],stop=d[:,3],total=d[:,4]);
 		for i in 1:size(d,2)-4
 			out[Symbol("zone"*string(i))] = d[:,i+4]
@@ -24,11 +24,11 @@ function read_layerResponse(filein::String,par::String="results")
 	else
 		row = ""
 		open(filein,"r") do fid
-			while !occursin(lowercase(row),lowercase(par))
+			while !occursin(lowercase(par),lowercase(row))
 				row = eof(fid) ? par : readline(fid)
 			end
 		end
-		return occursin(row,"->") ? eval(Base.parse(split(row,"->")[2])) : []
+		return occursin("->",row) ? eval(Meta.parse(split(row,"->")[2])) : []
 	end
 end
 

@@ -42,7 +42,7 @@ function readggpdata(filein::String,blockinfo::DataFrame,nanval;offset::Bool=fal
 	# Declare output variable size
 	columns = size(blockinfo,2)-1;
 	lines = sum((blockinfo[:stopline].+1)-blockinfo[:startline]);
-	outmat = Matrix{Float64}(lines,columns);
+	outmat = Matrix{Float64}(undef,lines,columns);
 	# Read file
 	open(filein,"r") do fid
 		readdummy(fid,blockinfo[:startline][1]-1); # read header
@@ -65,7 +65,7 @@ function readggpdata(filein::String,blockinfo::DataFrame,nanval;offset::Bool=fal
 	if offset
 		for i in 1:size(blockinfo,1),  j in 3:columns
 			if blockinfo[j+1][i] != 0.0
-				outmat[outframe[:datetime].>=blockinfo[:datetime][i],j] += blockinfo[j+1][i];
+				outmat[outframe[:datetime] .>= blockinfo[:datetime][i],j] .+= blockinfo[j+1][i];
 			end
 		end
 	end
@@ -82,7 +82,7 @@ function readggpblocks(filein::String)
 		i = 0; # count lines to get block start and stop
 		while !eof(fid)
 			row = readline(fid); i += 1;
-			if occursin(row,"77777777")
+			if occursin("77777777",row)
 				# check if the data is in correct format
 				if length(row)> 8
 					if row[9:15] != "       "
@@ -93,7 +93,7 @@ function readggpblocks(filein::String)
 				row = readline(fid);i += 1; # read next line containing date
 				push!(blockdate,row);
 				push!(blockstart,i);
-			elseif occursin(row,"99999999") # end of block
+			elseif occursin("99999999",row) # end of block
 				push!(blockstop,i-1);
 			end
 		end
@@ -108,7 +108,7 @@ function readggphead(filein::String)
 	head = Vector{String}();
 	open(filein,"r") do fid
 		row = readline(fid);
-		while !occursin(row,"C**")
+		while !occursin("C**",row)
 			push!(head,row);
 			row = readline(fid);
 		end
@@ -124,8 +124,8 @@ function block2output(offset::Vector{String},timestr::Vector{String},
 	# get number of columns
 	numchan = splitline(timestr[1]) |> length |> x-> x-2;
 	# Declare output variable (or rather variables used for output)
-	outtime = Vector{DateTime}(0);
-	outoffset = Matrix{Float64}(0,numchan);
+	outtime = Vector{DateTime}();
+	outoffset = Matrix{Float64}(undef,0,numchan);
 	for (i,v) in enumerate(timestr)
 		push!(outtime,sumtime(splitline(v)[1],splitline(v)[2]));
 		if length(split(offset[i])) > 1 # this means the line contains also offset info
@@ -142,7 +142,7 @@ end
 """
 Auxiliary function to convert time pattern (HHMMSS) to DateTime
 """
-function append2df(indf::DataFrame,appmat::Matrix{Int},appstring::String)
+function append2df(indf::DataFrame,appmat::Matrix{Float64},appstring::String)
 	for i in 1:size(appmat,2)
 		indf[Symbol(appstring,i)] = appmat[:,i];
 	end
@@ -176,13 +176,13 @@ function readdataline(fid::IOStream)
 		push!(out,temp[i+1:i+10])# 10 strings per data-column
 		i += 10;
 	end
-	return parse.(Float64,out)
+	return Base.parse.(Float64,out)
 end
 """
 Auxiliary function to prepare string for data extraction
 """
 function splitline(str::String)
-	return replace(str,r"\s\s+"," ") |> split |> float
+	return replace(str,r"\s\s+"=>" ") |> split |> x -> Base.parse.(Float64,x)
 end
 """
 Auxiliary function to read dummy lines in input file (stream)
@@ -292,7 +292,7 @@ auxiliary function to write the header
 function writeggp_head(fid,header,channels,units)
 	if !isempty(header)
 		for i in header
-			if !occursin(i[1],"freetext")
+			if !occursin("freetext",i[1])
 	   			@printf(fid,"%-21s: %s\n",i[1],i[2])
 			end
 		end
@@ -431,7 +431,7 @@ function ggpdata2blocks(datawrite::DataFrame;channels=[])
 		dataout = deleterows!(dataout,remrows);
 		# get blocks
 		if length(remrows)>1
-			remrows = vcat(remrows[1],remrows[findall(x->x>1,diff(remrows))+1])
+			remrows = vcat(remrows[1],remrows[findall(x->x.>1,diff(remrows)).+1])
 		end
 		block = Dict("start"=>datawrite[timei][remrows],
 					 "offset"=>zeros(length(remrows),length(channels)),

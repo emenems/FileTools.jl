@@ -11,7 +11,7 @@ Load arc asii formated files (DEMs)
 
 **Example**
 ```
-dem = loadascii("../test/input/ascii2mat_data.asc");
+dem = loadascii("test/input/ascii_data.asc");
 ```
 """
 function loadascii(filein::AbstractString)
@@ -99,12 +99,12 @@ function writeascii(dem,fileout::String;
 		for x = 1:nrows
 			for y = 1:ncols
 				if isnan(h[x,y])
-					@printf(fid,"%s ",flag);
+					@printf(fid,"%s",flag);
 				else
-					@printf(fid,"%.10g ",h[x,y]);
+					@printf(fid,"%.10g",h[x,y]);
 				end
+				y == ncols ? @printf(fid,"\n") : @printf(fid," ");
 			end
-			@printf(fid,"\n");
 		end
 	end
 end

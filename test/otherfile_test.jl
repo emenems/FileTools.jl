@@ -10,17 +10,17 @@ function test_writecorrpar()
 						comment = ["first", "second", "third"]);
 	fileout = pwd()*"/test/output/writecorrpar_out.txt";
 	FileTools.writecorrpar(corrpar,fileout,decimal=1)
-	t = readdlm(fileout,comment_char='%');
+	t = readdlm(fileout,comments=true,comment_char='%');
 	@test t[:,1] == [3,2,1]
 	@test t[:,2] == [1,2,3]
-	@test t[:,3] == repmat([2010],3)
-	@test t[:,4] == repmat([1],3)
+	@test t[:,3] == repeat([2010],3)
+	@test t[:,4] == repeat([1],3)
 	@test t[:,5] == [1,1,2];
 	@test t[:,6] == [4,8,4];
 	@test t[:,7] == [30,0,0];
 	@test t[:,8] == [0,0,0];
-	@test t[:,9] == repmat([2010],3)
-	@test t[:,10] == repmat([1],3)
+	@test t[:,9] == repeat([2010],3)
+	@test t[:,10] == repeat([1],3)
 	@test t[:,11] == [1,1,2];
 	@test t[:,12] == [7,9,6];
 	@test t[:,13] == [30,30,30];

@@ -84,7 +84,7 @@ function igetsexport(datain::DataFrame,path_out::String,
 					name_out::String,ext_out::String,
 					exp_interval;
 					units=[],decimal=[2],channels=[],header=[],
-					file_format="preterna",flagval="9999.999")::Void
+					file_format="preterna",flagval="9999.999")::Nothing
 	for i in 1:length(exp_interval)-1
 		path_yyyy = joinpath(path_out,Dates.format(exp_interval[i],"yyyy"))
 		file_out = name_out*Dates.format(exp_interval[i],"yyyymm")*ext_out;

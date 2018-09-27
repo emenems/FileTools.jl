@@ -14,8 +14,8 @@ Write hourly data in Baytap08 fixed/free file format
 ```
 timeout = collect(DateTime(2010,1,1,0):Dates.Hour(1):DateTime(2010,1,2,3));
 gravout = ones(Float64,length(timeout));
-gravout[[3,end]] = NaN;
-gravout[[4,7]] = 10.123;
+gravout[[3,end]] .= NaN;
+gravout[[4,7]] .= 10.123;
 dataout = DataFrame(datetime=timeout, grav=gravout);
 writebaytap(dataout,:grav,
 			(14.123,45.888,100.0,982.024), # position+mean gravity
@@ -112,7 +112,7 @@ function baytap2tsoft(file_results::String,file_output::String;
 	open(file_results,"r") do fid
 		row = readline(fid);
 		while !eof(fid)
-			if occursin(row,">")
+			if occursin(">",row)
 				if row[2] != 'R'
 					wstart,wstop,wfactor,wphase,wname = get_wave_info(row);
 					freqinfo = find_freq_info(wstart,wstop,waves);
@@ -131,10 +131,10 @@ Auxiliary function to extract needed results
 """
 function get_wave_info(row::String)
 	temp = split(row)
-	wstart = temp |> x -> split(x[3],"-") |> x -> Base.parse(x[1])
-	wstop = temp |> x -> split(x[3],"-") |> x -> Base.parse(x[2][1:end-1])
-	wfactor = Base.parse(temp[5])
-	wphase = Base.parse(temp[7])
+	wstart = temp |> x -> split(x[3],"-") |> x -> Meta.parse.(x[1])
+	wstop = temp |> x -> split(x[3],"-") |> x -> Meta.parse.(x[2][1:end-1])
+	wfactor = Meta.parse(temp[5])
+	wphase = Meta.parse(temp[7])
 	wname = temp[4];
 	return wstart,wstop,wfactor,wphase,wname
 end

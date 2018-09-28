@@ -20,7 +20,7 @@ corrpar = DataFrame(column=[1,2,3], id = [3,2,1],
 						  DateTime(2010,01,02,06,30,00)],
 					y1 = [NaN,NaN,10.],y2 = [NaN,NaN,0.0],
 					comment = ["first", "second", "third"]);
-writecorrpar(corrpar,pwd()*"/test/output/writecorrpar_out.txt",decimal = 1)
+writecorrpar(corrpar,"test/output/writecorrpar_out.txt",decimal = 1)
 ```
 """
 function writecorrpar(corrpar,fileout;

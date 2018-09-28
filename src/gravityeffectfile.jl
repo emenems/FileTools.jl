@@ -8,7 +8,7 @@ Read `layerResponse` results. See GravityEffect.jl package for details
 
 **Example**
 ```
-fileinput = pwd()*"/test/input/layerResponse.txt";
+fileinput = "test/input/layerResponse.txt";
 response = read_layerResponse(fileinput,"results");
 layers = read_layerResponse(fileinput,"layers");
 ```

@@ -55,11 +55,11 @@ end
 
 function test_loadatmacs()
 	# Load global and local part
-	glo,loc = loadatmacs(glofiles=[pwd()*"/test/input/atmacs_glo.grav"],
-						locfiles=[pwd()*"/test/input/atmacs_loc.grav"]);
+	glo,loc = loadatmacs(glofiles=["test/input/atmacs_glo.grav"],
+						locfiles=["test/input/atmacs_loc.grav"]);
 	# Independent loading
-	glo_m = readdlm(pwd()*"/test/input/atmacs_glo.grav")
-	loc_m = readdlm(pwd()*"/test/input/atmacs_loc.grav")
+	glo_m = readdlm("test/input/atmacs_glo.grav")
+	loc_m = readdlm("test/input/atmacs_loc.grav")
 	@test glo[:global_newton] == glo_m[:,2]
 	@test glo[:total_loading] == glo_m[:,3]
 	@test loc[:pressure] == loc_m[:,2]
@@ -69,9 +69,9 @@ function test_loadatmacs()
 	@test loc[:datetime] == DateTime.(string.(round.(Int,loc_m[:,1])),"yyyymmddHH")
 
 	# Stack multiple global files covering global+local part (`loc` will be empty)
-	gfiles=[pwd()*"/test/input/atmacs_all_1.grav",
-			pwd()*"/test/input/atmacs_all_2.grav",
-			pwd()*"/test/input/atmacs_all_3.grav"];
+	gfiles=["test/input/atmacs_all_1.grav",
+			"test/input/atmacs_all_2.grav",
+			"test/input/atmacs_all_3.grav"];
 	glo,loc = loadatmacs(glofiles=gfiles);
 	total_m = Matrix{Float64}(undef,0,5);
 	for i in gfiles

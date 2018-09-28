@@ -54,7 +54,7 @@ end
 
 # unit test for Hydrus1D observation nodes output
 function test_readhydrus1d_obsnode()
-	input_file = pwd()*"/test/input/hydrus1d_Obs_Node.out"
+	input_file = "test/input/hydrus1d_Obs_Node.out"
 	# Theta/soil moisture
 	ttest = readhydrus1d_obsnode(input_file,paramout=:theta)
 	@test ttest[:time] == collect(1:1:12)
@@ -84,7 +84,7 @@ end
 
 # unit test for Hydrus1D all nodes output
 function test_readhydrus1d_nodinf()
-	input_file = pwd()*"/test/input/hydrus1d_Nod_Inf.out"
+	input_file = "test/input/hydrus1d_Nod_Inf.out"
 	# soil moisture only
 	ttest = readhydrus1d_nodinf(input_file,paramout=:theta)
 	@test ttest[:time] == collect(0.:1.:3)
@@ -113,7 +113,7 @@ function test_readhydrus1d_nodinf()
 end
 
 function test_readatmosph()
-	input_file = pwd()*"/test/input/hydrus1d_atmosph.in"
+	input_file = "test/input/hydrus1d_atmosph.in"
 	ttest = readatmosph(input_file)
 	@test ttest[:time] == collect(1.:1.:11)
 	@test size(ttest) == (11,9)

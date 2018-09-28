@@ -1,6 +1,6 @@
 # Unit test for arc ascii grid file reading
 function test_load_asc()
-	dem = loadascii(pwd()*"/test/input/ascii_data.asc");
+	dem = loadascii("test/input/ascii_data.asc");
 	@test size(dem[:height]) == (6,4)
 	@test size(dem[:x]) == (4,)
 	@test size(dem[:y]) == (6,)

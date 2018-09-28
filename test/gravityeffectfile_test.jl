@@ -30,14 +30,14 @@ function test_write_layerResponse()
 end
 
 function test_read_layerResponse()
-	filein = pwd()*"/test/input/read_layerResponse.txt";
+	filein = "test/input/read_layerResponse.txt";
 	t = read_layerResponse(filein,"results")
-	@test t[:,1]==[1.,2.]
-	@test t[:,2]==[0.,1.]
-	@test t[:,3]==[1.,2.]
-	@test t[:,4]==[4.,3.]
-	@test t[:,5]==[3.1,2.2]
-	@test t[:,6]==[0.9,0.8]
+	@test t[:layer]==[1.,2.]
+	@test t[:start]==[0.,1.]
+	@test t[:stop]==[1.,2.]
+	@test t[:total]==[4.,3.]
+	@test t[:zone1]==[3.1,2.2]
+	@test t[:zone2]==[0.9,0.8]
 
 	t = read_layerResponse(filein,"layers")
 	@test t == Dict(:start => [0.0, 1.0],:stop  => [1.0, 2.0])

@@ -1,13 +1,13 @@
 # Unit test for readtsf function
 function test_load_tsf()
-	data = readtsf(pwd()*"/test/input/tsf_data.tsf");
+	data = readtsf("test/input/tsf_data.tsf");
 	@test size(data) == (10,3)
 	@test data[:datetime][1] == DateTime(2016,12,16,00,00,00)
 	@test sum(data[2]) == 0.
 	@test data[:Measurement1][end] == 0.
 	@test data[:Measurement2][4] == 10.
 	@test isnan(data[:Measurement2][5])
-	units = readtsf(pwd()*"/test/input/tsf_data.tsf",unitsonly=true);
+	units = readtsf("test/input/tsf_data.tsf",unitsonly=true);
 	@test size(units) == (2,)
 	@test units[1] == "units1"
 	@test units[2] == "units2"

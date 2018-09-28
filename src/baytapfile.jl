@@ -19,7 +19,7 @@ gravout[[4,7]] .= 10.123;
 dataout = DataFrame(datetime=timeout, grav=gravout);
 writebaytap(dataout,:grav,
 			(14.123,45.888,100.0,982.024), # position+mean gravity
-			pwd()*"/test/output/baytap_dataseries.txt",
+			"test/output/baytap_dataseries.txt",
 			header="writebaytap unit test");
 ```
 """
@@ -95,8 +95,8 @@ parameters can be used in "LOCAT.TSD")
 
 **Example**
 ```
-file_results = pwd()*"/test/input/baytap08.out";
-file_output = pwd()*"/test/output/baytap2tsoft.txt"
+file_results = "test/input/baytap08.out";
+file_output = "test/output/baytap2tsoft.txt"
 baytap2tsoft(file_results,file_output,site="Cantlay",name="test");
 ```
 """

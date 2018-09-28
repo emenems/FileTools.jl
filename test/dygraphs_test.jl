@@ -1,6 +1,6 @@
 # Unit test for Dygraphs file reading
 function test_load_dygraphs()
-	data = readdygraphs(pwd()*"/test/input/dygraphs_data.csv",datestring="yyyymmdd");
+	data = readdygraphs("test/input/dygraphs_data.csv",datestring="yyyymmdd");
 	@test size(data) == (10,3)
 	@test names(data)==[:datetime,:High,:Low]
 	@test data[:datetime][1] == DateTime(2007,01,01,00,00,00)

@@ -16,7 +16,7 @@ dataout = DataFrame(Prec=[0.01,0.1,0.2,0.3],
 	   			 hCritA=[1,1,1,1]
 	   			 datetime=[DateTime(2010,1,1,0),DateTime(2010,1,1,1),
 		   			  DateTime(2010,1,1,2),DateTime(2010,1,1,3)],);
-writeatmosph(dataout,pwd()*"/test/output/atmosph_data.in",
+writeatmosph(dataout,"test/output/atmosph_data.in",
 			decimal=[1],
 			hCritS=1000.,Extinction=-1.0);
 ```
@@ -90,7 +90,7 @@ iObs: list (vector) of the observation nodes for which values of the pressure he
 **Example**
 ```
 soilinfo = DataFrame(start=[0],stop=[10],res=[0.01],h=[100],Mat=[5],Lay=[1])
-output_file = pwd()*"/test/output/profile1d_data.in"
+output_file = "test/output/profile1d_data.in"
 print_nodes = [1,2,3];
 writeprofile1d(soilinfo,output_file,iObs=print_nodes);
 ```
@@ -159,7 +159,7 @@ obnode: dataframe containg:
 
 **Example**
 ```
-input_file = pwd()*"/test/input/hydrus1d_Obs_Node.out"
+input_file = "test/input/hydrus1d_Obs_Node.out"
 obnode = readhydrus1d_obsnode(input_file,paramout=:theta)
 ```
 """
@@ -197,7 +197,7 @@ obnode: dataframe containg:
 
 **Example**
 ```
-input_file = pwd()*"/test/input/hydrus1d_atmosph.in"
+input_file = "test/input/hydrus1d_atmosph.in"
 atm = readatmosph(input_file)
 ```
 """
@@ -290,7 +290,7 @@ theta,k,h: dataframe containg:
 
 **Example**
 ```
-input_file = pwd()*"/test/input/hydrus1d_Nod_Inf.out"
+input_file = "test/input/hydrus1d_Nod_Inf.out"
 moisture = readhydrus1d_nedinf(input_file,paramout=:theta)
 # moisture,k,h = readhydrus1d_nedinf(input_file)
 ```

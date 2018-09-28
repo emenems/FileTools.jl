@@ -25,23 +25,23 @@ function test_coorShift_lon()
 end
 
 function test_readgpcpd_head()
-	header_read = readgpcpd_head(pwd()*"/test/input/gpcpd_data");
+	header_read = readgpcpd_head("test/input/gpcpd_data");
 	@test length(header_read) == 1440
 end
 
 function test_readgpcpd_lonlat()
-	lon,lat = readgpcpd_lonlat(pwd()*"/test/input/gpcpd_data")
+	lon,lat = readgpcpd_lonlat("test/input/gpcpd_data")
 	@test lon == collect(0.5:1:359.5)
 	@test lat == collect(89.5:-1:-89.5)
 end
 
 function test_readgpcpd_time()
-	timeout = readgpcpd_time(pwd()*"/test/input/gpcpd_data");
+	timeout = readgpcpd_time("test/input/gpcpd_data");
 	@test timeout == collect(DateTime(2011,6,1):Dates.Day(1):DateTime(2011,6,30))
 end
 
 function test_readgpcpd()
-	dataout = readgpcpd(pwd()*"/test/input/gpcpd_data");
+	dataout = readgpcpd("test/input/gpcpd_data");
 	@test size(dataout) == (360,180,30)
 end
 

@@ -23,7 +23,7 @@ function writebaytap_test()
 end
 
 function baytap2tsoft_test()
-	file_results = pwd()*"/test/input/baytap08.out";
+	file_results = "test/input/baytap08.out";
 	file_output = pwd()*"/test/output/baytap2tsoft.txt"
 	isfile(file_output) ? rm(file_output) : nothing
 	baytap2tsoft(file_results,file_output,site="Cantlay",name="test");

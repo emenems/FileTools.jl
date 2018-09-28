@@ -10,8 +10,8 @@ parameters can be used in "LOCAT.TSD")
 * name: name of the tidal parameters (unique for given site)
 * filemode: write new file ("w", default) or append to existing ("a")
 
-file_vav = pwd()*"/test/input/vav_analysis.dat";
-file_tsoft = pwd()*"/test/output/vav2tsoft.txt"
+file_vav = "test/input/vav_analysis.dat";
+file_tsoft = "test/output/vav2tsoft.txt"
 vav2tsoft(file_vav,file_tsoft,site="Cantlay",name="test");
 """
 function vav2tsoft(file_results::String,file_output::String;
@@ -58,8 +58,8 @@ parameters can be used in "LOCAT.TSD")
 * name: name of the tidal parameters (unique for given site)
 * filemode: write new file ("w", default) or append to existing ("a")
 
-file_eterna = pwd()*"/test/input/eterna_analysis.prn";
-file_tsoft = pwd()*"/test/output/eterna2tsoft.txt"
+file_eterna = "test/input/eterna_analysis.prn";
+file_tsoft = "test/output/eterna2tsoft.txt"
 eterna2tsoft(file_eterna,file_tsoft,site="Cantlay",name="test");
 """
 function eterna2tsoft(file_results::String,file_output::String;

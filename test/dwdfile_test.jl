@@ -1,6 +1,6 @@
 function test_dwdclimateraw()
-	temp_out = pwd()*"/test/output/temp_dwdclimateraw.txt";
-	temp_in = "test/input/"
+	temp_out = joinpath(dirname(@__DIR__),"test","output","temp_dwdclimateraw.txt");
+	temp_in = joinpath(dirname(@__DIR__),"test","input")
 	dwd = dwdclimateraw(DateTime(2012,04),67890,"P",downto=temp_out,
 						url=temp_in);
 	@test dwd[:datetime][end] == DateTime(2012,04)

@@ -8,7 +8,7 @@ function test_writecorrpar()
 							  DateTime(2010,01,02,06,30,00)],
 						y1 = [NaN,NaN,10.],y2 = [NaN,NaN,0.0],
 						comment = ["first", "second", "third"]);
-	fileout = pwd()*"/test/output/writecorrpar_out.txt";
+	fileout = joinpath(dirname(@__DIR__),"test","output","writecorrpar_out.txt");
 	FileTools.writecorrpar(corrpar,fileout,decimal=1)
 	t = readdlm(fileout,comments=true,comment_char='%');
 	@test t[:,1] == [3,2,1]

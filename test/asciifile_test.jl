@@ -1,6 +1,6 @@
 # Unit test for arc ascii grid file reading
 function test_load_asc()
-	dem = loadascii("test/input/ascii_data.asc");
+	dem = loadascii(joinpath(dirname(@__DIR__),"test","input","ascii_data.asc"));
 	@test size(dem[:height]) == (6,4)
 	@test size(dem[:x]) == (4,)
 	@test size(dem[:y]) == (6,)
@@ -24,16 +24,18 @@ function test_write_asc()
    	dem[:height][1,2] = NaN;
 	dem[:height][2,3] = 0.00049;
 	# write
-	writeascii(dem,pwd()*"/test/output/ascii_data.asc",flag="8888",decimal=3);
+	writeascii(dem,joinpath(dirname(@__DIR__),"test","output","ascii_data.asc")
+					,flag="8888",decimal=3);
 	# independent read
-	data = readdlm(pwd()*"/test/output/ascii_data.asc", skipstart=6);
+	data = readdlm(joinpath(dirname(@__DIR__),"test","output","ascii_data.asc"),
+					skipstart=6);
 	# check data
 	@test size(data) == (10,11)
 	@test data[1,1] == 1.
 	@test data[end,2] == 8888. # has been fliped upside down and converted to flag value
 	@test data[end-1,3] == 0. # has been rounded to 3 dec. places
 	# check header
-	open(pwd()*"/test/output/ascii_data.asc","r") do fid
+	open(joinpath(dirname(@__DIR__),"test","output","ascii_data.asc"),"r") do fid
 		count_header = 0;
 		for i = 1:6
 			row = readline(fid);

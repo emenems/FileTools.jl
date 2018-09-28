@@ -4,7 +4,7 @@ function writebaytap_test()
 	gravout[[3,end]] .= NaN;
 	gravout[[4,7]] .= 10.123;
 	dataout = DataFrame(datetime=timeout, grav=gravout);
-	output_file = pwd()*"/test/output/baytap_dataseries.txt";
+	output_file = joinpath(dirname(@__DIR__),"test","output","baytap_dataseries.txt");
 	writebaytap(dataout,:grav,(14.123,45.888,100.0,982.024), # position+mean gravity
 				output_file,header="writebaytap unit test");
 
@@ -23,8 +23,8 @@ function writebaytap_test()
 end
 
 function baytap2tsoft_test()
-	file_results = "test/input/baytap08.out";
-	file_output = pwd()*"/test/output/baytap2tsoft.txt"
+	file_results = joinpath(dirname(@__DIR__),"test","input","baytap08.out");
+	file_output = joinpath(dirname(@__DIR__),"test","input","baytap2tsoft.txt");
 	isfile(file_output) ? rm(file_output) : nothing
 	baytap2tsoft(file_results,file_output,site="Cantlay",name="test");
 	@test isfile(file_output)

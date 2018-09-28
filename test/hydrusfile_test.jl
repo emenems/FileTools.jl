@@ -4,11 +4,11 @@ function test_writeatmosph()
 		   datetime=[DateTime(2010,1,1,0),DateTime(2010,1,1,1),
 			   DateTime(2010,1,1,2),DateTime(2010,1,1,4)],
 			   hCritA=[1,1,1,1]);
-	writeatmosph(data,pwd()*"/test/output/atmosph_data.in",
+	writeatmosph(data,joinpath(dirname(@__DIR__),"test","output","atmosph_data.in"),
 				decimal=[1],
 				hCritS=1000.);
 	# Read header
-	open(pwd()*"/test/output/atmosph_data.in") do fid
+	open(joinpath(dirname(@__DIR__),"test","output","atmosph_data.in")) do fid
 		row = " ";
 		for i in 1:4
 			row = readline(fid);
@@ -20,7 +20,7 @@ function test_writeatmosph()
 		hcrits = fid |> readline |> Meta.parse
 		@test hcrits == 1000
 	end
-	data_read = readdlm(pwd()*"/test/output/atmosph_data.in",skipstart=9);
+	data_read = readdlm(joinpath(dirname(@__DIR__),"test","output","atmosph_data.in"),skipstart=9);
 	@test size(data_read) == (5,8)
 	@test data_read[1:4,1:8] == [1 0   0   0 1 0 0 0;
 							     2 0.1 0.1 0 1 0 0 0;
@@ -32,7 +32,7 @@ end
 function test_writeprofile1d()
 	# write data
 	soilinfo = DataFrame(start=[0.0,4.2],stop=[4.0,6],res=[0.5,0.2],h=[100,200],Mat=[1,2],Lay=[1,1])
-	output_file = pwd()*"/test/output/profile1d_data.dat"
+	output_file = joinpath(dirname(@__DIR__),"test","output","profile1d_data.dat");
 	print_nodes = [5,7,9];
 	writeprofile1d(soilinfo,output_file,iObs=print_nodes);
 	# check file
@@ -54,7 +54,7 @@ end
 
 # unit test for Hydrus1D observation nodes output
 function test_readhydrus1d_obsnode()
-	input_file = "test/input/hydrus1d_Obs_Node.out"
+	input_file = joinpath(dirname(@__DIR__),"test","input","hydrus1d_Obs_Node.out")
 	# Theta/soil moisture
 	ttest = readhydrus1d_obsnode(input_file,paramout=:theta)
 	@test ttest[:time] == collect(1:1:12)
@@ -84,7 +84,7 @@ end
 
 # unit test for Hydrus1D all nodes output
 function test_readhydrus1d_nodinf()
-	input_file = "test/input/hydrus1d_Nod_Inf.out"
+	input_file = joinpath(dirname(@__DIR__),"test","input","hydrus1d_Nod_Inf.out");
 	# soil moisture only
 	ttest = readhydrus1d_nodinf(input_file,paramout=:theta)
 	@test ttest[:time] == collect(0.:1.:3)
@@ -113,7 +113,7 @@ function test_readhydrus1d_nodinf()
 end
 
 function test_readatmosph()
-	input_file = "test/input/hydrus1d_atmosph.in"
+	input_file = joinpath(dirname(@__DIR__),"test","input","hydrus1d_atmosph.in");
 	ttest = readatmosph(input_file)
 	@test ttest[:time] == collect(1.:1.:11)
 	@test size(ttest) == (11,9)

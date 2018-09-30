@@ -2,9 +2,9 @@ FileTools
 =========
 This repository contains functions for reading/writing files in following formats:
 * `readtsf.jl`: read data in [TSoft](http://seismologie.oma.be/en/downloads/tsoft) format
-* `writetsf.jl`: write DataFrame to TSoft format
+* `writetsf.jl`: write DataFrame to [TSoft](http://seismologie.oma.be/en/downloads/tsoft) format
 * `loadascii.jl`: read data in [ESRI](https://en.wikipedia.org/wiki/Esri_grid) arc ascii format
-* `writeascii.jl`: write data/grid to ESRI arc ascii format
+* `writeascii.jl`: write data/grid to [ESRI](https://en.wikipedia.org/wiki/Esri_grid) arc ascii format
 * `readcampbell`: read data in Campbell Scientific logger format
 * `readdygraphs`: read data in [Dygraphs](http://dygraphs.com/tutorial.html) csv format
 * `writedygraphs`: write DataFrame to [Dygraphs](http://dygraphs.com/tutorial.html) csv format
@@ -15,7 +15,7 @@ This repository contains functions for reading/writing files in following format
 * `ggpdata2blocks`: remove time spans of NaN and return blocks of data as needed for `writeggp` function
 * `igetsimport`: load all files within given time interval downloaded from [IGETS](http://isdc.gfz-potsdam.de/igets-data-base/) database
 * `igetsexport`: export files within given time interval to  [IGETS](http://isdc.gfz-potsdam.de/igets-data-base/) format
-* `readgpcpd*`: read [GPCP](https://precip.gsfc.nasa.gov/gpcp_daily_comb.html) _daily_ binary files
+* `readgpcpd`: read [GPCP](https://precip.gsfc.nasa.gov/gpcp_daily_comb.html) _daily_ binary files (use separate function for data, `_head`, `_time`, and `_lonlat`)
 * `writeatmosph`: write atmospheric data to [Hydrus1D](https://www.pc-progress.com/en/Default.aspx?H1D-description#k1) format (water flux only)
 * `writeprofile1d`: write vertical profile data in [Hydrus1D](https://www.pc-progress.com/en/Default.aspx?H1D-description#k1) format (water flux mode only)
 * `readhydrus1d_obsnode`: read [Hydrus1D](https://www.pc-progress.com/en/Default.aspx?H1D-description#k1) observation nodes output (water flux mode only)

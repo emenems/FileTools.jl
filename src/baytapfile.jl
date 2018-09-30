@@ -102,7 +102,7 @@ baytap2tsoft(file_results,file_output,site="Cantlay",name="test");
 """
 function baytap2tsoft(file_results::String,file_output::String;
 					  site::String="Site",name::String="Name",
-					  file_groups::String="f:/mikolaj/code/libraries/julia/FileTools.jl/test/input/baytap_tamura_waves.txt",
+					  file_groups::String=joinpath(dirname(@__DIR__),"test","test","input","baytap_tamura_waves.txt"),
 					  filemode::String="w")
 	waves = readdlm(file_groups);
 	# open file for writting

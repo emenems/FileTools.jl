@@ -26,7 +26,8 @@ function baytap2tsoft_test()
 	file_results = joinpath(dirname(@__DIR__),"test","input","baytap08.out");
 	file_output = joinpath(dirname(@__DIR__),"test","input","baytap2tsoft.txt");
 	isfile(file_output) ? rm(file_output) : nothing
-	baytap2tsoft(file_results,file_output,site="Cantlay",name="test");
+	baytap2tsoft(file_results,file_output,site="Cantlay",name="test",
+				file_groups=joinpath(dirname(@__DIR__),"test","test","input","baytap_tamura_waves.txt"));
 	@test isfile(file_output)
 end
 

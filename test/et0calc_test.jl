@@ -1,5 +1,4 @@
 function test_ET0calc_read()
-    cd("e:\\Julia\\packages\\packages\\FileTools\\riVWl")
     et_calc = ET0calc_read(joinpath(dirname(@__DIR__),"test","input","ETcalc.ETo"));
     @test et_calc[:datetime] == collect(DateTime(2016,5,1):Dates.Day(1):DateTime(2016,5,9))
     @test et_calc[:ET0] == [0.0,1.0,0.7,0.4,0.9,0.9,0.6,0.3,0.9]

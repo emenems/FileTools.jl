@@ -21,6 +21,7 @@ include("otherfile.jl")
 include("dwdfile.jl")
 include("tidefile.jl")
 include("gravityeffectfile.jl")
+include("et0calc.jl")
 
 export readtsf, writetsf, loadascii, writeascii, readcampbell
 export readdygraphs, writedygraphs
@@ -34,5 +35,6 @@ export igetsimport, igetsexport
 export dwdclimateraw
 export vav2tsoft, eterna2tsoft
 export read_layerResponse
+export ET0calc_dsc, ET0calc_dta, ET0calc_read
 
 end #module

@@ -26,6 +26,9 @@ This repository contains functions for reading/writing files in following format
 * `vav2tsoft`: convert [VAV](https://www.sciencedirect.com/science/article/pii/S0098300403000190) results to format used in TSoft for tidal wave grouping
 * `eterna2tsoft`: convert [ETERNA34](http://igets.u-strasbg.fr/soft_and_tool.php) results to format used in TSoft for tidal wave grouping
 * `dwdclimateraw`: read raw monthly global climate date provided by [DWD](ftp://ftp-cdc.dwd.de/pub/CDC/observations_global/CLIMAT/monthly/raw/)
+* `ET0calc_read`: read [ET0calculator](http://www.fao.org/land-water/databases-and-software/eto-calculator/en) evaporanspitation output file
+* `ET0calc_dsc`: write [ET0calculator](http://www.fao.org/land-water/databases-and-software/eto-calculator/en) input settings
+* `ET0calc_read`: write [ET0calculator](http://www.fao.org/land-water/databases-and-software/eto-calculator/en) input meteo-date 
 
 In addition, following functions are exported:
 * `stackframes`: stack (vertical concatenate) two DataFrame with optional overlapping or gap between DataFrames (time)

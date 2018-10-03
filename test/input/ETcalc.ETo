@@ -1,0 +1,17 @@
+LaPlata (Argentina) - daily data: 1 May 2016 -  9 May 2016
+     1  : Daily records (1=daily, 2=10-daily and 3=monthly data)
+     1  : First day of record (1, 11 or 21 for 10-day or 1 for months)
+     5  : First month of record
+  2016  : First year of record (1901 if not linked to a specific year)
+
+  Average ETo (mm/day)
+=======================
+         0.0
+         1.0
+         0.7
+         0.4
+         0.9
+         0.9
+         0.6
+         0.3
+         0.9

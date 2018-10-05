@@ -23,8 +23,8 @@ head_string = readgpcpd_head(filein);
 function readgpcpd(filein::String)
 	# get header info
 	headout = readgpcpd_head(filein);
-	lon,lat = readgpcpd_lonlat(headout);
-	timeout = readgpcpd_time(headout);
+	lon,lat = readgpcpd_lonlat(headout,from_file=false);
+	timeout = readgpcpd_time(headout,from_file=false);
 	# declare output
 	dataout = Array{Float32}(undef,length(lon)*length(lat)*length(timeout));
 	open(filein,"r") do fid
@@ -65,11 +65,12 @@ function readgpcpd_head(filein::String;headsize::Int=1440)
 end
 
 """
-	readgpcpd_lonlat(filein)
+	readgpcpd_lonlat(filein;from_file=true)
 Read DAILY GPCP longitude and latitude
 
 **Input**
 * filein: daily (GPCP)[https://precip.gsfc.nasa.gov/gpcp_daily_comb.html] binary file
+* read from file (true) or parse from string (false)
 
 **Output**
 * longitude (degree east), latitude (degree north to east)
@@ -80,8 +81,8 @@ filein = "/test/input/gpcpd_data";
 lon,lat = readgpcpd_lonlat(filein);
 ```
 """
-function readgpcpd_lonlat(headout::String)
-	if isfile(headout)
+function readgpcpd_lonlat(headout::String;from_file=true)
+	if from_file==true
 		headout = readgpcpd_head(headout);
 	end
 	string_size = match(r"[0-9]{3}x[0-9]{3}",headout);
@@ -95,6 +96,7 @@ Read DAILY GPCP time information
 
 **Input**
 * filein: daily (GPCP)[https://precip.gsfc.nasa.gov/gpcp_daily_comb.html] binary file
+* read from file (true) or parse from string (false)
 
 **Output**
 * time vector in DateTime format
@@ -105,8 +107,8 @@ filein = "/test/input/gpcpd_data";
 timegpcp = readgpcpd_time(filein);
 ```
 """
-function readgpcpd_time(headout::String)
-	if isfile(headout)
+function readgpcpd_time(headout::String;from_file=true)
+	if from_file==true
 		headout = readgpcpd_head(headout);
 	end
 	string_yyyy = match(r"year=[0-9]{4}",headout);

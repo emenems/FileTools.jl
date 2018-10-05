@@ -1,0 +1,11 @@
+language: julia
+julia:
+    - 1.0
+    - nightly
+os:
+    - linux
+notifications:
+    email: false
+sudo: false
+after_success:
+- julia -e 'cd(Pkg.dir("FileTools")); Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'

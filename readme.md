@@ -1,5 +1,8 @@
 FileTools
 =========
+[![Coverage Status](https://coveralls.io/repos/github/emenems/FileTools.jl/badge.svg)](https://coveralls.io/github/emenems/FileTools.jl)
+[![Build Status](https://travis-ci.org/emenems/FileTools.jl.svg?branch=master)](https://travis-ci.org/emenems/FileTools.jl)
+
 This repository contains functions for reading/writing files in following formats:
 * `readtsf.jl`: read data in [TSoft](http://seismologie.oma.be/en/downloads/tsoft) format
 * `writetsf.jl`: write DataFrame to [TSoft](http://seismologie.oma.be/en/downloads/tsoft) format
@@ -28,7 +31,7 @@ This repository contains functions for reading/writing files in following format
 * `dwdclimateraw`: read raw monthly global climate date provided by [DWD](ftp://ftp-cdc.dwd.de/pub/CDC/observations_global/CLIMAT/monthly/raw/)
 * `ET0calc_read`: read [ET0calculator](http://www.fao.org/land-water/databases-and-software/eto-calculator/en) evaporanspitation output file
 * `ET0calc_dsc`: write [ET0calculator](http://www.fao.org/land-water/databases-and-software/eto-calculator/en) input settings
-* `ET0calc_read`: write [ET0calculator](http://www.fao.org/land-water/databases-and-software/eto-calculator/en) input meteo-date 
+* `ET0calc_read`: write [ET0calculator](http://www.fao.org/land-water/databases-and-software/eto-calculator/en) input meteo-date
 
 In addition, following functions are exported:
 * `stackframes`: stack (vertical concatenate) two DataFrame with optional overlapping or gap between DataFrames (time)
@@ -36,7 +39,7 @@ In addition, following functions are exported:
 * `read_layerResponse`: read formatted output of the [GravityEffect](https://github.com/emenems/GravityEffect.jl)/`layerResponse` function
 
 ### Usage
-* Check the function help for instructions and example usage
+* Check the function help for instructions and example usage, e.g., `?readtsf`
 
 ### Dependency
 * Check the `REQUIRE` file for required packages

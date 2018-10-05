@@ -1,6 +1,7 @@
 FileTools
 =========
 [![Build Status](https://travis-ci.org/emenems/FileTools.jl.svg?branch=master)](https://travis-ci.org/emenems/FileTools.jl)
+[![codecov](https://codecov.io/gh/emenems/FileTools.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/emenems/FileTools.jl)
 [![Coverage Status](https://coveralls.io/repos/github/emenems/FileTools.jl/badge.svg)](https://coveralls.io/github/emenems/FileTools.jl)
 
 This repository contains functions for reading/writing files in following formats:

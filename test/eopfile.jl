@@ -1,5 +1,5 @@
 # Unit test for EOP C04 file reading
-function test_load_eop()
+@testset "EOP C04 file reading" begin
 	data = loadeop(joinpath(dirname(@__DIR__),"test","input","eop_data.c04"));
 	@test size(data) == (11,14)
 	@test data[:datetime][1] == DateTime(1962,1,1)
@@ -7,5 +7,3 @@ function test_load_eop()
 	@test sum(data[:x]) ≈ -0.297387
 	@test data[:dYErr][end] ≈ 0.002000
 end
-
-test_load_eop();

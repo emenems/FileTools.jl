@@ -1,4 +1,4 @@
-function writebaytap_test()
+@testset "baytapfile write" begin
 	timeout = collect(DateTime(2010,1,1,0):Dates.Hour(1):DateTime(2010,1,1,13));
 	gravout = ones(Float64,length(timeout));
 	gravout[[3,end]] .= NaN;
@@ -7,7 +7,6 @@ function writebaytap_test()
 	output_file = joinpath(dirname(@__DIR__),"test","output","baytap_dataseries.txt");
 	writebaytap(dataout,:grav,(14.123,45.888,100.0,982.024), # position+mean gravity
 				output_file,header="writebaytap unit test");
-
 	# check manually
 	open(output_file,"r") do fid
 		@test readline(fid) == "writebaytap unit test"
@@ -22,14 +21,11 @@ function writebaytap_test()
 	end
 end
 
-function baytap2tsoft_test()
+@testset "baytapfile2tsoft conversion" begin
 	file_results = joinpath(dirname(@__DIR__),"test","input","baytap08.out");
-	file_output = joinpath(dirname(@__DIR__),"test","input","baytap2tsoft.txt");
+	file_output = joinpath(dirname(@__DIR__),"test","output","baytap2tsoft.txt");
 	isfile(file_output) ? rm(file_output) : nothing
 	baytap2tsoft(file_results,file_output,site="Cantlay",name="test",
 				file_groups=joinpath(dirname(@__DIR__),"test","input","baytap_tamura_waves.txt"));
 	@test isfile(file_output)
 end
-
-writebaytap_test();
-baytap2tsoft_test();

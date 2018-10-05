@@ -1,4 +1,4 @@
-function test_writecorrpar()
+@testset "Correction param. write" begin
 	corrpar = DataFrame(column=[1,2,3], id = [3,2,1],
 						x1 = [DateTime(2010,01,01,04,30,00),
 							  DateTime(2010,01,01,08,00,00),
@@ -37,8 +37,17 @@ function test_writecorrpar()
 	return corrpar,fileout
 end
 
-function test_readcorrpar()
-	corrpar,fileout = test_writecorrpar();
+@testset "Correction param. read" begin
+	corrpar = DataFrame(column=[1,2,3], id = [3,2,1],
+					x1 = [DateTime(2010,01,01,04,30,00),
+						  DateTime(2010,01,01,08,00,00),
+						  DateTime(2010,01,02,04,00,00)],
+					x2 = [DateTime(2010,01,01,07,30,00),
+						  DateTime(2010,01,01,09,30,09),
+						  DateTime(2010,01,02,06,30,00)],
+					y1 = [NaN,NaN,10.],y2 = [NaN,NaN,0.0],
+					comment = ["first", "second", "third"]);
+	fileout = joinpath(dirname(@__DIR__),"test","input","corrpar_in.txt");
 	corrpar_read = FileTools.readcorrpar(fileout)
 	for i in names(corrpar)
 		if i != :y1 && i != :y2
@@ -50,6 +59,3 @@ function test_readcorrpar()
 	@test corrpar_read[:y1][3] == corrpar[:y1][3]
 	@test corrpar_read[:y2][3] == corrpar[:y2][3]
 end
-
-test_writecorrpar();
-test_readcorrpar();

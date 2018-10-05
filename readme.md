@@ -1,7 +1,7 @@
 FileTools
 =========
-[![Coverage Status](https://coveralls.io/repos/github/emenems/FileTools.jl/badge.svg)](https://coveralls.io/github/emenems/FileTools.jl)
 [![Build Status](https://travis-ci.org/emenems/FileTools.jl.svg?branch=master)](https://travis-ci.org/emenems/FileTools.jl)
+[![Coverage Status](https://coveralls.io/repos/github/emenems/FileTools.jl/badge.svg)](https://coveralls.io/github/emenems/FileTools.jl)
 
 This repository contains functions for reading/writing files in following formats:
 * `readtsf.jl`: read data in [TSoft](http://seismologie.oma.be/en/downloads/tsoft) format

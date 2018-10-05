@@ -1,5 +1,4 @@
-# Unit test for Hydrus1D ATMOSPH.IN
-function test_writeatmosph()
+@testset "Hydrus1d write atmosph" begin
 	data = DataFrame(Prec=[0.01,0.1,0.2,0.3],rSoil=[0.0,0.1,0.2,0.9],
 		   datetime=[DateTime(2010,1,1,0),DateTime(2010,1,1,1),
 			   DateTime(2010,1,1,2),DateTime(2010,1,1,4)],
@@ -28,8 +27,7 @@ function test_writeatmosph()
 							     4 0.3 0.9 0 1 0 0 0];
 end
 
-# unit test for Hydrus1D profile info
-function test_writeprofile1d()
+@testset "Hydrus1d write profile" begin
 	# write data
 	soilinfo = DataFrame(start=[0.0,4.2],stop=[4.0,6],res=[0.5,0.2],h=[100,200],Mat=[1,2],Lay=[1,1])
 	output_file = joinpath(dirname(@__DIR__),"test","output","profile1d_data.dat");
@@ -52,8 +50,7 @@ function test_writeprofile1d()
 	@test t[end,1:3] == print_nodes
 end
 
-# unit test for Hydrus1D observation nodes output
-function test_readhydrus1d_obsnode()
+@testset "Hydrus1d read obs notedes" begin
 	input_file = joinpath(dirname(@__DIR__),"test","input","hydrus1d_Obs_Node.out")
 	# Theta/soil moisture
 	ttest = readhydrus1d_obsnode(input_file,paramout=:theta)
@@ -82,8 +79,7 @@ function test_readhydrus1d_obsnode()
 end
 
 
-# unit test for Hydrus1D all nodes output
-function test_readhydrus1d_nodinf()
+@testset "Hydrus1d read node info" begin
 	input_file = joinpath(dirname(@__DIR__),"test","input","hydrus1d_Nod_Inf.out");
 	# soil moisture only
 	ttest = readhydrus1d_nodinf(input_file,paramout=:theta)
@@ -112,7 +108,7 @@ function test_readhydrus1d_nodinf()
 	@test h[:node10] == [-50.000,-49.480,-42.537,-30.490]
 end
 
-function test_readatmosph()
+@testset "Hydrus1d read atmosph" begin
 	input_file = joinpath(dirname(@__DIR__),"test","input","hydrus1d_atmosph.in");
 	ttest = readatmosph(input_file)
 	@test ttest[:time] == collect(1.:1.:11)
@@ -122,10 +118,3 @@ function test_readatmosph()
 	@test ttest[:ht] == zeros(11)
 	@test all(isnan.(ttest[:RootDepth]))
 end
-
-
-test_writeatmosph();
-test_readatmosph();
-test_writeprofile1d();
-test_readhydrus1d_obsnode();
-test_readhydrus1d_nodinf();

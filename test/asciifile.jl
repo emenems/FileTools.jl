@@ -1,5 +1,4 @@
-# Unit test for arc ascii grid file reading
-function test_load_asc()
+@testset "arc ascii grid file reading" begin
 	dem = loadascii(joinpath(dirname(@__DIR__),"test","input","ascii_data.asc"));
 	@test size(dem[:height]) == (6,4)
 	@test size(dem[:x]) == (4,)
@@ -16,8 +15,7 @@ function test_load_asc()
 	@test dem[:y][3] - dem[:y][2] ≈ 50.
 end
 
-# Unit test for arc ascii grid file writting
-function test_write_asc()
+@testset "arc ascii grid file writting" begin
 	# prepare output data
 	dem = Dict(:x => collect(1:1:10.),:y => collect(10:1:20.),
 	       	   :height => ones(Float64,10,11));
@@ -65,5 +63,3 @@ function test_write_asc()
 		end
 	end
 end
-test_load_asc();
-test_write_asc();

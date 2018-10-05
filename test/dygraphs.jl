@@ -1,5 +1,5 @@
 # Unit test for Dygraphs file reading
-function test_load_dygraphs()
+@testset "Dygraphs file reading" begin
 	data = readdygraphs(joinpath(dirname(@__DIR__),"test","input","dygraphs_data.csv"),datestring="yyyymmdd");
 	@test size(data) == (10,3)
 	@test names(data)==[:datetime,:High,:Low]
@@ -8,8 +8,7 @@ function test_load_dygraphs()
 	@test data[:Low][end] == 37.
 end
 
-# Test writting
-function test_write_dygraphs()
+@testset "Dygraphs file write" begin
 	data = DataFrame(temp=[10.,11.,12.,14.],grav=[9.8123,9.9,NaN,9.7],
 	       datetime=[DateTime(2010,1,1,0),DateTime(2010,1,1,1),
 	           DateTime(2010,1,1,2),DateTime(2010,1,1,4)]);
@@ -20,6 +19,3 @@ function test_write_dygraphs()
 	@test data_read[2,end] == 9.9
 	@test data_read[end,2] == 14
 end
-
-test_load_dygraphs();
-test_write_dygraphs();

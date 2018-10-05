@@ -1,5 +1,4 @@
-# Unit test for GGP file reading
-function test_readggp()
+@testset "GGP read" begin
 	# Simple data loading
 	ggp1 = readggp(joinpath(dirname(@__DIR__),"test","input","readggp_data.ggp"),nanval=9999.999)
 	@test ggp1[:datetime][1] == DateTime(2017,08,26)
@@ -44,8 +43,7 @@ function test_readggp()
 	@test size(blockinfo) == (1,size(ggp3m,2)+1)
 end
 
-# write ggp
-function test_writeggp()
+@testset "GGP write" begin
 	dataout = DataFrame(pres=collect(1000.12345:1:1011.123456),
 	       				datetime=collect(DateTime(2010,1,1):Dates.Hour(1):DateTime(2010,1,1,11)));
 	# try writtin without optional parameters
@@ -101,7 +99,7 @@ function test_writeggp()
 	@test b[end-5,2:end] == block["header"][2:end]
 end
 
-function test_ggpdata2blocks()
+@testset "GGP data2blocks" begin
 	datawrite = DataFrame(pres=collect(1000.:1:1011.),
 					grav=collect(900.:-3:(900. -11*3)),
 					datetime=collect(DateTime(2010,1,1):Dates.Hour(1):DateTime(2010,1,1,11)));
@@ -119,7 +117,3 @@ function test_ggpdata2blocks()
 	@test !haskey(dataout2,:grav)
 	@test isempty(block2)
 end
-
-test_readggp();
-test_writeggp();
-test_ggpdata2blocks();

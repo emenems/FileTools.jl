@@ -1,5 +1,5 @@
 # Unit test for Atmacs file reading
-function test_stackframes()
+@testset "DataFrame stacking" begin
 	# First set (with overlapping)
 	f1 = DataFrame(datetime=[DateTime(2010,1,1,0),DateTime(2010,1,1,1),
 	           DateTime(2010,1,1,2),DateTime(2010,1,1,3)],
@@ -53,8 +53,8 @@ function test_stackframes()
 	@test data[:grav] == data[:grav];
 end
 
-function test_loadatmacs()
-	# Load global and local part
+# Load global and local part
+@testset "Atmacs Load global and local part" begin
 	glo,loc = loadatmacs(glofiles=[joinpath(dirname(@__DIR__),"test","input","atmacs_glo.grav")],
 						locfiles=[joinpath(dirname(@__DIR__),"test","input","atmacs_loc.grav")]);
 	# Independent loading
@@ -84,6 +84,3 @@ function test_loadatmacs()
 		@test glo[i] == total_m[:,i]
 	end
 end
-
-test_stackframes();
-test_loadatmacs();

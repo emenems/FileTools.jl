@@ -1,4 +1,4 @@
-function test_write_layerResponse()
+@testset "GravityEffect/layerResponse write" begin
 	sensor=Dict(:x => 100., :y => 150., :z => 100., :sensHeight => 1.0)
 	layers=Dict(:start => [0.0, 1.0],:stop  => [1.0, 2.0])
 	dem_in = joinpath(dirname(@__DIR__),"test","input","dem_data.asc");
@@ -29,7 +29,7 @@ function test_write_layerResponse()
 	@test t[:,3]==layers[:stop]
 end
 
-function test_read_layerResponse()
+@testset "GravityEffect/layerResponse read" begin
 	filein = joinpath(dirname(@__DIR__),"test","input","read_layerResponse.txt");
 	t = read_layerResponse(filein,"results")
 	@test t[:layer]==[1.,2.]
@@ -63,6 +63,3 @@ function test_read_layerResponse()
 	t = read_layerResponse(filein,"exclude")
 	#@test t == exclude
 end
-
-test_write_layerResponse();
-test_read_layerResponse();

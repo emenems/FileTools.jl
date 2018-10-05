@@ -1,5 +1,4 @@
-# Unit test for readtsf function
-function test_load_tsf()
+@testset "TSoft file read" begin
 	data = readtsf(joinpath(dirname(@__DIR__),"test","input","tsf_data.tsf"));
 	@test size(data) == (10,3)
 	@test data[:datetime][1] == DateTime(2016,12,16,00,00,00)
@@ -13,8 +12,7 @@ function test_load_tsf()
 	@test units[2] == "units2"
 end
 
-# Test writting
-function test_write_tsf()
+@testset "TSoft file write" begin
 	data = DataFrame(temp=[10.,11.,12.,14.],grav=[9.8123,9.9,NaN,9.7],
 	       datetime=[DateTime(2010,1,1,0),DateTime(2010,1,1,1),
 	           DateTime(2010,1,1,2),DateTime(2010,1,1,4)]);
@@ -27,6 +25,3 @@ function test_write_tsf()
 	@test data_read[end,7] == 14.
 	@test sum(data_read[3,1:6]) == 2010+1+1+2.
 end
-
-test_load_tsf()
-test_write_tsf()

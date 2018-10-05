@@ -1,5 +1,5 @@
 # Unit test for Campbell Scientific logger file reading
-function test_load_campbell()
+@testset "Campbell logger file reading" begin
 	data,units = readcampbell(joinpath(dirname(@__DIR__),"test","input","campbell_data.dat"));
 	@test size(data) == (5,5)
 	@test size(units) == (4,)
@@ -10,5 +10,3 @@ function test_load_campbell()
 	@test units[2] == "unit1"
 	@test units[end] == "unit3"
 end
-
-test_load_campbell();

@@ -1,10 +1,10 @@
-function test_ET0calc_read()
+@testset "ET0calc read" begin
     et_calc = ET0calc_read(joinpath(dirname(@__DIR__),"test","input","ETcalc.ETo"));
     @test et_calc[:datetime] == collect(DateTime(2016,5,1):Dates.Day(1):DateTime(2016,5,9))
     @test et_calc[:ET0] == [0.0,1.0,0.7,0.4,0.9,0.9,0.6,0.3,0.9]
 end
 
-function test_ET0calc_dsc()
+@testset "ET0calc write DSC" begin
     out_file = joinpath(dirname(@__DIR__),"test","output","ET0calc.DSC");
     latitude = -34.873305; # degrees
     longitude = -58.139995; # degrees
@@ -31,7 +31,7 @@ function test_ET0calc_dsc()
     @test t[9:21] == [0.009,wind_height,0.0,0.2,3.0,0.25,0.5,1,-10,40,1,round(10.7),10]
 end
 
-function test_ET0calc_dta()
+@testset "ET0calc write DTA" begin
     out_file = joinpath(dirname(@__DIR__),"test","output","ET0calc.DTA");
     datause = DataFrame(
             datetime=collect(DateTime(2010,1,1):Dates.Day(1):DateTime(2010,1,10)),
@@ -48,7 +48,3 @@ function test_ET0calc_dta()
     @test t[2:end,6] == datause[:ux]
     @test t[2:end,7] == datause[:Rn]
 end
-
-test_ET0calc_read()
-test_ET0calc_dsc()
-test_ET0calc_dta()

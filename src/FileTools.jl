@@ -32,7 +32,7 @@ export readgpcpd, readgpcpd_head, readgpcpd_time, readgpcpd_lonlat, coorShift_lo
 export writeatmosph, writeprofile1d, readhydrus1d_obsnode, readhydrus1d_nodinf, readatmosph
 export writebaytap, baytap2tsoft
 export igetsimport, igetsexport
-export dwdclimateraw
+export dwdclimateraw, readgssd, convertgssd
 export vav2tsoft, eterna2tsoft
 export read_layerResponse
 export ET0calc_dsc, ET0calc_dta, ET0calc_read

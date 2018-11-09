@@ -52,3 +52,90 @@ function dwdclimateraw_indices(datain::Array{Any,2},headerin::Array{AbstractStri
 	end
 	return r,c
 end
+
+"""
+    readgssd(file_in)
+Read global surface summary of day data
+See https://www1.ncdc.noaa.gov/pub/data/gsod/readme.txt
+
+**Input**
+* `file_in`: input file name (full)
+
+**Output**
+* DataFrame containin all columns of the input file
+
+**Example**
+```
+file_in = joinpath(dirname(@__DIR__),"test","input","nndc_climate_cdo.txt");
+df = readgssd(file_in);
+```
+"""
+function readgssd(file_in)::DataFrame
+    # see https://www1.ncdc.noaa.gov/pub/data/gsod/readme.txt
+    par = [:STN,:WBAN,:YEARMODA,:TEMP,:Count_TEMP,:DEWP,:Count_DEWP,:SLP,:Count_SLP,:STP,
+        :Count_STP,:VISIB,:Count_VISIB,:WDSP,:Count_WDSP,:MXSPD,:GUST,:MAX,:Flag_MAX,:MIN,
+        :Flag_MIN,:PRCP,:Flag_PRCP,:SNDP,:FRSHTT]
+    i1 = [1,8,15,25,32,36,43,47,54,58,65,69,75,79,85,89,96,103,109,111,
+            117,119,124,126,133];
+    i2 = [6,12,22,30,33,41,44,52,55,63,66,73,76,83,86,93,100,108,109,116,
+            117,123,124,130,138];
+    typei = [Int,Int,Int,Float64,Int,Float64,Int,Float64,Int,Float64,
+                Int,Float64,Int,Float64,Int,Float64,Float64,Float64,String,
+                Float64,String,Float64,String,Float64,Int];
+    function parse_col(s::String,i1,i2,typei)::Vector{Any}
+        out_vec = Vector{Any}(undef,0);
+        for i in 1:length(i1)
+            push!(out_vec,
+                typei[i]!=String ? Base.parse(typei[i],s[i1[i]:i2[i]]) : s[i1[i]:i2[i]])
+        end
+        return out_vec
+    end
+
+    data_out = DataFrame([Vector{x}(undef,0) for x in typei],par);
+    open(file_in,"r") do fid
+        headtxt = readline(fid);
+        while !eof(fid)
+            push!(data_out,parse_col(readline(fid),i1,i2,typei));
+        end
+    end
+    return data_out;
+end
+
+"""
+    convertgssd(df)
+Convert global surface summary of day data to SI units and set flags to NaN
+
+**Input**
+* `df`: readgssd output
+
+**Output**
+* dataframe with converted units and only essential columns (for me :-)
+* temperature in degrees C, windspeed in m/s, pressure in hPa, precipitation in mm
+
+**Example**
+```
+file_in = joinpath(dirname(@__DIR__),"test","input","nndc_climate_cdo.txt");
+df = readgssd(file_in) |> convertgssd
+```
+"""
+function convertgssd(df::DataFrame)::DataFrame
+    data_out = DataFrame(datetime=FileTools.pattern2time.(df[:YEARMODA],"day"));
+    d = copy(df);
+    # flag => NaN;
+    flags = [9999.9,9999.9,9999.9,9999.9,999.9,999.9,99.99,9999.9];
+    for (i,v) in enumerate([:TEMP,:DEWP,:MAX,:MIN,:WDSP,:MXSPD,:PRCP,:STP])
+        d[v][d[v].==flags[i]] .= NaN;
+    end
+    # temperature
+    for i in [:TEMP,:DEWP,:MAX,:MIN]
+        data_out[i] = (d[i].-32).*5/9;
+    end
+    # wind speed
+    for i in [:WDSP,:MXSPD]
+        data_out[i] = d[i]./10.0.*0.514444444;
+    end
+    # precipitation (mm)
+    data_out[:PRCP] = d[:PRCP].*25.4
+    data_out[:STP] = d[:STP];
+    return data_out;
+end

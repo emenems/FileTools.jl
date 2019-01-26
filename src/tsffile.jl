@@ -28,7 +28,7 @@ function readtsf(filein::String;unitsonly::Bool=false,channelname="measurement")
 	# Set aux Function for channel and unit line extraction
 	function extract_channels(fid::IOStream,row::String,out::Vector{String})
 		row = readline(fid);count_header += 1;
-		while !occursin(row,"[")
+		while !occursin("[",row)
 			if length(row) > 0
 				push!(out,row);
 			end
@@ -47,19 +47,19 @@ function readtsf(filein::String;unitsonly::Bool=false,channelname="measurement")
 			# Get important header info
 			if isempty(row)
 				row = "empty row not to be parsed"
-			elseif occursin(row,"[UNDETVAL]")
+			elseif occursin("[UNDETVAL]",row)
 	            undetval = Base.parse(Float64,row[11:end]);
 				row = readline(fid);count_header += 1;
-			elseif occursin(row,"[COUNTINFO]")
+			elseif occursin("[COUNTINFO]",row)
 				countinfo = Base.parse(Int,row[12:end]);
 				row = readline(fid);count_header += 1;
-			elseif occursin(row,"[CHANNELS]")
+			elseif occursin("[CHANNELS]",row)
 				# Now get channel names
 				channels,row = extract_channels(fid,row,channels);
-			elseif occursin(row,"[UNITS]")
+			elseif occursin("[UNITS]",row)
 				# Now get channel units
 				units,row = extract_channels(fid,row,units);
-			elseif occursin(row,"[DATA]")
+			elseif occursin("[DATA]",row)
 				# do not read using readline function (low performance)
 				break;
 			else
@@ -205,7 +205,7 @@ function correct_channels(in_text::Vector{String},sp::String;
 			chan_number = string(c);
 		end
 		# check if the name already exists
-		if any(occursin.(out,name)) || channelname == "site_measurement"
+		if any(occursin.(name,out)) || channelname == "site_measurement"
 			push!(out,site*name*chan_number);c += 1;
 		else
 			push!(out,name)

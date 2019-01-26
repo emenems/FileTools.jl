@@ -41,7 +41,7 @@ will be stored in a temporary file
 """
 function downfile(filein::String)
 	downto = "tempdownfile.down";
-	if occursin(filein,"http:") || occursin(filein,"ftp:")
+	if occursin("http:",filein) || occursin("ftp:",filein)
 		try
 			download(filein,downto)
 		catch
@@ -58,7 +58,7 @@ end
 Delete file IF downloaded
 """
 function delfile(filein::String)
-	if occursin(filein,"http:") || occursin(filein,"ftp:")
+	if occursin("http:",filein) || occursin("ftp:",filein)
 		if isfile("tempdownfile.down")
 			rm("tempdownfile.down")
 		end

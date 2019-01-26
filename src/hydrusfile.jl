@@ -432,6 +432,6 @@ function corr_hydrus1d_obsnode(file_obs_node::String,file_profile::String)
 		end
 		close(fid_out)
 	end
-	cp(fileout,file_obs_node,remove_destination=true);
+	cp(fileout,file_obs_node,force=true);
 	rm(fileout);
 end
